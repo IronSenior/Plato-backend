@@ -1,0 +1,4 @@
+
+
+class UserIdAlreadyRegistered(Exception):
+    pass
