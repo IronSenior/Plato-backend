@@ -1,0 +1,58 @@
+    openapi: 3.0.0
+    info:
+      title: Plato API
+      description: Control all your social network accounts
+      version: 1.0.0
+    servers:
+      - url: /
+        description: Principal Server
+    tags:
+      - name: User
+        description: REST API for requesting and returning users
+    paths:
+      /user/create/:
+        post:
+          tags: [User]
+          summary: Create an user if the given json is correct
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/user-received'
+          responses:
+            '200':    # status code
+              description: The user was created
+            '500':
+              description: Error
+      /user/get/{userId}:
+        get:
+          summary: Get a user by ID
+          parameters:
+            - in: path
+              name: userId
+              schema:
+                type: string
+              required: true
+              description: UUID of the user to get
+          responses:
+            '200':    # status code
+              description: The user was created
+            '500':
+              description: Error
+    components:
+      schemas:
+        user-received:
+          type: object
+          properties:
+            user:
+              type: object
+              properties:
+                userid:
+                  type: string
+                username:
+                  type: string
+                usermail:
+                  type: string
+                password:
+                  type: string
