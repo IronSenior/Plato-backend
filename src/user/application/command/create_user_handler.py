@@ -1,4 +1,5 @@
 from commandbus import CommandHandler
+from dependency_injector.wiring import Provide, inject
 from ....shared.plato_command_bus import PlatoCommandBus
 from .create_user_command import CreateUserCommand
 from ...domain.repository.user_repository import UserRepository
@@ -12,26 +13,25 @@ from ...domain.exception.user_email_already_registered import UserEmailAlreadyRe
 
 
 class CreateUserCommandHandler(CommandHandler):
-    def __init__(self, userRepostory: UserRepository):
-        self.userRepository: UserRepository = userRepostory
 
+    @inject
+    def __init__(self, userRepostory: UserRepository = Provide['USERS']):
+        self.userRepository: UserRepository = userRepostory
+        
     def handle(self, cmd: CreateUserCommand):
         userId = UserId.fromString(cmd.userId)
-        username = Username.fromString(cmd.username)
+        usermail = UserMail.fromString(cmd.userMail)
         
         if (type(self.userRepository.getById(userId)) == User):
             raise UserIdAlreadyRegistered("The user id is already registered")
         
-        if (type(self.userRepository.getByEmail(username)) == User):
+        if (type(self.userRepository.getByEmail(usermail)) == User):
             raise UserEmailAlreadyRegistered("The user email is already registered")
         
         user = User.add(
             userid=userId,
-            username=username,
-            email=UserMail.fromString(cmd.userMail),
+            username=Username.fromString(cmd.username),
+            email=usermail,
             password=UserPassword.fromString(cmd.password)
         )
         self.userRepository.save(user)
-
-
-PlatoCommandBus.subscribe(CommandHandler, CreateUserCommand)

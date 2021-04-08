@@ -3,6 +3,7 @@ certifi==2020.12.5
 cffi==1.14.5
 chardet==4.0.0
 commandbus==1.0.1
+dependency-injector==4.31.2
 eventsourcing==9.0.1
 Faker==6.5.0
 idna==2.10
