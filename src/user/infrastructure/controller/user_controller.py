@@ -6,6 +6,7 @@ from ..service.user_service import UserService
 
 userFlaskBlueprint = Blueprint('user', __name__, url_prefix="/user")
 
+
 @userFlaskBlueprint.route('/create/', methods=["POST"])
 def create_user(**kw):
     userService: UserService = UserService()
@@ -22,7 +23,7 @@ def get_user(userid, **kw):
     userService: UserService = UserService()
     if not userid:
         raise NotFound("User was not found")
-    
+
     user = userService.getUser(userid)
     if not user:
         raise NotFound("User was not found")

@@ -14,11 +14,14 @@ from ....domain.exception.user_id_already_registered import UserIdAlreadyRegiste
 
 fake = faker.Faker()
 
+
 class TestCreateUserCommandHandler(unittest.TestCase):
-    
+
     def setUp(self) -> None:
         self.mockedUserRepository = Mock()
-        self.createUserCommandHandler = CreateUserCommandHandler(self.mockedUserRepository)
+        self.createUserCommandHandler = CreateUserCommandHandler(
+            self.mockedUserRepository
+        )
         return super(TestCreateUserCommandHandler, self).setUp()
 
     def test_create_a_new_user(self):
@@ -31,7 +34,7 @@ class TestCreateUserCommandHandler(unittest.TestCase):
             )
         )
         self.mockedUserRepository.save.assert_called_once()
-        
+
     def test_dont_create_duplicate_user_id(self):
         user = User.add(
             userid=UserId.fromString(str(uuid4())),
@@ -40,13 +43,14 @@ class TestCreateUserCommandHandler(unittest.TestCase):
             password=UserPassword(fake.password())
         )
         self.mockedUserRepository.getById = MagicMock(return_value=user)
-        self.assertRaises(UserIdAlreadyRegistered, self.createUserCommandHandler.handle, CreateUserCommand(
-                userid=str(uuid4()),
-                username=fake.first_name(),
-                usermail=fake.company_email(),
-                password=fake.password()
-        ))
-        
+        self.assertRaises(UserIdAlreadyRegistered,
+                          self.createUserCommandHandler.handle, CreateUserCommand(
+                              userid=str(uuid4()),
+                              username=fake.first_name(),
+                              usermail=fake.company_email(),
+                              password=fake.password()
+                          ))
+
     def test_dont_create_duplicate_user_email(self):
         user = User.add(
             userid=UserId.fromString(str(uuid4())),
@@ -56,8 +60,8 @@ class TestCreateUserCommandHandler(unittest.TestCase):
         )
         self.mockedUserRepository.getByEmail = MagicMock(return_value=user)
         self.assertRaises(UserEmailAlreadyRegistered, self.createUserCommandHandler.handle, CreateUserCommand(
-                userid=str(uuid4()),
-                username=fake.first_name(),
-                usermail=fake.company_email(),
-                password=fake.password()
+            userid=str(uuid4()),
+            username=fake.first_name(),
+            usermail=fake.company_email(),
+            password=fake.password()
         ))

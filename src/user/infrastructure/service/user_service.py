@@ -3,16 +3,14 @@ from ...domain.repository.user_repository import UserRepository
 from ....shared.plato_command_bus import PlatoCommandBus
 from ...application.command.create_user_command import CreateUserCommand
 from ...domain.model.user_id import UserId
-import logging
 
-_logger = logging.getLogger(__name__)
 
 class UserService:
-    
-    @inject 
+
+    @inject
     def __init__(self, userRepository: UserRepository = Provide["USERS"]):
         self.userRepository: UserRepository = userRepository
-        
+
     def createUser(self, userDto: dir):
         PlatoCommandBus.publish(
             CreateUserCommand(
@@ -22,7 +20,7 @@ class UserService:
                 password=userDto["password"]
             )
         )
-        
+
     def getUser(self, userid: str):
         userid = UserId.fromString(userid)
         user = self.userRepository.getById(userid)

@@ -2,7 +2,7 @@ import re
 
 
 class UserMail():
-    
+
     class BadFormedEmail(Exception):
         pass
 

@@ -10,10 +10,10 @@ class InMemoryUserRepository(UserRepository):
 
     def __init__(self):
         self.__users: List[User] = []
-        
+
     def save(self, user: User) -> None:
         self.__users.append(user)
-        
+
     def delete(self, userId: UserId) -> None:
         user = self.getById(userId)
         self.__users.remove(user)

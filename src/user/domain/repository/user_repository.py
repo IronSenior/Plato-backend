@@ -3,7 +3,6 @@ from typing import Optional
 from ..model.user import User
 from ..model.user_id import UserId
 from ..model.user_mail import UserMail
-from ..model.user_password import UserPassword
 from ..model.username import Username
 
 

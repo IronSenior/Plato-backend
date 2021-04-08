@@ -5,6 +5,7 @@ from .user_password import UserPassword
 from .user_id import UserId
 from typing import Optional
 
+
 class User(Aggregate):
 
     def __init__(self, username: Username,
@@ -13,19 +14,19 @@ class User(Aggregate):
         self._username: Username = username
         self._email: UserMail = email
         self._password: UserPassword = password
-        
+
     @property
     def userid(self):
         return self._id
-    
+
     @property
     def username(self):
         return self._username.value
-    
+
     @property
     def email(self):
         return self._email.value
-    
+
     @property
     def password(self):
         return self._password.value
