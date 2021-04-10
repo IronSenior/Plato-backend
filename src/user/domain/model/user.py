@@ -50,6 +50,6 @@ class User(Aggregate):
         def mutate(self, obj: Optional[Aggregate]) -> Aggregate:
             user = super().mutate(obj)
             user._username = Username.fromString(self.username)
-            user._password = UserPassword.fromString(self.password)
+            user._password = UserPassword.fromHash(self.password)
             user._email = UserMail.fromString(self.email)
             return user
