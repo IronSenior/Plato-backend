@@ -18,6 +18,9 @@ class InMemoryUserRepository(UserRepository):
         user = self.getById(userId)
         self.__users.remove(user)
 
+    def getAll(self) -> List[User]:
+        return self.__users
+
     def getById(self, userId: UserId) -> Optional[User]:
         for user in self.__users:
             if user.userid == userId.value:

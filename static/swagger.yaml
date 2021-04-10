@@ -37,9 +37,20 @@
               description: UUID of the user to get
           responses:
             '200':    # status code
+              description: The user was found
+            '404':
+              description: User was not found
+            '500':
+              description: Error
+      /user/get/all:
+        get:
+          summary: Get all users
+          responses:
+            '200':    # status code
               description: The user was created
             '500':
               description: Error
+          
     components:
       schemas:
         user-received:

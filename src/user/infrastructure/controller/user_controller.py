@@ -27,3 +27,10 @@ def get_user(userid, **kw):
     if not user:
         raise NotFound("User was not found")
     return jsonify(user), 200
+
+
+@userFlaskBlueprint.route('/get/all/', methods=["GET"])
+def get_all_users(**kw):
+    userService: UserService = UserService()
+    users = userService.getAllUsers()
+    return jsonify(users), 200

@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Optional
+from typing import Optional, List
 from ..model.user import User
 from ..model.user_id import UserId
 from ..model.user_mail import UserMail
@@ -14,6 +14,10 @@ class UserRepository(ABC):
 
     @abstractmethod
     def delete(self, userId: UserId) -> None:
+        pass
+
+    @abstractmethod
+    def getAll(self) -> List[User]:
         pass
 
     @abstractmethod
