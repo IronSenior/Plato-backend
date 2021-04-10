@@ -3,6 +3,7 @@ from ...domain.repository.user_repository import UserRepository
 from ....shared.plato_command_bus import PlatoCommandBus
 from ...application.command.create_user_command import CreateUserCommand
 from ...domain.model.user_id import UserId
+from ..mapper.user_mapper import UserMapper
 
 
 class UserService:
@@ -24,4 +25,5 @@ class UserService:
     def getUser(self, userid: str):
         userid = UserId.fromString(userid)
         user = self.userRepository.getById(userid)
-        return user
+        userDto = UserMapper.from_aggregate_to_dto(user)
+        return userDto
