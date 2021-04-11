@@ -43,6 +43,7 @@ class User(Aggregate):
         )
 
     class UserWasCreated(AggregateCreated):
+        bus_string = "USER_WAS_CREATED"
         username: str
         email: str
         password: str

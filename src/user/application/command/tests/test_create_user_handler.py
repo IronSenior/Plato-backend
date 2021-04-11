@@ -19,8 +19,10 @@ class TestCreateUserCommandHandler(unittest.TestCase):
 
     def setUp(self) -> None:
         self.mockedUserRepository = Mock()
+        self.mockedCheckUniqueUserMail = Mock()
         self.createUserCommandHandler = CreateUserCommandHandler(
-            self.mockedUserRepository
+            self.mockedUserRepository,
+            self.mockedCheckUniqueUserMail
         )
         return super(TestCreateUserCommandHandler, self).setUp()
 
@@ -42,7 +44,7 @@ class TestCreateUserCommandHandler(unittest.TestCase):
             email=UserMail.fromString(fake.company_email()),
             password=UserPassword.fromString(fake.password())
         )
-        self.mockedUserRepository.getById = MagicMock(return_value=user)
+        self.mockedUserRepository.find = MagicMock(return_value=user)
         self.assertRaises(UserIdAlreadyRegistered,
                           self.createUserCommandHandler.handle, CreateUserCommand(
                               userid=str(uuid4()),
@@ -52,13 +54,8 @@ class TestCreateUserCommandHandler(unittest.TestCase):
                           ))
 
     def test_dont_create_duplicate_user_email(self):
-        user = User.add(
-            userid=UserId.fromString(str(uuid4())),
-            username=Username.fromString(fake.first_name()),
-            email=UserMail.fromString(fake.company_email()),
-            password=UserPassword(fake.password())
-        )
-        self.mockedUserRepository.getByEmail = MagicMock(return_value=user)
+        userid = UserId.fromString(str(uuid4()))
+        self.mockedCheckUniqueUserMail.withUserMail = MagicMock(return_value=userid)
         self.assertRaises(UserEmailAlreadyRegistered, self.createUserCommandHandler.handle, CreateUserCommand(
             userid=str(uuid4()),
             username=fake.first_name(),
