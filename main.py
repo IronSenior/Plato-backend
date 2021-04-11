@@ -9,6 +9,8 @@ from flask import Flask
 from flask_swagger_ui import get_swaggerui_blueprint
 from dotenv import load_dotenv
 
+from .src.user.infrastructure.read_model import in_memory_user_was_created_projection
+
 load_dotenv()
 
 userProvider = UserProviders()
