@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Optional
 from ..model.user import User
 from ..model.user_id import UserId
+from ..model.user_mail import UserMail
 
 
 class UserRepository(ABC):
@@ -11,9 +12,9 @@ class UserRepository(ABC):
         pass
 
     @abstractmethod
-    def find(self, userId: UserId) -> Optional[User]:
+    def getById(self, userid: UserId) -> Optional[User]:
         pass
 
     @abstractmethod
-    def get(self, userId: UserId) -> User:
+    def getByEmail(self, usermail: UserMail) -> Optional[User]:
         pass
