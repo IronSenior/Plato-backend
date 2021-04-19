@@ -1,4 +1,4 @@
-from ...domain.repository.user_repository import UserRepository
+from ...domain.repository.users import Users
 from dependency_injector.wiring import Provide, inject
 from ....shared.plato_command_bus import PlatoCommandBus
 from ...application.command.create_user_command import CreateUserCommand
@@ -9,8 +9,8 @@ from ..mapper.user_mapper import UserMapper
 class UserService:
 
     @inject
-    def __init__(self, userRepository: UserRepository = Provide["USERS"]):
-        self.userRepository: UserRepository = userRepository
+    def __init__(self, users: Users = Provide["USERS"]):
+        self.users: Users = users
 
     def createUser(self, userDto: dir):
         PlatoCommandBus.publish(
@@ -24,7 +24,7 @@ class UserService:
 
     def getUser(self, userid: str):
         userid = UserId.fromString(userid)
-        user = self.userRepository.getById(userid)
+        user = self.users.getById(userid)
         if not user:
             return None
         userDto = UserMapper.from_aggregate_to_dto(user)

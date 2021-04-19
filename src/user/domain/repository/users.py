@@ -5,7 +5,7 @@ from ..model.user_id import UserId
 from ..model.user_mail import UserMail
 
 
-class UserRepository(ABC):
+class Users(ABC):
 
     @abstractmethod
     def save(self, user: User) -> None:

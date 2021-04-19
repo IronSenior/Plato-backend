@@ -1,7 +1,7 @@
 from commandbus import CommandHandler
 from dependency_injector.wiring import Provide, inject
 from .create_user_command import CreateUserCommand
-from ...domain.repository.user_repository import UserRepository
+from ...domain.repository.users import Users
 from ...domain.model.user_id import UserId
 from ...domain.model.user_mail import UserMail
 from ...domain.model.username import Username
@@ -15,16 +15,16 @@ from ...domain.services.check_unique_user_email import CheckUniqueUserEmail
 class CreateUserCommandHandler(CommandHandler):
 
     @inject
-    def __init__(self, userRepostory: UserRepository = Provide['USERS'],
+    def __init__(self, users: Users = Provide['USERS'],
                  checkUniqueUserEmail: CheckUniqueUserEmail = Provide["CHECK_UNIQUE_USER_EMAIL"]):
-        self.userRepository: UserRepository = userRepostory
+        self.users: Users = users
         self.checkUniqueUserEmail: CheckUniqueUserEmail = checkUniqueUserEmail
 
     def handle(self, cmd: CreateUserCommand):
         userId = UserId.fromString(cmd.userId)
         usermail = UserMail.fromString(cmd.userMail)
 
-        if (type(self.userRepository.getById(userId)) == User):
+        if (type(self.users.getById(userId)) == User):
             raise UserIdAlreadyRegistered("The user id is already registered")
 
         if (type(self.checkUniqueUserEmail.withUserMail(usermail)) == UserId):
@@ -36,4 +36,4 @@ class CreateUserCommandHandler(CommandHandler):
             email=usermail,
             password=UserPassword.fromString(cmd.password)
         )
-        self.userRepository.save(user)
+        self.users.save(user)

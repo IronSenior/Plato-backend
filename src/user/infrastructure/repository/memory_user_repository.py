@@ -1,12 +1,12 @@
 from ...domain.model.user_id import UserId
 from ...domain.model.user_mail import UserMail
 from ...domain.model.user import User
-from ...domain.repository.user_repository import UserRepository
+from ...domain.repository.users import Users
 from typing import List, Optional
 from ....shared.plato_event_bus import PlatoEventBus
 
 
-class MemoryUserRepository(UserRepository):
+class MemoryUserRepository(Users):
 
     def __init__(self):
         self.__users: List[User] = []
