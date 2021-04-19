@@ -24,7 +24,7 @@ class CreateUserCommandHandler(CommandHandler):
         userId = UserId.fromString(cmd.userId)
         usermail = UserMail.fromString(cmd.userMail)
 
-        if (type(self.userRepository.find(userId)) == User):
+        if (type(self.userRepository.getById(userId)) == User):
             raise UserIdAlreadyRegistered("The user id is already registered")
 
         if (type(self.checkUniqueUserEmail.withUserMail(usermail)) == UserId):
