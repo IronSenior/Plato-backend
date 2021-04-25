@@ -42,15 +42,21 @@
               description: User was not found
             '500':
               description: Error
-      /user/get/all:
-        get:
-          summary: Get all users
+      /user/login:
+        post:
+          tags: [User]
+          summary: Check if password is correct and returns the user
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/user-login'
           responses:
-            '200':    # status code
-              description: The user was created
+            '200':
+              description: The login was succesfull
             '500':
               description: Error
-          
     components:
       schemas:
         user-received:
@@ -67,3 +73,10 @@
                   type: string
                 password:
                   type: string
+        user-login:
+          type: object
+          properties:
+            email:
+              type: string
+            password:
+              type: string

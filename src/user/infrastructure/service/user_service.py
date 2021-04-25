@@ -1,3 +1,6 @@
+from ...domain.model.user_mail import UserMail
+from ...domain.exception.incorrect_password import IncorrectPassword
+from ...domain.exception.user_was_not_found import UserWasNotFound
 from ...domain.repository.users import Users
 from dependency_injector.wiring import Provide, inject
 from ....shared.plato_command_bus import PlatoCommandBus
@@ -27,5 +30,15 @@ class UserService:
         user = self.users.getById(userid)
         if not user:
             return None
+        userDto = UserMapper.from_aggregate_to_dto(user)
+        return userDto
+
+    def loginUser(self, email: str, password: str):
+        userMail = UserMail.fromString(email)
+        user = self.users.getByEmail(userMail)
+        if not user:
+            raise UserWasNotFound(f"User with email {email}")
+        if not user.checkPassword(password):
+            raise IncorrectPassword(f"User with email {email}")
         userDto = UserMapper.from_aggregate_to_dto(user)
         return userDto

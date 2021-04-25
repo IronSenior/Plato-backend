@@ -12,7 +12,6 @@ class MemoryUserRepository(Users):
         self.__users: List[User] = []
 
     def save(self, user: User) -> None:
-        # super(UserEventStore, self).save(user)
         self.__users.append(user)
         for event in user.collect_events():
             PlatoEventBus.emit(event.bus_string, event)

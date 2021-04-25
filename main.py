@@ -1,4 +1,6 @@
 
+import dotenv
+import os
 from .src.user.infrastructure.user_providers import UserProviders
 from .src import user
 from .src.shared.plato_command_bus import PlatoCommandBus
@@ -7,10 +9,10 @@ from .src.user.application.command.create_user_handler import CreateUserCommandH
 from .src.user.infrastructure.controller.user_controller import userFlaskBlueprint
 from flask import Flask
 from flask_swagger_ui import get_swaggerui_blueprint
+from flask_jwt_extended import JWTManager
 from dotenv import load_dotenv
 
 load_dotenv()
-
 userProvider = UserProviders()
 userProvider.wire(packages=[user])
 
@@ -18,6 +20,9 @@ PlatoCommandBus.subscribe(CreateUserCommand, CreateUserCommandHandler())
 
 app = Flask(__name__)
 app.register_blueprint(userFlaskBlueprint)
+
+app.config["JWT_SECRET_KEY"] = os.environ["JWT_SECRET_KEY"]
+JWTManager(app)
 
 SWAGGER_URL = ''
 API_URL = '/static/swagger.yaml'

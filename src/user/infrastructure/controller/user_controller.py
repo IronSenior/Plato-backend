@@ -1,8 +1,11 @@
+from ...application.user_dto import UserDTO
 from flask import Blueprint
 from flask import request
 from flask import jsonify
+from flask_jwt_extended import create_access_token
 from werkzeug.exceptions import BadRequest, NotFound
 from ..service.user_service import UserService
+from ...domain.exception.incorrect_password import IncorrectPassword
 
 userFlaskBlueprint = Blueprint('user', __name__, url_prefix="/user")
 
@@ -27,3 +30,16 @@ def get_user(userid, **kw):
     if not user:
         raise NotFound("User was not found")
     return jsonify(user), 200
+
+
+@userFlaskBlueprint.route('/login', methods=["POST"])
+def login(**kw):
+    userService: UserService = UserService()
+    email = request.json.get("email", False)
+    password = request.json.get("password", False)
+    try:
+        user: UserDTO = userService.loginUser(email, password)
+    except IncorrectPassword:
+        return jsonify({"error": "user-001", "message": "Incorrect Password"})
+    jwt_token = create_access_token(identity=user["email"])
+    return jsonify({'access_token': jwt_token, 'user': user}), 200
