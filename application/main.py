@@ -1,12 +1,12 @@
 
 import dotenv
 import os
-from .src.user.infrastructure.user_providers import UserProviders
-from .src import user
-from .src.shared.plato_command_bus import PlatoCommandBus
-from .src.user.application.command.create_user_command import CreateUserCommand
-from .src.user.application.command.create_user_handler import CreateUserCommandHandler
-from .src.user.infrastructure.controller.user_controller import userFlaskBlueprint
+from ..src.user.infrastructure.user_providers import UserProviders
+from ..src import user
+from ..src.shared.plato_command_bus import PlatoCommandBus
+from ..src.user.application.command.create_user_command import CreateUserCommand
+from ..src.user.application.command.create_user_handler import CreateUserCommandHandler
+from ..src.user.infrastructure.controller.user_controller import userFlaskBlueprint
 from flask import Flask
 from flask_swagger_ui import get_swaggerui_blueprint
 from flask_jwt_extended import JWTManager

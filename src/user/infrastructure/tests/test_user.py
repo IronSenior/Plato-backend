@@ -3,7 +3,7 @@ import pytest
 import faker
 import json
 import uuid
-from .....main import app, userProvider
+from .....application.main import app, userProvider
 from ...domain.repository.users import Users
 from ...domain.model.user import User
 from ...domain.model.user_id import UserId
