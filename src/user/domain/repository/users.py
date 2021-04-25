@@ -9,12 +9,12 @@ class Users(ABC):
 
     @abstractmethod
     def save(self, user: User) -> None:
-        pass
+        raise NotImplementedError()
 
     @abstractmethod
     def getById(self, userid: UserId) -> Optional[User]:
-        pass
+        raise NotImplementedError()
 
     @abstractmethod
     def getByEmail(self, usermail: UserMail) -> Optional[User]:
-        pass
+        raise NotImplementedError()

@@ -5,5 +5,5 @@ from .service.check_unique_user_name import CheckUniqueUserEmailFromReadModel
 
 class UserProviders(containers.DeclarativeContainer):
 
-    USERS = providers.Factory(MemoryUserRepository)
+    USERS = providers.Singleton(MemoryUserRepository)
     CHECK_UNIQUE_USER_EMAIL = providers.Factory(CheckUniqueUserEmailFromReadModel)

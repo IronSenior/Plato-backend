@@ -28,6 +28,8 @@ jobs:
     - name: Lint with flake8
       run: |
         flake8 . --count --show-source --statistics --max-line-length=120 --ignore E711
-    - name: Test with pytest
+    - name: UnitTest with pytest
       run: |
-        pytest
+        pytest -m unit
+    - name: Integration Tests with pytest
+        pytest -m integration

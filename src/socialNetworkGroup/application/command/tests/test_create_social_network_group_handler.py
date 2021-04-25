@@ -1,4 +1,5 @@
 import unittest
+import pytest
 from unittest.mock import Mock, MagicMock
 from uuid import uuid4
 from ..create_social_network_group_handler import CreateSocialNetworkGroupHandler
@@ -14,6 +15,7 @@ import faker
 fake = faker.Faker()
 
 
+@pytest.mark.unit
 class TestCreateSocialNetworkGroupHandler(unittest.TestCase):
 
     def setUp(self) -> None:

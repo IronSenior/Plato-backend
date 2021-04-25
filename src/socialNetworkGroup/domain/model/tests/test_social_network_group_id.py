@@ -1,9 +1,11 @@
 import unittest
+import pytest
 import uuid
 from uuid import UUID
 from ..social_network_group_id import SocialNetworkGroupId
 
 
+@pytest.mark.unit
 class TestSocialNetworkGroupId(unittest.TestCase):
 
     def test_constructor(self):
