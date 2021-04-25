@@ -32,4 +32,5 @@ jobs:
       run: |
         pytest -m unit
     - name: Integration Tests with pytest
+      run: |
         pytest -m integration
