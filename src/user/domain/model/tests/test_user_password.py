@@ -1,8 +1,10 @@
 import unittest
+import pytest
 from passlib.hash import sha256_crypt
 from ..user_password import UserPassword
 
 
+@pytest.mark.unit
 class TestPassword(unittest.TestCase):
 
     def test_constructor(self):
