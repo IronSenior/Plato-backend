@@ -55,7 +55,7 @@ class TestUserLogin(unittest.TestCase):
         data = json.loads(login_response.data)
         self.assertTrue("access_token" in data.keys())
 
-    def test_incorrect_user_login(self):
+    def test_incorrect_password_user_login(self):
         email = fake.company_email()
         username = fake.first_name()
         password = fake.password()
@@ -70,5 +70,21 @@ class TestUserLogin(unittest.TestCase):
             "email": email,
             "password": fake.password()
         })
-        data = json.loads(login_response.data)
-        self.assertEqual(data["message"], "Incorrect Password")
+        self.assertEqual(login_response.status_code, 401)
+
+    def test_incorrect_email_user_login(self):
+        email = fake.company_email()
+        username = fake.first_name()
+        password = fake.password()
+        user = User.add(
+            userid=UserId.fromString(str(uuid.uuid4())),
+            username=Username.fromString(username),
+            email=UserMail.fromString(email),
+            password=UserPassword.fromString(password)
+        )
+        self.users.save(user)
+        login_response = self.app.post("/user/login", json={
+            "email": fake.company_email(),
+            "password": password
+        })
+        self.assertEqual(login_response.status_code, 401)
