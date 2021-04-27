@@ -3,18 +3,18 @@ import pytest
 import faker
 import json
 import uuid
-from .....plato import app, userProvider
-from ...domain.repository.users import Users
-from ...domain.model.user import User
-from ...domain.model.user_id import UserId
-from ...domain.model.username import Username
-from ...domain.model.user_mail import UserMail
-from ...domain.model.user_password import UserPassword
+from ..main import app, userProvider
+from ..src.user.domain.repository.users import Users
+from ..src.user.domain.model.user import User
+from ..src.user.domain.model.user_id import UserId
+from ..src.user.domain.model.username import Username
+from ..src.user.domain.model.user_mail import UserMail
+from ..src.user.domain.model.user_password import UserPassword
 fake = faker.Faker()
 
 
 @pytest.mark.integration
-class TestUserLogin(unittest.TestCase):
+class TestUserIntegration(unittest.TestCase):
 
     def setUp(self) -> None:
         self.users: Users = userProvider.USERS()
@@ -48,7 +48,7 @@ class TestUserLogin(unittest.TestCase):
             password=UserPassword.fromString(password)
         )
         self.users.save(user)
-        login_response = self.app.post("/user/login", json={
+        login_response = self.app.post("/user/login/", json={
             "email": email,
             "password": password
         })
@@ -66,7 +66,7 @@ class TestUserLogin(unittest.TestCase):
             password=UserPassword.fromString(password)
         )
         self.users.save(user)
-        login_response = self.app.post("/user/login", json={
+        login_response = self.app.post("/user/login/", json={
             "email": email,
             "password": fake.password()
         })
@@ -83,7 +83,7 @@ class TestUserLogin(unittest.TestCase):
             password=UserPassword.fromString(password)
         )
         self.users.save(user)
-        login_response = self.app.post("/user/login", json={
+        login_response = self.app.post("/user/login/", json={
             "email": fake.company_email(),
             "password": password
         })

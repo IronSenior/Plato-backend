@@ -8,7 +8,7 @@ from ..service.user_service import UserService
 from ...domain.exception.incorrect_password import IncorrectPassword
 from ...domain.exception.user_was_not_found import UserWasNotFound
 
-userFlaskBlueprint = Blueprint('user', __name__, url_prefix="/user")
+userFlaskBlueprint = Blueprint('User', __name__, url_prefix="/user")
 
 
 @userFlaskBlueprint.route('/create/', methods=["POST"])
@@ -33,7 +33,7 @@ def get_user(userid, **kw):
     return jsonify(user), 200
 
 
-@userFlaskBlueprint.route('/login', methods=["POST"])
+@userFlaskBlueprint.route('/login/', methods=["POST"])
 def login(**kw):
     userService: UserService = UserService()
     email = request.json.get("email", False)
@@ -44,5 +44,5 @@ def login(**kw):
         raise Unauthorized("Wrong password or email")
     except UserWasNotFound:
         raise Unauthorized("Wrong password or email")
-    jwt_token = create_access_token(identity=user["email"])
+    jwt_token = create_access_token(identity=user)
     return jsonify({'access_token': jwt_token, 'user': user}), 200

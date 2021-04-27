@@ -21,7 +21,7 @@ class TestCreateSocialNetworkGroupHandler(unittest.TestCase):
     def setUp(self) -> None:
         self.mockedSocialNetworkGroupRepository = Mock()
         self.createSocialNetworkGroupHandler = CreateSocialNetworkGroupHandler(
-            self.mockedSocialNetworkGroupRepository
+            socialNetworkGroups=self.mockedSocialNetworkGroupRepository
         )
         return super(TestCreateSocialNetworkGroupHandler, self).setUp()
 

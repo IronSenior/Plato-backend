@@ -13,13 +13,12 @@ from dependency_injector.wiring import inject, Provide
 class CreateSocialNetworkGroupHandler(CommandHandler):
 
     @inject
-    def __init__(self, socialNetworikGroups: SocialNetworkGroups = Provide["SOCIAL_NETWORK_GROUPS"]):
-        self.socialNetworikGroups: SocialNetworkGroups = socialNetworikGroups
+    def __init__(self, socialNetworkGroups: SocialNetworkGroups = Provide["SOCIAL_NETWORK_GROUPS"]):
+        self.socialNetworkGroups: SocialNetworkGroups = socialNetworkGroups
 
     def handle(self, cmd: CreateSocialNetworkGroupCommand):
         snGroupId = SocialNetworkGroupId.fromString(cmd.id)
-
-        if (type(self.socialNetworikGroups.getById(snGroupId)) == SocialNetworkGroup):
+        if (type(self.socialNetworkGroups.getById(snGroupId)) == SocialNetworkGroup):
             raise SocialNetworkGroupIdAlreadyRegistered("Social Network Id already registered")
 
         socialNetworkGroup = SocialNetworkGroup.add(
@@ -28,4 +27,4 @@ class CreateSocialNetworkGroupHandler(CommandHandler):
             name=SocialNetworkGroupName.fromString(cmd.name),
             image=SocialNetworkGroupImageUrl.fromString(cmd.image)
         )
-        self.socialNetworikGroups.save(socialNetworkGroup)
+        self.socialNetworkGroups.save(socialNetworkGroup)

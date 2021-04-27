@@ -9,6 +9,8 @@
     tags:
       - name: User
         description: REST API for requesting and returning users
+      - name: SocialNetworkGroup
+        description: REST API for requesting and returning social network groups
     paths:
       /user/create/:
         post:
@@ -25,8 +27,9 @@
               description: The user was created
             '500':
               description: Error
-      /user/get/{userId}:
+      /user/get/{userId}/:
         get:
+          tags: [User]
           summary: Get a user by ID
           parameters:
             - in: path
@@ -42,7 +45,7 @@
               description: User was not found
             '500':
               description: Error
-      /user/login:
+      /user/login/:
         post:
           tags: [User]
           summary: Check if password is correct and returns the user
@@ -55,9 +58,56 @@
           responses:
             '200':
               description: The login was succesfull
+            '401':
+              description: User email or password was incorrect
             '500':
               description: Error
+      /sn/group/create/:
+        post:
+          tags: [SocialNetworkGroup]
+          summary: Create a new social network group for a user
+          security:
+            - bearerAuth: []
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/snGroup-received'
+          responses:
+            '200':
+              description: The group was created
+            '401':
+              description: Access is not allowed
+            '500':
+              description: Error
+      /sn/group/user/{userId}/:
+        get:
+          tags: [SocialNetworkGroup]
+          summary: Get a social network group by user id
+          security:
+            - bearerAuth: []
+          parameters:
+            - in: path
+              name: userId
+              schema:
+                type: string
+              required: true
+              description: UUID of the user owner of the groups
+          responses:
+            '200':    # status code
+              description: The group was found
+            '404':
+              description: Access is not allowed
+            '500':
+              description: Error
+
     components:
+      securitySchemes:
+        bearerAuth:            # arbitrary name for the security scheme
+          type: http
+          scheme: bearer
+          bearerFormat: JWT  
       schemas:
         user-received:
           type: object
@@ -80,3 +130,17 @@
               type: string
             password:
               type: string
+        snGroup-received:
+          type: object
+          properties:
+            snGroup:
+              type: object
+              properties:
+                id:
+                  type: string
+                userid:
+                  type: string
+                name:
+                  type: string
+                image:
+                  type: string

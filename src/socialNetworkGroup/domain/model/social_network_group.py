@@ -21,15 +21,15 @@ class SocialNetworkGroup(Aggregate):
 
     @property
     def name(self):
-        return self._name
+        return self._name.value
 
     @property
     def userId(self):
-        return self._userId
+        return self._userId.value
 
     @property
     def image(self):
-        return self._image
+        return self._image.value
 
     @classmethod
     def add(cls, id: SocialNetworkGroupId, userId: UserId,
@@ -50,7 +50,7 @@ class SocialNetworkGroup(Aggregate):
 
         def mutate(self, obj: Optional[Aggregate]) -> Aggregate:
             socialNetworkGroup = super().mutate(obj)
-            SocialNetworkGroup._userId = UserId.fromString(self.userId)
+            socialNetworkGroup._userId = UserId.fromString(self.userId)
             socialNetworkGroup._name = SocialNetworkGroupName.fromString(self.name)
             socialNetworkGroup._image = SocialNetworkGroupImageUrl.fromString(self.image)
             return socialNetworkGroup
