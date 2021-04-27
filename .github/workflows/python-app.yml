@@ -26,7 +26,7 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with flake8
       run: |
-        flake8 . --count --show-source --statistics --max-line-length=120 --ignore E711
+        flake8 . --count --show-source --statistics --max-line-length=125 --ignore E711
     - name: UnitTest with pytest
       run: |
         pytest -m unit
