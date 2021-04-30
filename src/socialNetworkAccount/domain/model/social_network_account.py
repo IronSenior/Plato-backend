@@ -1,5 +1,5 @@
 from typing import Optional
-from eventsourcing.domain import Aggregate, AggregateCreated, AggregateEvent
+from eventsourcing.domain import Aggregate, AggregateCreated
 from .social_network_account_name import SocialNetworkAccountName
 from .user_token import UserToken
 from .social_network import SocialNetwork
