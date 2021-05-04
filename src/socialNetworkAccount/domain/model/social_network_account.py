@@ -5,16 +5,16 @@ from .user_token import UserToken
 from .social_network import SocialNetwork
 from .social_network_account_id import SocialNetworkAccountId
 from ....user.domain.model.user_id import UserId
-from ....socialNetworkGroup.domain.model.social_network_group_id import SocialNetworkGroupId
+from ....brand.domain.model.brand_id import BrandId
 
 
 class SocialNetworkAccount(Aggregate):
 
-    def __init__(self, userId: UserId, snGroupId: SocialNetworkGroupId, name: SocialNetworkAccountName,
+    def __init__(self, userId: UserId, brandId: BrandId, name: SocialNetworkAccountName,
                  userToken: UserToken, socialNetwork: SocialNetwork, *args, **kwargs):
         super(SocialNetworkAccount, self).__init__(*args, **kwargs)
         self._userId: UserId = userId
-        self._snGroupId: SocialNetworkGroupId = snGroupId
+        self._brandId: BrandId = brandId
         self._name: SocialNetworkAccountName = name
         self._userToken: userToken = userToken
         self._socialNetwork: SocialNetwork = socialNetwork
@@ -24,8 +24,8 @@ class SocialNetworkAccount(Aggregate):
         return self._id
 
     @property
-    def snGroupId(self):
-        return self._snGroupId
+    def brandId(self):
+        return self._brandId
 
     @property
     def name(self):
@@ -44,13 +44,13 @@ class SocialNetworkAccount(Aggregate):
         return self._socialNetwork
 
     @classmethod
-    def add(cls, accountId: SocialNetworkAccountId, snGroupId: SocialNetworkAccountId,
+    def add(cls, accountId: SocialNetworkAccountId, brandId: SocialNetworkAccountId,
             name: SocialNetworkAccountName, userId: UserId,
             userToken: UserToken, socialNetwork: SocialNetwork):
         return cls._create(
             cls.SocialNetworkAccountWasAdded,
             id=accountId.value,
-            snGroupId=snGroupId,
+            brandId=brandId,
             name=name.value,
             userToken=userToken.value,
             userId=str(userId.value),
@@ -59,7 +59,7 @@ class SocialNetworkAccount(Aggregate):
 
     class SocialNetworkAccountWasAdded(AggregateCreated):
         bus_string = "SOCIAL_NETWORK_ACCOUNT_WAS_ADDED"
-        snGroupId: str
+        brandId: str
         name: str
         userToken: str
         userId: str
@@ -67,7 +67,7 @@ class SocialNetworkAccount(Aggregate):
 
         def mutate(self, obj: Optional[Aggregate]) -> Aggregate:
             account = super().mutate(obj)
-            account._snGroupId = self.snGroupId
+            account._brandId = self.brandId
             account._userId = self.userId
             account._name = self.name
             account._userToken = self.userToken

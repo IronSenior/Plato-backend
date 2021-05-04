@@ -3,9 +3,9 @@ from commandbus import Command
 
 class AddSocialNetworkAccountCommand(Command):
 
-    def __init__(self, accountId: str, snGroupId: str, name: str, userId: str, userToken: str, socialNetwork: str):
+    def __init__(self, accountId: str, brandId: str, name: str, userId: str, userToken: str, socialNetwork: str):
         self.__accountId: str = accountId
-        self.__snGroupId: str = snGroupId
+        self.__brandId: str = brandId
         self.__name: str = name
         self.__userId: str = userId
         self.__userToken: str = userToken
@@ -16,8 +16,8 @@ class AddSocialNetworkAccountCommand(Command):
         return self.__accountId
 
     @property
-    def snGroupId(self):
-        return self.__snGroupId
+    def brandId(self):
+        return self.__brandId
 
     @property
     def name(self):

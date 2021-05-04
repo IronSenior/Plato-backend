@@ -1,14 +1,14 @@
 import os
 from .src.user.infrastructure.user_providers import UserProviders
-from .src.socialNetworkGroup.infrastructure.sn_group_providers import SNGroupProviders
-from .src import user, socialNetworkGroup
+from .src.brand.infrastructure.brand_providers import BrandProviders
+from .src import user, brand
 from .src.shared.plato_command_bus import PlatoCommandBus
 from .src.user.application.command.create_user_command import CreateUserCommand
 from .src.user.application.command.create_user_handler import CreateUserCommandHandler
-from .src.socialNetworkGroup.application.command.create_social_network_group_command import CreateSocialNetworkGroupCommand
-from .src.socialNetworkGroup.application.command.create_social_network_group_handler import CreateSocialNetworkGroupHandler
+from .src.brand.application.command.create_brand_command import CreateBrandCommand
+from .src.brand.application.command.create_brand_handler import CreateBrandHandler
 from .src.user.infrastructure.controller.user_controller import userFlaskBlueprint
-from .src.socialNetworkGroup.infrastructure.controller.sn_group_controller import snGroupFlaskBlueprint
+from .src.brand.infrastructure.controller.brand_controller import brandFlaskBlueprint
 from flask import Flask
 from .src.shared.json_web_token_conf import jwtManager
 from flask_swagger_ui import get_swaggerui_blueprint
@@ -18,15 +18,15 @@ load_dotenv()
 userProvider = UserProviders()
 userProvider.wire(packages=[user])
 
-snGroupProvider = SNGroupProviders()
-snGroupProvider.wire(packages=[socialNetworkGroup])
+brandProvider = BrandProviders()
+brandProvider.wire(packages=[brand])
 
 PlatoCommandBus.subscribe(CreateUserCommand, CreateUserCommandHandler())
-PlatoCommandBus.subscribe(CreateSocialNetworkGroupCommand, CreateSocialNetworkGroupHandler())
+PlatoCommandBus.subscribe(CreateBrandCommand, CreateBrandHandler())
 
 app = Flask(__name__)
 app.register_blueprint(userFlaskBlueprint)
-app.register_blueprint(snGroupFlaskBlueprint)
+app.register_blueprint(brandFlaskBlueprint)
 
 app.config["JWT_SECRET_KEY"] = os.environ["JWT_SECRET_KEY"]
 jwtManager.init_app(app)

@@ -5,7 +5,7 @@ from ...domain.exceptions.sn_account_id_already_registered import SocialNetworkA
 from ...domain.model.social_network_account import SocialNetworkAccount
 from ...domain.model.social_network_account_id import SocialNetworkAccountId
 from ...domain.model.social_network_account_name import SocialNetworkAccountName
-from ....socialNetworkGroup.domain.model.social_network_group_id import SocialNetworkGroupId
+from ....brand.domain.model.brand_id import BrandId
 from ...domain.model.social_network import SocialNetwork
 from ...domain.model.user_token import UserToken
 from .add_sn_account_command import AddSocialNetworkAccountCommand
@@ -26,7 +26,7 @@ class AddSocialNetworkAccountHandler(CommandHandler):
 
         account: SocialNetworkAccount = SocialNetworkAccount.add(
             accountId=accountId,
-            snGroupId=SocialNetworkGroupId.fromString(cmd.snGroupId),
+            brandId=BrandId.fromString(cmd.brandId),
             userId=UserId.fromString(cmd.userId),
             name=SocialNetworkAccountName.fromString(cmd.name),
             userToken=UserToken.fromString(cmd.userToken),

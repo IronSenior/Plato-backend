@@ -9,8 +9,8 @@
     tags:
       - name: User
         description: REST API for requesting and returning users
-      - name: SocialNetworkGroup
-        description: REST API for requesting and returning social network groups
+      - name: Brand
+        description: REST API for requesting and returning brands
     paths:
       /user/create/:
         post:
@@ -62,10 +62,10 @@
               description: User email or password was incorrect
             '500':
               description: Error
-      /sn/group/create/:
+      /brand/create/:
         post:
-          tags: [SocialNetworkGroup]
-          summary: Create a new social network group for a user
+          tags: [Brand]
+          summary: Create a new brand for a user
           security:
             - bearerAuth: []
           requestBody:
@@ -73,18 +73,18 @@
             content:
               application/json:
                 schema:
-                  $ref: '#/components/schemas/snGroup-received'
+                  $ref: '#/components/schemas/brand-received'
           responses:
             '200':
-              description: The group was created
+              description: The brand was created
             '401':
               description: Access is not allowed
             '500':
               description: Error
-      /sn/group/user/{userId}/:
+      /brand/user/{userId}/:
         get:
-          tags: [SocialNetworkGroup]
-          summary: Get a social network group by user id
+          tags: [Brand]
+          summary: Get a brand by user id
           security:
             - bearerAuth: []
           parameters:
@@ -93,10 +93,10 @@
               schema:
                 type: string
               required: true
-              description: UUID of the user owner of the groups
+              description: UUID of the user owner of the brands
           responses:
             '200':    # status code
-              description: The group was found
+              description: The brand was found
             '404':
               description: Access is not allowed
             '500':
@@ -130,10 +130,10 @@
               type: string
             password:
               type: string
-        snGroup-received:
+        brand-received:
           type: object
           properties:
-            snGroup:
+            brand:
               type: object
               properties:
                 id:

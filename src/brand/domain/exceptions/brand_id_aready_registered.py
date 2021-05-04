@@ -1,0 +1,3 @@
+
+class BrandIdAlreadyRegistered(Exception):
+    pass

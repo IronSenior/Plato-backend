@@ -10,7 +10,7 @@ from ....domain.model.social_network_account_name import SocialNetworkAccountNam
 from ....domain.model.social_network import SocialNetwork
 from ....domain.model.user_token import UserToken
 from ....domain.exceptions.sn_account_id_already_registered import SocialNetworkAccountIdAlreadyRegistered
-from .....socialNetworkGroup.domain.model.social_network_group_id import SocialNetworkGroupId
+from .....brand.domain.model.brand_id import BrandId
 from .....user.domain.model.user_id import UserId
 import faker
 
@@ -32,7 +32,7 @@ class TestAddSocialNetworkAccountHandler(unittest.TestCase):
             AddSocialNetworkAccountCommand(
                 accountId=str(uuid4()),
                 userId=str(uuid4()),
-                snGroupId=str(uuid4()),
+                brandId=str(uuid4()),
                 name=fake.first_name(),
                 userToken=str(uuid4()),
                 socialNetwork="twitter"
@@ -43,7 +43,7 @@ class TestAddSocialNetworkAccountHandler(unittest.TestCase):
     def test_dont_create_duplicated_sn_account_id(self):
         account = SocialNetworkAccount.add(
             accountId=SocialNetworkAccountId.fromString(str(uuid4())),
-            snGroupId=SocialNetworkGroupId.fromString(str(uuid4())),
+            brandId=BrandId.fromString(str(uuid4())),
             name=SocialNetworkAccountName.fromString(fake.first_name()),
             userId=UserId.fromString(str(uuid4())),
             userToken=UserToken.fromString(str(uuid4())),
@@ -54,7 +54,7 @@ class TestAddSocialNetworkAccountHandler(unittest.TestCase):
                           self.addSocialNetworkAccountHandler.handle, AddSocialNetworkAccountCommand(
                               accountId=str(uuid4()),
                               userId=str(uuid4()),
-                              snGroupId=str(uuid4()),
+                              brandId=str(uuid4()),
                               name=fake.first_name(),
                               userToken=str(uuid4()),
                               socialNetwork="twitter"
