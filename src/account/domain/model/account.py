@@ -1,21 +1,21 @@
 from typing import Optional
 from eventsourcing.domain import Aggregate, AggregateCreated
-from .social_network_account_name import SocialNetworkAccountName
+from .account_name import AccountName
 from .user_token import UserToken
 from .social_network import SocialNetwork
-from .social_network_account_id import SocialNetworkAccountId
+from .account_id import AccountId
 from ....user.domain.model.user_id import UserId
 from ....brand.domain.model.brand_id import BrandId
 
 
-class SocialNetworkAccount(Aggregate):
+class Account(Aggregate):
 
-    def __init__(self, userId: UserId, brandId: BrandId, name: SocialNetworkAccountName,
+    def __init__(self, userId: UserId, brandId: BrandId, name: AccountName,
                  userToken: UserToken, socialNetwork: SocialNetwork, *args, **kwargs):
-        super(SocialNetworkAccount, self).__init__(*args, **kwargs)
+        super(Account, self).__init__(*args, **kwargs)
         self._userId: UserId = userId
         self._brandId: BrandId = brandId
-        self._name: SocialNetworkAccountName = name
+        self._name: AccountName = name
         self._userToken: userToken = userToken
         self._socialNetwork: SocialNetwork = socialNetwork
 
@@ -44,11 +44,11 @@ class SocialNetworkAccount(Aggregate):
         return self._socialNetwork
 
     @classmethod
-    def add(cls, accountId: SocialNetworkAccountId, brandId: SocialNetworkAccountId,
-            name: SocialNetworkAccountName, userId: UserId,
+    def add(cls, accountId: AccountId, brandId: AccountId,
+            name: AccountName, userId: UserId,
             userToken: UserToken, socialNetwork: SocialNetwork):
         return cls._create(
-            cls.SocialNetworkAccountWasAdded,
+            cls.AccountWasAdded,
             id=accountId.value,
             brandId=brandId,
             name=name.value,
@@ -57,8 +57,8 @@ class SocialNetworkAccount(Aggregate):
             socialNetwork=socialNetwork.value
         )
 
-    class SocialNetworkAccountWasAdded(AggregateCreated):
-        bus_string = "SOCIAL_NETWORK_ACCOUNT_WAS_ADDED"
+    class AccountWasAdded(AggregateCreated):
+        bus_string = "ACCOUNT_WAS_ADDED"
         brandId: str
         name: str
         userToken: str

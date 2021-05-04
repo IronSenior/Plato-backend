@@ -1,0 +1,3 @@
+
+class AccountIdAlreadyRegistered(Exception):
+    pass

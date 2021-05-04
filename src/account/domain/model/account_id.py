@@ -1,7 +1,7 @@
 from uuid import UUID
 
 
-class SocialNetworkAccountId():
+class AccountId():
 
     def __init__(self, accountId: UUID):
         self.checkUniqueId(accountId)
@@ -10,7 +10,7 @@ class SocialNetworkAccountId():
 
     @staticmethod
     def fromString(accountId: str):
-        return SocialNetworkAccountId(UUID(accountId))
+        return AccountId(UUID(accountId))
 
     @property
     def value(self):

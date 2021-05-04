@@ -1,7 +1,7 @@
 from commandbus import Command
 
 
-class AddSocialNetworkAccountCommand(Command):
+class AddAccountCommand(Command):
 
     def __init__(self, accountId: str, brandId: str, name: str, userId: str, userToken: str, socialNetwork: str):
         self.__accountId: str = accountId
