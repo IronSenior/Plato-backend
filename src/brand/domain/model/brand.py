@@ -1,7 +1,7 @@
 from .brand_id import BrandId
 from .brand_image import BrandImageUrl
 from .brand_name import BrandName
-from ....user.domain.model.user_id import UserId
+from ....shared.domain.user_id import UserId
 from eventsourcing.domain import Aggregate, AggregateCreated
 from typing import Optional
 

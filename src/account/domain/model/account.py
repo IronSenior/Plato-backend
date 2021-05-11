@@ -4,7 +4,7 @@ from .account_name import AccountName
 from .user_token import UserToken
 from .social_network import SocialNetwork
 from .account_id import AccountId
-from ....user.domain.model.user_id import UserId
+from ....shared.domain.user_id import UserId
 from ....brand.domain.model.brand_id import BrandId
 
 

@@ -11,7 +11,7 @@ from ....domain.model.social_network import SocialNetwork
 from ....domain.model.user_token import UserToken
 from ....domain.exceptions.account_id_already_registered import AccountIdAlreadyRegistered
 from .....brand.domain.model.brand_id import BrandId
-from .....user.domain.model.user_id import UserId
+from .....shared.domain.user_id import UserId
 import faker
 
 fake = faker.Faker()

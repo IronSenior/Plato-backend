@@ -9,7 +9,7 @@ from ....domain.model.brand_id import BrandId
 from ....domain.model.brand_name import BrandName
 from ....domain.model.brand_image import BrandImageUrl
 from ....domain.exceptions.brand_id_aready_registered import BrandIdAlreadyRegistered
-from .....user.domain.model.user_id import UserId
+from .....shared.domain.user_id import UserId
 import faker
 
 fake = faker.Faker()

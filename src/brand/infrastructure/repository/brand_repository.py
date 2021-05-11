@@ -1,8 +1,8 @@
 from ...domain.model.brand import Brand
 from ...domain.model.brand_id import BrandId
 from ...domain.repository.brands import Brands
-from ....user.domain.model.user_id import UserId
-from ....shared.plato_event_bus import PlatoEventBus
+from ....shared.domain.user_id import UserId
+from ....shared.infrastructure.plato_event_bus import PlatoEventBus
 from eventsourcing.application import Application
 from typing import Optional, List
 

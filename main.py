@@ -2,7 +2,7 @@ import os
 from .src.user.infrastructure.user_providers import UserProviders
 from .src.brand.infrastructure.brand_providers import BrandProviders
 from .src import user, brand
-from .src.shared.plato_command_bus import PlatoCommandBus
+from .src.shared.infrastructure.plato_command_bus import PlatoCommandBus
 from .src.user.application.command.create_user_command import CreateUserCommand
 from .src.user.application.command.create_user_handler import CreateUserCommandHandler
 from .src.brand.application.command.create_brand_command import CreateBrandCommand
@@ -10,7 +10,7 @@ from .src.brand.application.command.create_brand_handler import CreateBrandHandl
 from .src.user.infrastructure.controller.user_controller import userFlaskBlueprint
 from .src.brand.infrastructure.controller.brand_controller import brandFlaskBlueprint
 from flask import Flask
-from .src.shared.json_web_token_conf import jwtManager
+from .src.shared.infrastructure.json_web_token_conf import jwtManager
 from flask_swagger_ui import get_swaggerui_blueprint
 from dotenv import load_dotenv
 

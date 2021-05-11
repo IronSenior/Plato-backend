@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Optional, List
 from ..model.brand_id import BrandId
 from ..model.brand import Brand
-from ....user.domain.model.user_id import UserId
+from ....shared.domain.user_id import UserId
 
 
 class Brands(ABC):

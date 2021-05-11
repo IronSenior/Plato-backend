@@ -1,9 +1,9 @@
-from ....user.domain.model.user_id import UserId
+from ....shared.domain.user_id import UserId
 from ...domain.model.brand import Brand
 from ..mapper.brand_mapper import BrandMapper
 from typing import List, Optional
 from ...domain.repository.brands import Brands
-from ....shared.plato_command_bus import PlatoCommandBus
+from ....shared.infrastructure.plato_command_bus import PlatoCommandBus
 from ...application.brand_dto import BrandDTO
 from ...application.command.create_brand_command import CreateBrandCommand
 from dependency_injector.wiring import inject, Provide

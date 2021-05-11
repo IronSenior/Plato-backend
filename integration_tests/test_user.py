@@ -6,7 +6,7 @@ import uuid
 from ..main import app, userProvider
 from ..src.user.domain.repository.users import Users
 from ..src.user.domain.model.user import User
-from ..src.user.domain.model.user_id import UserId
+from ..src.shared.domain.user_id import UserId
 from ..src.user.domain.model.username import Username
 from ..src.user.domain.model.user_mail import UserMail
 from ..src.user.domain.model.user_password import UserPassword

@@ -4,7 +4,7 @@ from uuid import uuid4
 from unittest.mock import Mock
 from ..brand_mapper import BrandMapper
 from ....domain.model.brand import Brand
-from .....user.domain.model.user_id import UserId
+from .....shared.domain.user_id import UserId
 from ....domain.model.brand_id import BrandId
 from ....domain.model.brand_image import BrandImageUrl
 from ....domain.model.brand_name import BrandName
