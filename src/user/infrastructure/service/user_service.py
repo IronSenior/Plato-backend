@@ -3,9 +3,9 @@ from ...domain.exception.incorrect_password import IncorrectPassword
 from ...domain.exception.user_was_not_found import UserWasNotFound
 from ...domain.repository.users import Users
 from dependency_injector.wiring import Provide, inject
-from ....shared.plato_command_bus import PlatoCommandBus
+from ....shared.infrastructure.plato_command_bus import PlatoCommandBus
 from ...application.command.create_user_command import CreateUserCommand
-from ...domain.model.user_id import UserId
+from ....shared.domain.user_id import UserId
 from ..mapper.user_mapper import UserMapper
 
 

@@ -1,5 +1,5 @@
 from ...domain.services.check_unique_user_email import CheckUniqueUserEmail
-from ...domain.model.user_id import UserId
+from ....shared.domain.user_id import UserId
 from ...domain.model.user_mail import UserMail
 from ...domain.repository.users import Users
 from typing import Optional

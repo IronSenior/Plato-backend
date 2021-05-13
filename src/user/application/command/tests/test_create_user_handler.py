@@ -6,7 +6,7 @@ from unittest.mock import Mock, MagicMock
 from ..create_user_command import CreateUserCommand
 from ..create_user_handler import CreateUserCommandHandler
 from ....domain.model.user import User
-from ....domain.model.user_id import UserId
+from .....shared.domain.user_id import UserId
 from ....domain.model.user_mail import UserMail
 from ....domain.model.user_password import UserPassword
 from ....domain.model.username import Username

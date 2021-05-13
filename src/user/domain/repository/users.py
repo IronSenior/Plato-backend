@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional
 from ..model.user import User
-from ..model.user_id import UserId
+from ....shared.domain.user_id import UserId
 from ..model.user_mail import UserMail
 
 

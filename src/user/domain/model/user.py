@@ -2,7 +2,7 @@ from eventsourcing.domain import Aggregate, AggregateCreated
 from .username import Username
 from .user_mail import UserMail
 from .user_password import UserPassword
-from .user_id import UserId
+from ....shared.domain.user_id import UserId
 from typing import Optional
 
 

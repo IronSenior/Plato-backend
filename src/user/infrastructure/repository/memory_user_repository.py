@@ -1,9 +1,9 @@
-from ...domain.model.user_id import UserId
+from ....shared.domain.user_id import UserId
 from ...domain.model.user_mail import UserMail
 from ...domain.model.user import User
 from ...domain.repository.users import Users
 from typing import List, Optional
-from ....shared.plato_event_bus import PlatoEventBus
+from ....shared.infrastructure.plato_event_bus import PlatoEventBus
 
 
 class MemoryUserRepository(Users):

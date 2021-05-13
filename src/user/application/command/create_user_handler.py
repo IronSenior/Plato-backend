@@ -2,7 +2,7 @@ from commandbus import CommandHandler
 from dependency_injector.wiring import Provide, inject
 from .create_user_command import CreateUserCommand
 from ...domain.repository.users import Users
-from ...domain.model.user_id import UserId
+from ....shared.domain.user_id import UserId
 from ...domain.model.user_mail import UserMail
 from ...domain.model.username import Username
 from ...domain.model.user_password import UserPassword

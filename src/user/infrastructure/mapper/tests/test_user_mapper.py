@@ -4,7 +4,7 @@ from uuid import uuid4
 from unittest.mock import Mock
 from ..user_mapper import UserMapper
 from ....domain.model.user import User
-from ....domain.model.user_id import UserId
+from .....shared.domain.user_id import UserId
 from ....domain.model.user_mail import UserMail
 from ....domain.model.user_password import UserPassword
 from ....domain.model.username import Username

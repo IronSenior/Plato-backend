@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional
 from ..model.user_mail import UserMail
-from ..model.user_id import UserId
+from ....shared.domain.user_id import UserId
 
 
 class CheckUniqueUserEmail(ABC):
