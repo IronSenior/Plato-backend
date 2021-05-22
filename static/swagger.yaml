@@ -8,9 +8,11 @@
         description: Principal Server
     tags:
       - name: User
-        description: REST API for requesting and returning users
+        description: API for requesting and returning users
       - name: Brand
-        description: REST API for requesting and returning brands
+        description: API for requesting and returning brands
+      - name: Twitter
+        description: API for Twitter Accounts
     paths:
       /user/create/:
         post:
@@ -101,6 +103,26 @@
               description: Access is not allowed
             '500':
               description: Error
+      /twitter/account/add/:
+        post:
+          tags: [Twitter]
+          summary: Add a twitter Account
+          security:
+            - bearerAuth: []
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/twitter-oauth'
+          responses:
+            '200':
+              description: The account was added
+            '401':
+              description: Access is not allowed
+            '500':
+              description: Error
+
 
     components:
       securitySchemes:
@@ -143,4 +165,14 @@
                 name:
                   type: string
                 image:
+                  type: string
+        twitter-oauth:
+          type: object
+          properties:
+            oauth:
+              type: object
+              properties:
+                oauthToken:
+                  type: string
+                oauthVerifier:
                   type: string

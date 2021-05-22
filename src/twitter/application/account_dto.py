@@ -1,0 +1,10 @@
+from typing import TypedDict
+
+
+class AccountDTO(TypedDict):
+    accountId: str
+    userId: str
+    brandId: str
+    name: str
+    oauthToken: str
+    oauthVerifier: str

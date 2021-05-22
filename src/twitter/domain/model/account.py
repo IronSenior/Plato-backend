@@ -1,23 +1,23 @@
 from typing import Optional
 from eventsourcing.domain import Aggregate, AggregateCreated
 from .account_name import AccountName
-from .user_token import UserToken
-from .social_network import SocialNetwork
+from .access_token import AccessToken
+from .access_token_secret import AccessTokenSecret
 from .account_id import AccountId
 from ....shared.domain.user_id import UserId
-from ....brand.domain.model.brand_id import BrandId
+from ....shared.domain.brand_id import BrandId
 
 
 class Account(Aggregate):
 
     def __init__(self, userId: UserId, brandId: BrandId, name: AccountName,
-                 userToken: UserToken, socialNetwork: SocialNetwork, *args, **kwargs):
+                 accessToken: AccessToken, accessTokenSecret: AccessTokenSecret, *args, **kwargs):
         super(Account, self).__init__(*args, **kwargs)
         self._userId: UserId = userId
         self._brandId: BrandId = brandId
         self._name: AccountName = name
-        self._userToken: userToken = userToken
-        self._socialNetwork: SocialNetwork = socialNetwork
+        self._accessToken: AccessToken = accessToken
+        self._accessTokenSecret: AccessTokenSecret = accessTokenSecret
 
     @property
     def accountId(self):
@@ -32,44 +32,44 @@ class Account(Aggregate):
         return self._name
 
     @property
-    def userToken(self):
-        return self._userToken
+    def accessToken(self):
+        return self._accessToken
+
+    @property
+    def accessTokenSecret(self):
+        return self._accessTokenSecret
 
     @property
     def userId(self):
         return self._userId
 
-    @property
-    def socialNetwork(self):
-        return self._socialNetwork
-
     @classmethod
-    def add(cls, accountId: AccountId, brandId: AccountId,
+    def add(cls, accountId: AccountId, brandId: BrandId,
             name: AccountName, userId: UserId,
-            userToken: UserToken, socialNetwork: SocialNetwork):
+            accessToken: AccessToken, accessTokenSecret: AccessTokenSecret):
         return cls._create(
             cls.AccountWasAdded,
             id=accountId.value,
             brandId=brandId,
             name=name.value,
-            userToken=userToken.value,
-            userId=str(userId.value),
-            socialNetwork=socialNetwork.value
+            accessToken=accessToken.value,
+            accessTokenSecret=accessTokenSecret.value,
+            userId=str(userId.value)
         )
 
     class AccountWasAdded(AggregateCreated):
-        bus_string = "ACCOUNT_WAS_ADDED"
+        bus_string = "TWITTER_ACCOUNT_WAS_ADDED"
         brandId: str
-        name: str
-        userToken: str
         userId: str
-        socialNetwork: str
+        name: str
+        accessToken: str
+        accessTokenSecret: str
 
         def mutate(self, obj: Optional[Aggregate]) -> Aggregate:
             account = super().mutate(obj)
             account._brandId = self.brandId
             account._userId = self.userId
             account._name = self.name
-            account._userToken = self.userToken
-            account._socialNetwork = self.socialNetwork
+            account._accessToken = self.accessToken
+            account._accessTokenSecret = self.accessTokenSecret
             return account
