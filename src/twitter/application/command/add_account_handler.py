@@ -6,8 +6,8 @@ from ...domain.model.account import Account
 from ...domain.model.account_id import AccountId
 from ...domain.model.account_name import AccountName
 from ....brand.domain.model.brand_id import BrandId
-from ...domain.model.oauth_token import OauthToken
-from ...domain.model.oauth_verifier import OauthVerifier
+from ...domain.model.access_token import AccessToken
+from ...domain.model.access_token_secret import AccessTokenSecret
 from .add_account_command import AddAccountCommand
 from dependency_injector.wiring import inject, Provide
 
@@ -29,7 +29,7 @@ class AddAccountHandler(CommandHandler):
             brandId=BrandId.fromString(cmd.brandId),
             userId=UserId.fromString(cmd.userId),
             name=AccountName.fromString(cmd.name),
-            oauthToken=OauthToken.fromString(cmd.oauthToken),
-            oauthVerifier=OauthVerifier.fromString(cmd.oauthVerifier)
+            accessToken=AccessToken.fromString(cmd.accessToken),
+            accessTokenSecret=AccessTokenSecret.fromString(cmd.accessTokenSecret)
         )
         self.__accounts.save(account)

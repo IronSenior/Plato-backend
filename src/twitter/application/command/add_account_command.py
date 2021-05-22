@@ -4,13 +4,13 @@ from commandbus import Command
 class AddAccountCommand(Command):
 
     def __init__(self, accountId: str, brandId: str, name: str,
-                 userId: str, oauthToken: str, oauthVerifier: str):
+                 userId: str, accessToken: str, accessTokenSecret: str):
         self.__accountId: str = accountId
         self.__brandId: str = brandId
         self.__name: str = name
         self.__userId: str = userId
-        self.__oauthToken: str = oauthToken
-        self.__oauthVerifier: str = oauthVerifier
+        self.__accessToken: str = accessToken
+        self.__accessTokenSecret: str = accessTokenSecret
 
     @property
     def accountId(self):
@@ -29,9 +29,9 @@ class AddAccountCommand(Command):
         return self.__userId
 
     @property
-    def oauthToken(self):
-        return self.__oauthToken
+    def accessToken(self):
+        return self.__accessToken
 
     @property
-    def oauthVerifier(self):
-        return self.__oauthVerifier
+    def accessTokenSecret(self):
+        return self.__accessTokenSecret

@@ -7,8 +7,8 @@ from ..add_account_command import AddAccountCommand
 from ....domain.model.account import Account
 from ....domain.model.account_id import AccountId
 from ....domain.model.account_name import AccountName
-from ....domain.model.oauth_token import OauthToken
-from ....domain.model.oauth_verifier import OauthVerifier
+from ....domain.model.access_token import AccessToken
+from ....domain.model.access_token_secret import AccessTokenSecret
 from ....domain.exceptions.account_id_already_registered import AccountIdAlreadyRegistered
 from .....shared.domain.brand_id import BrandId
 from .....shared.domain.user_id import UserId
@@ -34,8 +34,8 @@ class TestAddAccountHandler(unittest.TestCase):
                 userId=str(uuid4()),
                 brandId=str(uuid4()),
                 name=fake.first_name(),
-                oauthToken=str(uuid4()),
-                oauthVerifier=str(uuid4())
+                accessToken=str(uuid4()),
+                accessTokenSecret=str(uuid4())
             )
         )
         self.mockedAccounts.save.assert_called_once()
@@ -46,8 +46,8 @@ class TestAddAccountHandler(unittest.TestCase):
             brandId=BrandId.fromString(str(uuid4())),
             name=AccountName.fromString(fake.first_name()),
             userId=UserId.fromString(str(uuid4())),
-            oauthToken=OauthToken.fromString(str(uuid4())),
-            oauthVerifier=OauthVerifier.fromString(str(uuid4()))
+            accessToken=AccessToken.fromString(str(uuid4())),
+            accessTokenSecret=AccessTokenSecret.fromString(str(uuid4()))
         )
         self.mockedAccounts.getById = MagicMock(return_value=account)
         self.assertRaises(AccountIdAlreadyRegistered,
@@ -56,6 +56,6 @@ class TestAddAccountHandler(unittest.TestCase):
                               userId=str(uuid4()),
                               brandId=str(uuid4()),
                               name=fake.first_name(),
-                              oauthToken=str(uuid4()),
-                              oauthVerifier=str(uuid4())
+                              accessToken=str(uuid4()),
+                              accessTokenSecret=str(uuid4())
                           ))

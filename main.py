@@ -9,6 +9,7 @@ from .src.brand.application.command.create_brand_command import CreateBrandComma
 from .src.brand.application.command.create_brand_handler import CreateBrandHandler
 from .src.user.infrastructure.controller.user_controller import userFlaskBlueprint
 from .src.brand.infrastructure.controller.brand_controller import brandFlaskBlueprint
+from .src.twitter.infrastructure.controller.twitter_account_controller import twitterAccountFlaskBlueprint
 from flask import Flask
 from .src.shared.infrastructure.json_web_token_conf import jwtManager
 from flask_swagger_ui import get_swaggerui_blueprint
@@ -27,6 +28,7 @@ PlatoCommandBus.subscribe(CreateBrandCommand, CreateBrandHandler())
 app = Flask(__name__)
 app.register_blueprint(userFlaskBlueprint)
 app.register_blueprint(brandFlaskBlueprint)
+app.register_blueprint(twitterAccountFlaskBlueprint)
 
 app.config["JWT_SECRET_KEY"] = os.environ["JWT_SECRET_KEY"]
 jwtManager.init_app(app)

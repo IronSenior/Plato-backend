@@ -7,14 +7,14 @@ from typing import List, Optional
 from eventsourcing.application import Application
 
 
-class AccountRepository(Application, Accounts):
+class MemoryAccountRepository(Application, Accounts):
 
     def __init__(self):
         self.__accounts: List[Account] = []
-        return super(AccountRepository, self).__init__()
+        return super(MemoryAccountRepository, self).__init__()
 
     def save(self, account: Account):
-        super(AccountRepository, self).save(account)
+        super(MemoryAccountRepository, self).save(account)
         self.__accounts.append(account)
         for event in account.collect_events():
             PlatoEventBus.emit(event.bus_string, event)

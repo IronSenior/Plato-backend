@@ -1,10 +1,10 @@
 from typing import TypedDict
 
 
-class AccountDTO(TypedDict):
+class TwitterAccountDTO(TypedDict):
+
     accountId: str
-    userId: str
     brandId: str
-    name: str
+    userId: str
     oauthToken: str
     oauthVerifier: str
