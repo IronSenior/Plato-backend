@@ -5,9 +5,10 @@ from ...application.command.add_account_command import AddAccountCommand
 from ....shared.infrastructure.plato_command_bus import PlatoCommandBus
 from tweepy import OAuthHandler, TweepError
 import tweepy
+import os
 
-CONSUMER_KEY = ""
-CONSUMER_SECRET = ""
+CONSUMER_KEY = os.environ["TWITTER_CONSUMER_KEY"]
+CONSUMER_SECRET = os.environ["TWITTER_CONSUMER_SECRET"]
 
 
 class TwitterAccountService:
