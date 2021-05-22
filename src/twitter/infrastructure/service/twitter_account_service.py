@@ -7,16 +7,14 @@ from tweepy import OAuthHandler, TweepError
 import tweepy
 import os
 
-CONSUMER_KEY = os.environ["TWITTER_CONSUMER_KEY"]
-CONSUMER_SECRET = os.environ["TWITTER_CONSUMER_SECRET"]
-
 
 class TwitterAccountService:
 
     @inject
     def __init__(self, accounts: Accounts = Provide["TWITTER_ACCOUNTS"]):
         self.__accounts: Accounts = accounts
-        self.__twitter: OAuthHandler = OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
+        self.__twitter: OAuthHandler = OAuthHandler(os.environ["TWITTER_CONSUMER_KEY"],
+                                                    os.environ["TWITTER_CONSUMER_SECRET"])
 
     def addTwitterAccount(self, account: TwitterAccountDTO):
         self.__twitter.request_token = {'oauth_token': account["oauthToken"],
