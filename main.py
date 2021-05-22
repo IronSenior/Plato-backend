@@ -1,7 +1,7 @@
 import os
 from .src.user.infrastructure.user_providers import UserProviders
 from .src.brand.infrastructure.brand_providers import BrandProviders
-from .src import user, brand
+from .src import user, brand, twitter
 from .src.shared.infrastructure.plato_command_bus import PlatoCommandBus
 from .src.user.application.command.create_user_command import CreateUserCommand
 from .src.user.application.command.create_user_handler import CreateUserCommandHandler
@@ -10,6 +10,9 @@ from .src.brand.application.command.create_brand_handler import CreateBrandHandl
 from .src.user.infrastructure.controller.user_controller import userFlaskBlueprint
 from .src.brand.infrastructure.controller.brand_controller import brandFlaskBlueprint
 from .src.twitter.infrastructure.controller.twitter_account_controller import twitterAccountFlaskBlueprint
+from .src.twitter.infrastructure.twitter_providers import TwitterProviders
+from .src.twitter.application.command.add_account_command import AddAccountCommand
+from .src.twitter.application.command.add_account_handler import AddAccountHandler
 from flask import Flask
 from .src.shared.infrastructure.json_web_token_conf import jwtManager
 from flask_swagger_ui import get_swaggerui_blueprint
@@ -22,8 +25,12 @@ userProvider.wire(packages=[user])
 brandProvider = BrandProviders()
 brandProvider.wire(packages=[brand])
 
+twitterProvider = TwitterProviders()
+twitterProvider.wire(packages=[twitter])
+
 PlatoCommandBus.subscribe(CreateUserCommand, CreateUserCommandHandler())
 PlatoCommandBus.subscribe(CreateBrandCommand, CreateBrandHandler())
+PlatoCommandBus.subscribe(AddAccountHandler, AddAccountHandler())
 
 app = Flask(__name__)
 app.register_blueprint(userFlaskBlueprint)
