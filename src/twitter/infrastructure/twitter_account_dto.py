@@ -8,3 +8,4 @@ class TwitterAccountDTO(TypedDict):
     userId: str
     oauthToken: str
     oauthVerifier: str
+    oauthTokenSecret: str

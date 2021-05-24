@@ -6,5 +6,5 @@ class AccountDTO(TypedDict):
     userId: str
     brandId: str
     name: str
-    oauthToken: str
-    oauthVerifier: str
+    accessToken: str
+    accessTokenSecret: str

@@ -57,6 +57,8 @@ PyJWT = "==2.0.1"
 PySocks = "==1.7.1"
 Werkzeug = "==1.0.1"
 faker = "*"
+ipython = "*"
+flask-crontab = "*"
 
 [dev-packages]
 

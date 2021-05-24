@@ -4,8 +4,8 @@ from .account_name import AccountName
 from .access_token import AccessToken
 from .access_token_secret import AccessTokenSecret
 from .account_id import AccountId
-from ....shared.domain.user_id import UserId
-from ....shared.domain.brand_id import BrandId
+from .....shared.domain.user_id import UserId
+from .....shared.domain.brand_id import BrandId
 
 
 class Account(Aggregate):
@@ -50,7 +50,7 @@ class Account(Aggregate):
         return cls._create(
             cls.AccountWasAdded,
             id=accountId.value,
-            brandId=brandId,
+            brandId=str(brandId.value),
             name=name.value,
             accessToken=accessToken.value,
             accessTokenSecret=accessTokenSecret.value,

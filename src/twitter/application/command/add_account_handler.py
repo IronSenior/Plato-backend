@@ -1,13 +1,13 @@
 from ....shared.domain.user_id import UserId
 from commandbus import CommandHandler
-from ...domain.repository.accounts import Accounts
-from ...domain.exceptions.account_id_already_registered import AccountIdAlreadyRegistered
-from ...domain.model.account import Account
-from ...domain.model.account_id import AccountId
-from ...domain.model.account_name import AccountName
+from ...domain.account.repository.accounts import Accounts
+from ...domain.account.exceptions.account_id_already_registered import AccountIdAlreadyRegistered
+from ...domain.account.model.account import Account
+from ...domain.account.model.account_id import AccountId
+from ...domain.account.model.account_name import AccountName
 from ....brand.domain.model.brand_id import BrandId
-from ...domain.model.access_token import AccessToken
-from ...domain.model.access_token_secret import AccessTokenSecret
+from ...domain.account.model.access_token import AccessToken
+from ...domain.account.model.access_token_secret import AccessTokenSecret
 from .add_account_command import AddAccountCommand
 from dependency_injector.wiring import inject, Provide
 
@@ -15,7 +15,7 @@ from dependency_injector.wiring import inject, Provide
 class AddAccountHandler(CommandHandler):
 
     @inject
-    def __init__(self, accounts: Accounts = Provide["ACCOUNTS"]):
+    def __init__(self, accounts: Accounts = Provide["TWITTER_ACCOUNTS"]):
         self.__accounts: Accounts = accounts
 
     def handle(self, cmd: AddAccountCommand):

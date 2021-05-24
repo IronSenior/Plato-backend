@@ -122,7 +122,36 @@
               description: Access is not allowed
             '500':
               description: Error
-
+      /twitter/tweet/shedule/:
+        post:
+          tags: [Twitter]
+          summary: Schedule a Tweet
+          security:
+            - bearerAuth: []
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/twitter-tweet'
+          responses:
+            '200':
+              description: The tweet was scheduled
+            '401':
+              description: Access is not allowed
+            '500':
+              description: Error
+      /tweet/pusblish/:
+        get:
+          tags: [Twitter]
+          summary: Publish tweets
+          responses:
+            '200':    # status code
+              description: The user was found
+            '404':
+              description: User was not found
+            '500':
+              description: Error
 
     components:
       securitySchemes:
@@ -169,10 +198,32 @@
         twitter-oauth:
           type: object
           properties:
-            oauth:
+            account:
               type: object
               properties:
+                accountId:
+                  type: string
+                brandId:
+                  type: string
+                userId:
+                  type: string
                 oauthToken:
+                  type: string
+                oauthTokenSecret:
                   type: string
                 oauthVerifier:
                   type: string
+        twitter-tweet:
+          type: object
+          properties:
+            tweet:
+              type: object
+              properties:
+                tweetId:
+                  type: string
+                accountId:
+                  type: string
+                description:
+                  type: string
+                publicationDate:
+                  type: integer

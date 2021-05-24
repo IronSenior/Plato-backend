@@ -1,0 +1,4 @@
+
+
+class TweetIdAlreadyRegistered(Exception):
+    pass

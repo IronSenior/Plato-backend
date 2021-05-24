@@ -1,6 +1,6 @@
-from ...domain.repository.accounts import Accounts
-from ...domain.model.account import Account
-from ...domain.model.account_id import AccountId
+from ...domain.account.repository.accounts import Accounts
+from ...domain.account.model.account import Account
+from ...domain.account.model.account_id import AccountId
 from ....shared.domain.user_id import UserId
 from ....shared.infrastructure.plato_event_bus import PlatoEventBus
 from typing import List, Optional
@@ -20,10 +20,9 @@ class MemoryAccountRepository(Application, Accounts):
             PlatoEventBus.emit(event.bus_string, event)
 
     def getById(self, accountId: AccountId) -> Optional[Account]:
-        try:
-            return self.repository.get(accountId.value)
-        except Exception:
-            return None
+        for account in self.__accounts:
+            if accountId.value == account.id:
+                return account
 
     def getByUserId(self, userId: UserId) -> Optional[List[Account]]:
         accounts = []
