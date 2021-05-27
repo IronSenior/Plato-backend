@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b8ffd371017f214fd384c022b6d0bf91b4a7da85630f8b5d3e3b0c8e22cf65ca"
+            "sha256": "a1a215da899a805e72f9e666808371a83f395f4d460a3dc3a8834f8fc93c98de"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -125,13 +125,6 @@
             ],
             "index": "pypi",
             "version": "==0.4.4"
-        },
-        "commandbus": {
-            "hashes": [
-                "sha256:60591932fad6ba37b51de324dc71675301647354333ee515767676dfc6f5a4f0"
-            ],
-            "index": "pypi",
-            "version": "==1.0.1"
         },
         "coverage": {
             "hashes": [
@@ -292,11 +285,11 @@
         },
         "faker": {
             "hashes": [
-                "sha256:7397915ce793ac1e162eb89450a268c4404121389ca46264648a2a8c56d88624",
-                "sha256:765cb52df0ca2dc5af0393048c1f60b2fec736095b379954c42c5c552f65838a"
+                "sha256:5b1c0781c0c2f6b177adf4018feec265bbcd0118b301dbec64a1908c29124ed6",
+                "sha256:c94240c40073400b269c50b14da765fd4d3b4dda8ae25c2753afc809c72f1062"
             ],
             "index": "pypi",
-            "version": "==8.2.1"
+            "version": "==8.4.0"
         },
         "flake8": {
             "hashes": [

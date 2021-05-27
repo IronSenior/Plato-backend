@@ -1,5 +1,5 @@
 from datetime import datetime
-from commandbus import CommandHandler
+from simpleCQRS import CommandHandler
 from dependency_injector.wiring import inject, Provide
 from ...domain.tweet.repository.tweets import Tweets
 from ...domain.tweet.model.tweet_id import TweetId

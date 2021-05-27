@@ -1,4 +1,4 @@
-from commandbus import Command
+from simpleCQRS import Command
 
 
 class ScheduleTweetCommand(Command):

@@ -1,4 +1,4 @@
-from commandbus import CommandHandler
+from simpleCQRS import CommandHandler
 from .publish_tweet_command import PublishTweetCommand
 from ...domain.tweet.repository.tweets import Tweets
 from ...domain.tweet.model.tweet import Tweet

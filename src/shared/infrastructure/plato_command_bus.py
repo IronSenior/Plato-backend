@@ -1,3 +1,3 @@
-import commandbus
+import simpleCQRS
 
-PlatoCommandBus = commandbus.CommandBus()
+PlatoCommandBus = simpleCQRS.CommandBus()
