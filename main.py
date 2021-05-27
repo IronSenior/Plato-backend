@@ -15,6 +15,8 @@ from .src.twitter.application.command.shedule_tweet_command import ScheduleTweet
 from .src.twitter.application.command.shedule_tweet_handler import ScheduleTweetHandler
 from .src.twitter.application.command.add_account_command import AddAccountCommand
 from .src.twitter.application.command.add_account_handler import AddAccountHandler
+from .src.twitter.application.command.publish_tweet_command import PublishTweetCommand
+from .src.twitter.application.command.publish_tweet_handler import PublishTweetHandler
 from flask import Flask
 from .src.shared.infrastructure.json_web_token_conf import jwtManager
 from flask_swagger_ui import get_swaggerui_blueprint
@@ -35,6 +37,7 @@ PlatoCommandBus.subscribe(CreateUserCommand, CreateUserCommandHandler())
 PlatoCommandBus.subscribe(CreateBrandCommand, CreateBrandHandler())
 PlatoCommandBus.subscribe(AddAccountCommand, AddAccountHandler())
 PlatoCommandBus.subscribe(ScheduleTweetCommand, ScheduleTweetHandler())
+PlatoCommandBus.subscribe(PublishTweetCommand, PublishTweetHandler())
 
 app = Flask(__name__)
 app.register_blueprint(userFlaskBlueprint)

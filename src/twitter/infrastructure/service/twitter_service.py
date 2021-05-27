@@ -5,6 +5,7 @@ from ..twitter_account_dto import TwitterAccountDTO
 from ..tweet_dto import TweetDTO
 from ...application.command.add_account_command import AddAccountCommand
 from ...domain.tweet.repository.tweets import Tweets
+from ...application.command.publish_tweet_command import PublishTweetCommand
 from ...application.command.shedule_tweet_command import ScheduleTweetCommand
 from ....shared.infrastructure.plato_command_bus import PlatoCommandBus
 from ..mapper.account_mapper import AccountMapper
@@ -22,7 +23,6 @@ class TwitterService:
         self.__consumerKey = os.environ["TWITTER_CONSUMER_KEY"]
         self.__consumerSecret = os.environ["TWITTER_CONSUMER_SECRET"]
 
-    # The twitter part should be done in an application service called by the command handler (?)
     def addTwitterAccount(self, account: TwitterAccountDTO):
         oauthHandler: OAuthHandler = OAuthHandler(self.__consumerKey, self.__consumerSecret)
         oauthHandler.request_token = {'oauth_token': account["oauthToken"],
@@ -58,13 +58,9 @@ class TwitterService:
             return None
         return AccountMapper.from_aggregate_to_dto(account)
 
-    # This method shoul call a command (?)
     def publishScheduledTweets(self):
         tweets = self.__tweets.getPendingTweets()
         for tweet in tweets:
-            account = self.__accounts.getById(AccountId.fromString(str(tweet.accountId)))
-            oauthHandler: OAuthHandler = OAuthHandler(self.__consumerKey, self.__consumerSecret)
-            oauthHandler.set_access_token(account.accessToken, account.accessTokenSecret)
-            api_connection = tweepy.API(oauthHandler)
-            api_connection.verify_credentials()
-            api_connection.update_status(status=tweet.description)
+            PlatoCommandBus.publish(
+                PublishTweetCommand(str(tweet.id))
+            )

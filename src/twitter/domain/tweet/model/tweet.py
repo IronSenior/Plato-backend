@@ -1,5 +1,5 @@
 from datetime import datetime
-from eventsourcing.domain import Aggregate, AggregateCreated
+from eventsourcing.domain import Aggregate, AggregateCreated, AggregateEvent
 from ...account.model.account_id import AccountId
 from .tweet_description import TweetDescription
 from .tweet_id import TweetId
@@ -9,11 +9,12 @@ from typing import Optional
 class Tweet(Aggregate):
 
     def __init__(self, accountId: AccountId, publicationDate: datetime,
-                 description: TweetDescription, *args, **kwargs):
+                 description: TweetDescription, published: bool = False, *args, **kwargs):
         super(Tweet, self).__init__(*args, **kwargs)
         self._accountId: AccountId = accountId
         self._description: TweetDescription = description
         self._publicationDate: datetime = publicationDate
+        self._published: bool = published
 
     @property
     def id(self):
@@ -30,6 +31,10 @@ class Tweet(Aggregate):
     @property
     def publicationDate(self):
         return self._publicationDate
+
+    @property
+    def published(self):
+        return self._published
 
     @classmethod
     def add(cls, tweetId: TweetId, accountId: AccountId,
@@ -54,3 +59,14 @@ class Tweet(Aggregate):
             tweet._accountId = AccountId.fromString(self.accountId)
             tweet._publicationDate = datetime.fromtimestamp(self.publicationDate)
             return tweet
+
+    def publish(self):
+        return self.trigger_event(
+            self.TweetWasPublished
+        )
+
+    class TweetWasPublished(AggregateEvent):
+        bus_string = "TWEET_WAS_PUBLISHED"
+
+        def apply(self, aggregate: Aggregate) -> None:
+            aggregate._published = True

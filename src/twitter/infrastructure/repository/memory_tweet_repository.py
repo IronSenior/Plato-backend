@@ -27,13 +27,9 @@ class MemoryTweetRepository(Application, Tweets):
             return None
 
     def getByAccountId(self, accountId: AccountId) -> Optional[List[Tweet]]:
-        tweets = filter(self.__tweets,
-                        lambda tweet: tweet.accountId == accountId.value)
+        tweets = list(filter(lambda tweet: tweet.accountId == accountId.value, self.__tweets))
         return tweets
 
     def getPendingTweets(self) -> Optional[List[Tweet]]:
-        print("ESTOY EN EL REPO")
-        print(self.__tweets)
-        tweets = list(filter(lambda tweet: tweet.publicationDate <= datetime.now(), self.__tweets))
-        print(tweets)
+        tweets = list(filter(lambda tweet: tweet.publicationDate <= datetime.now() and not tweet.published, self.__tweets))
         return tweets

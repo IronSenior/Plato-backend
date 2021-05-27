@@ -1,0 +1,4 @@
+
+
+class TweetNotFound(Exception):
+    pass
