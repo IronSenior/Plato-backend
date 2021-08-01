@@ -166,7 +166,7 @@
             user:
               type: object
               properties:
-                userid:
+                userId:
                   type: string
                 username:
                   type: string
@@ -189,7 +189,7 @@
               properties:
                 id:
                   type: string
-                userid:
+                userId:
                   type: string
                 name:
                   type: string

@@ -20,18 +20,18 @@ class TestUserMapper(unittest.TestCase):
         return super(TestUserMapper, self).setUp()
 
     def test_from_user_to_dto(self):
-        userid = UserId.fromString(str(uuid4()))
+        userId = UserId.fromString(str(uuid4()))
         username = Username.fromString(fake.first_name())
         email = UserMail.fromString(fake.company_email())
         password = UserPassword.fromString(fake.password())
         user = User.add(
-            userid=userid,
+            userId=userId,
             username=username,
             email=email,
             password=password
         )
         userDto: UserDTO = UserMapper.from_aggregate_to_dto(user)
-        self.assertEqual(str(userid.value), userDto["userid"])
+        self.assertEqual(str(userId.value), userDto["userId"])
         self.assertEqual(username.value, userDto["username"])
         self.assertEqual(email.value, userDto["email"])
         self.assertEqual(password.value, userDto["password"])

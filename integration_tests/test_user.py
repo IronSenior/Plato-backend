@@ -26,7 +26,7 @@ class TestUserIntegration(unittest.TestCase):
         username = fake.first_name()
         self.app.post("/user/create/", json={
             "user": {
-                "userid": user_id,
+                "userId": user_id,
                 "username": username,
                 "usermail": email,
                 "password": fake.password()
@@ -42,7 +42,7 @@ class TestUserIntegration(unittest.TestCase):
         username = fake.first_name()
         password = fake.password()
         user = User.add(
-            userid=UserId.fromString(str(uuid.uuid4())),
+            userId=UserId.fromString(str(uuid.uuid4())),
             username=Username.fromString(username),
             email=UserMail.fromString(email),
             password=UserPassword.fromString(password)
@@ -60,7 +60,7 @@ class TestUserIntegration(unittest.TestCase):
         username = fake.first_name()
         password = fake.password()
         user = User.add(
-            userid=UserId.fromString(str(uuid.uuid4())),
+            userId=UserId.fromString(str(uuid.uuid4())),
             username=Username.fromString(username),
             email=UserMail.fromString(email),
             password=UserPassword.fromString(password)
@@ -77,7 +77,7 @@ class TestUserIntegration(unittest.TestCase):
         username = fake.first_name()
         password = fake.password()
         user = User.add(
-            userid=UserId.fromString(str(uuid.uuid4())),
+            userId=UserId.fromString(str(uuid.uuid4())),
             username=Username.fromString(username),
             email=UserMail.fromString(email),
             password=UserPassword.fromString(password)

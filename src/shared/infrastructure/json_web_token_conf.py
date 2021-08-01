@@ -8,7 +8,7 @@ jwtManager = JWTManager()
 # * method and returns the identity
 @jwtManager.user_identity_loader
 def user_identity_lookup(user: UserDTO):
-    return user["userid"]
+    return user["userId"]
 
 
 # * This method is returned in get_current_user method

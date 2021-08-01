@@ -16,4 +16,4 @@ class CheckUniqueUserEmailFromReadModel(CheckUniqueUserEmail):
         user = self.users.getByEmail(userMail)
         if user is None:
             return None
-        return UserId(user.userid)
+        return UserId(user.userId)

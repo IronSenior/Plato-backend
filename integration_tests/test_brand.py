@@ -25,7 +25,7 @@ class TestBrandIntegration(unittest.TestCase):
         password = fake.password()
         self.app.post("/user/create/", json={
             "user": {
-                "userid": str(self.user_id),
+                "userId": str(self.user_id),
                 "username": fake.first_name(),
                 "usermail": email,
                 "password": password
@@ -48,7 +48,7 @@ class TestBrandIntegration(unittest.TestCase):
         response = self.app.post("/brand/create/", headers=self.access_headers, json={
             "brand": {
                 "id": str(brand_id),
-                "userid": str(self.user_id),
+                "userId": str(self.user_id),
                 "name": name,
                 "image": image
             }
@@ -66,7 +66,7 @@ class TestBrandIntegration(unittest.TestCase):
         response = self.app.post("/brand/create/", headers=self.access_headers, json={
             "brand": {
                 "id": str(brand_id),
-                "userid": str(uuid.uuid4()),
+                "userId": str(uuid.uuid4()),
                 "name": name,
                 "image": image
             }
@@ -80,7 +80,7 @@ class TestBrandIntegration(unittest.TestCase):
         response = self.app.post("/brand/create/", json={
             "brand": {
                 "id": str(brand_id),
-                "userid": str(self.user_id),
+                "userId": str(self.user_id),
                 "name": name,
                 "image": image
             }
@@ -94,7 +94,7 @@ class TestBrandIntegration(unittest.TestCase):
         self.app.post("/brand/create/", headers=self.access_headers, json={
             "brand": {
                 "id": str(brand_id),
-                "userid": str(self.user_id),
+                "userId": str(self.user_id),
                 "name": name,
                 "image": image
             }

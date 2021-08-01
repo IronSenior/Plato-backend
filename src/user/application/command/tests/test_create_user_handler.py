@@ -31,7 +31,7 @@ class TestCreateUserCommandHandler(unittest.TestCase):
     def test_create_a_new_user(self):
         self.createUserCommandHandler.handle(
             CreateUserCommand(
-                userid=str(uuid4()),
+                userId=str(uuid4()),
                 username=fake.first_name(),
                 usermail=fake.company_email(),
                 password=fake.password()
@@ -41,7 +41,7 @@ class TestCreateUserCommandHandler(unittest.TestCase):
 
     def test_dont_create_duplicate_user_id(self):
         user = User.add(
-            userid=UserId.fromString(str(uuid4())),
+            userId=UserId.fromString(str(uuid4())),
             username=Username.fromString(fake.first_name()),
             email=UserMail.fromString(fake.company_email()),
             password=UserPassword.fromString(fake.password())
@@ -49,17 +49,17 @@ class TestCreateUserCommandHandler(unittest.TestCase):
         self.mockedUserRepository.getById = MagicMock(return_value=user)
         self.assertRaises(UserIdAlreadyRegistered,
                           self.createUserCommandHandler.handle, CreateUserCommand(
-                              userid=str(uuid4()),
+                              userId=str(uuid4()),
                               username=fake.first_name(),
                               usermail=fake.company_email(),
                               password=fake.password()
                           ))
 
     def test_dont_create_duplicate_user_email(self):
-        userid = UserId.fromString(str(uuid4()))
-        self.mockedCheckUniqueUserMail.withUserMail = MagicMock(return_value=userid)
+        userId = UserId.fromString(str(uuid4()))
+        self.mockedCheckUniqueUserMail.withUserMail = MagicMock(return_value=userId)
         self.assertRaises(UserEmailAlreadyRegistered, self.createUserCommandHandler.handle, CreateUserCommand(
-            userid=str(uuid4()),
+            userId=str(uuid4()),
             username=fake.first_name(),
             usermail=fake.company_email(),
             password=fake.password()

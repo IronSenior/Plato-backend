@@ -14,21 +14,21 @@ def create_brand(**kw):
     if not currentUserId:
         raise Unauthorized("Only logged users can create Brands")
     brandDto: BrandDTO = request.json.get("brand", False)
-    if currentUserId != brandDto["userid"]:
+    if currentUserId != brandDto["userId"]:
         raise Unauthorized("Can not create brands for another user")
     brandService: BrandService = BrandService()
     brandService.createBrand(brandDto)
     return jsonify({"status": "ok"}), 200
 
 
-@brandFlaskBlueprint.route("/user/<string:userid>/", methods=["GET"])
+@brandFlaskBlueprint.route("/user/<string:userId>/", methods=["GET"])
 @jwt_required()
-def get_all_by_user(userid: str, **kw):
+def get_all_by_user(userId: str, **kw):
     currentUserId: str = get_current_user()
     if not currentUserId:
         raise Unauthorized("Only logged users can get Brands")
-    if currentUserId != userid:
+    if currentUserId != userId:
         raise Unauthorized("Can not get brands from another user")
     brandService: BrandService = BrandService()
-    brands = brandService.getByUserId(userid)
+    brands = brandService.getByUserId(userId)
     return jsonify(brands), 200

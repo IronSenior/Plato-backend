@@ -16,7 +16,7 @@ class User(Aggregate):
         self._password: UserPassword = password
 
     @property
-    def userid(self):
+    def userId(self):
         return self._id
 
     @property
@@ -32,11 +32,11 @@ class User(Aggregate):
         return self._password.value
 
     @classmethod
-    def add(cls, userid: UserId, username: Username,
+    def add(cls, userId: UserId, username: Username,
             email: UserMail, password: UserPassword) -> "User":
         return cls._create(
             cls.UserWasCreated,
-            id=userid.value,
+            id=userId.value,
             username=username.value,
             email=email.value,
             password=password.value

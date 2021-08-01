@@ -16,9 +16,9 @@ class MemoryUserRepository(Users):
         for event in user.collect_events():
             PlatoEventBus.emit(event.bus_string, event)
 
-    def getById(self, userid: UserId) -> Optional[User]:
+    def getById(self, userId: UserId) -> Optional[User]:
         for user in self.__users:
-            if userid.value == user.userid:
+            if userId.value == user.userId:
                 return user
 
     def getByEmail(self, usermail: UserMail) -> Optional[User]:

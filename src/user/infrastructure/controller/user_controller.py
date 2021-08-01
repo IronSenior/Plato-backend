@@ -22,12 +22,12 @@ def create_user(**kw):
     return jsonify({"status": "ok"}), 200
 
 
-@userFlaskBlueprint.route('/get/<string:userid>/', methods=["GET"])
-def get_user(userid, **kw):
+@userFlaskBlueprint.route('/get/<string:userId>/', methods=["GET"])
+def get_user(userId, **kw):
     userService: UserService = UserService()
-    if not userid:
+    if not userId:
         raise NotFound("User was not found")
-    user = userService.getUser(userid)
+    user = userService.getUser(userId)
     if not user:
         raise NotFound("User was not found")
     return jsonify(user), 200

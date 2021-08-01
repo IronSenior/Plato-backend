@@ -1,13 +1,12 @@
-from simpleCQRS import Command
+from simpleCQRS import QueryResponse
 
 
-class CreateUserCommand(Command):
+class GetUserResponse(QueryResponse):
 
-    def __init__(self, userId: str, username: str,
-                 usermail: str, password: str):
+    def __init__(self, userId: str, username: str, email: str, password: str):
         self.__userId: str = userId
         self.__username: str = username
-        self.__userMail: str = usermail
+        self.__email: str = email
         self.__password: str = password
 
     @property
@@ -19,8 +18,8 @@ class CreateUserCommand(Command):
         return self.__username
 
     @property
-    def userMail(self):
-        return self.__userMail
+    def email(self):
+        return self.__email
 
     @property
     def password(self):

@@ -31,7 +31,7 @@ class CreateUserCommandHandler(CommandHandler):
             raise UserEmailAlreadyRegistered("The user email is already registered")
 
         user = User.add(
-            userid=userId,
+            userId=userId,
             username=Username.fromString(cmd.username),
             email=usermail,
             password=UserPassword.fromString(cmd.password)

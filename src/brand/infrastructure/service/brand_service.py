@@ -19,14 +19,14 @@ class BrandService:
         PlatoCommandBus.publish(
             CreateBrandCommand(
                 id=brandDto["id"],
-                userId=brandDto["userid"],
+                userId=brandDto["userId"],
                 name=brandDto["name"],
                 image=brandDto["image"]
             )
         )
 
-    def getByUserId(self, userid: str) -> Optional[List[Brand]]:
-        userId = UserId.fromString(userid)
+    def getByUserId(self, userId: str) -> Optional[List[Brand]]:
+        userId = UserId.fromString(userId)
         brands = self.brands.getByUserId(userId)
         brands_list = list(map(BrandMapper.from_aggregate_to_dto, brands))
         return dict(zip(list(map(lambda brand: brand["id"], brands_list)), brands_list))

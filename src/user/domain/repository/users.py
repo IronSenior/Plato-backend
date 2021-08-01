@@ -12,7 +12,7 @@ class Users(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def getById(self, userid: UserId) -> Optional[User]:
+    def getById(self, userId: UserId) -> Optional[User]:
         raise NotImplementedError()
 
     @abstractmethod

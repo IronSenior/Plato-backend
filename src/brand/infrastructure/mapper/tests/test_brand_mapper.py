@@ -21,17 +21,17 @@ class TestUserMapper(unittest.TestCase):
 
     def test_from_user_to_dto(self):
         brandid = BrandId.fromString(str(uuid4()))
-        userid = UserId.fromString(str(uuid4()))
+        userId = UserId.fromString(str(uuid4()))
         name = BrandName.fromString(fake.company())
         image = BrandImageUrl.fromString(fake.image_url())
         brand = Brand.add(
             id=brandid,
-            userId=userid,
+            userId=userId,
             name=name,
             image=image
         )
         brandDto: BrandDTO = BrandMapper.from_aggregate_to_dto(brand)
-        self.assertEqual(str(userid.value), brandDto["userid"])
+        self.assertEqual(str(userId.value), brandDto["userId"])
         self.assertEqual(str(brandid.value), brandDto["id"])
         self.assertEqual(name.value, brandDto["name"])
         self.assertEqual(image.value, brandDto["image"])

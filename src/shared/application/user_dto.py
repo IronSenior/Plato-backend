@@ -2,7 +2,7 @@ from typing import TypedDict
 
 
 class UserDTO(TypedDict):
-    userid: str
+    userId: str
     email: str
     password: str
     username: str

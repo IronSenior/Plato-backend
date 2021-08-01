@@ -10,7 +10,7 @@ class BrandMapper:
     def from_aggregate_to_dto(brand: Brand):
         return BrandDTO(
             id=str(brand.id),
-            userid=str(brand.userId),
+            userId=str(brand.userId),
             name=brand.name,
             image=brand.image
         )

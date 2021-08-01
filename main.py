@@ -17,6 +17,11 @@ from .src.twitter.application.command.add_account_command import AddAccountComma
 from .src.twitter.application.command.add_account_handler import AddAccountHandler
 from .src.twitter.application.command.publish_tweet_command import PublishTweetCommand
 from .src.twitter.application.command.publish_tweet_handler import PublishTweetHandler
+from .src.shared.infrastructure.plato_query_bus import PlatoQueryBus
+from .src.user.application.query.get_user_by_email_query import GetUserByEmailQuery
+from .src.user.application.query.get_user_by_email_handler import GetUserByEmailHandler
+from .src.user.application.query.get_user_query import GetUserQuery
+from .src.user.application.query.get_user_handler import GetUserHandler
 from flask import Flask
 from .src.shared.infrastructure.json_web_token_conf import jwtManager
 from flask_swagger_ui import get_swaggerui_blueprint
@@ -38,6 +43,9 @@ PlatoCommandBus.subscribe(CreateBrandCommand, CreateBrandHandler())
 PlatoCommandBus.subscribe(AddAccountCommand, AddAccountHandler())
 PlatoCommandBus.subscribe(ScheduleTweetCommand, ScheduleTweetHandler())
 PlatoCommandBus.subscribe(PublishTweetCommand, PublishTweetHandler())
+
+PlatoQueryBus.subscribe(GetUserByEmailQuery, GetUserByEmailHandler())
+PlatoQueryBus.subscribe(GetUserQuery, GetUserHandler())
 
 app = Flask(__name__)
 app.register_blueprint(userFlaskBlueprint)

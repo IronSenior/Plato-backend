@@ -39,7 +39,7 @@ class TestTwitterIntegration(unittest.TestCase):
         password = fake.password()
         self.app.post("/user/create/", json={
             "user": {
-                "userid": str(self.user_id),
+                "userId": str(self.user_id),
                 "username": fake.first_name(),
                 "usermail": email,
                 "password": password
