@@ -522,10 +522,10 @@
         },
         "plato-cqrs": {
             "hashes": [
-                "sha256:6f8adeed2530054eda39f6dcd6f6fc1cfb1ea8ea07f364fdbcc0493df1a405eb"
+                "sha256:401fab2dcc7324f3713d478007323187a9491d4169241928ae8898463191b130"
             ],
             "index": "pypi",
-            "version": "==0.1"
+            "version": "==0.1.1"
         },
         "pluggy": {
             "hashes": [
