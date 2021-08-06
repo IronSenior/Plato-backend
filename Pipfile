@@ -58,6 +58,7 @@ Werkzeug = "==1.0.1"
 faker = "*"
 ipython = "*"
 flask-crontab = "*"
+flake8-eradicate = "*"
 
 [dev-packages]
 
