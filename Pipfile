@@ -59,6 +59,7 @@ faker = "*"
 ipython = "*"
 flask-crontab = "*"
 flake8-eradicate = "*"
+plato-cqrs = "*"
 
 [dev-packages]
 

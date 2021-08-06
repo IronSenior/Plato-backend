@@ -1,4 +1,4 @@
-from simpleCQRS import QueryHandler
+from plato_cqrs import QueryHandler
 from dependency_injector.wiring import Provide, inject
 from ...domain.repository.users import Users
 from ....shared.domain.user_id import UserId

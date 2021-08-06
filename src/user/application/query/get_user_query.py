@@ -1,4 +1,4 @@
-from simpleCQRS import Query
+from plato_cqrs import Query
 
 
 class GetUserQuery(Query):

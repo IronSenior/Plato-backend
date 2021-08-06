@@ -1,4 +1,4 @@
-from simpleCQRS import CommandHandler
+from plato_cqrs import CommandHandler
 from dependency_injector.wiring import Provide, inject
 from .create_user_command import CreateUserCommand
 from ...domain.repository.users import Users

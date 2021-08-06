@@ -1,4 +1,4 @@
-from simpleCQRS import QueryResponse
+from plato_cqrs import QueryResponse
 
 
 class GetUserResponse(QueryResponse):

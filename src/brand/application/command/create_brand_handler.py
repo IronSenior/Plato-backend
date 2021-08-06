@@ -6,7 +6,7 @@ from ...domain.model.brand_image import BrandImageUrl
 from ....shared.domain.user_id import UserId
 from ...domain.exceptions.brand_id_aready_registered import BrandIdAlreadyRegistered
 from .create_brand_command import CreateBrandCommand
-from simpleCQRS import CommandHandler
+from plato_cqrs import CommandHandler
 from dependency_injector.wiring import inject, Provide
 
 

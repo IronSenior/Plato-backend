@@ -1,4 +1,4 @@
-from simpleCQRS import Command
+from plato_cqrs import Command
 
 
 class ScheduleTweetCommand(Command):

@@ -1,5 +1,5 @@
 from ....shared.domain.user_id import UserId
-from simpleCQRS import CommandHandler
+from plato_cqrs import CommandHandler
 from ...domain.account.repository.accounts import Accounts
 from ...domain.account.exceptions.account_id_already_registered import AccountIdAlreadyRegistered
 from ...domain.account.model.account import Account

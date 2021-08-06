@@ -1,3 +1,3 @@
-import simpleCQRS
+import plato_cqrs
 
-PlatoQueryBus = simpleCQRS.QueryBus()
+PlatoQueryBus = plato_cqrs.QueryBus()

@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "8262d81922753f0fa70c48dd9a28b59660e778c162e13bc02dc22f89debd4d2b"
+            "sha256": "3e3993d00d6b734f73537e9a6000d9484513450109473dc261ae7a448b1eaef1"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -519,6 +519,13 @@
                 "sha256:9649af414d74d4df115d5d718f82acb59c9d418196b7b4290ed47a12ce62df56"
             ],
             "version": "==0.7.5"
+        },
+        "plato-cqrs": {
+            "hashes": [
+                "sha256:6f8adeed2530054eda39f6dcd6f6fc1cfb1ea8ea07f364fdbcc0493df1a405eb"
+            ],
+            "index": "pypi",
+            "version": "==0.1"
         },
         "pluggy": {
             "hashes": [
