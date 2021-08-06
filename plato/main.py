@@ -26,7 +26,6 @@ from flask import Flask
 from .src.shared.infrastructure.json_web_token_conf import jwtManager
 from flask_swagger_ui import get_swaggerui_blueprint
 from dotenv import load_dotenv
-from flask_crontab import Crontab
 
 load_dotenv()
 userProvider = UserProviders()
