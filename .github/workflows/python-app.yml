@@ -29,6 +29,8 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    env:
+      JWT_SECRET_KEY: e69f9bf6-236a-4a8a-8c70-9d18ba077141
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python 3.9.1
