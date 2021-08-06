@@ -29,14 +29,14 @@ jobs:
     steps:
       - name: Lint with flake8
         run: |
-          pipenv flake8 . --count --show-source --statistics --max-line-length=125 --ignore E711
+          pipenv run flake8 . --count --show-source --statistics --max-line-length=125 --ignore E711
   test:
     runs-on: ubuntu-latest
-    needs: build
+    needs: lint
     steps:
       - name: UnitTest with pytest
         run: |
-          pipenv pytest -m unit
+          pipenv run pytest -m unit
       - name: Integration Tests with pytest
         run: |
-          pipenv pytest -m integration
+          pipenv run pytest -m integration
