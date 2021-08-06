@@ -17,6 +17,3 @@ class UserPassword():
     @property
     def value(self):
         return self.__value
-
-    def verify(self, password: str):
-        return sha256_crypt.verify(password, self.__value)

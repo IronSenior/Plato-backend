@@ -54,6 +54,3 @@ class User(Aggregate):
             user._password = UserPassword.fromHash(self.password)
             user._email = UserMail.fromString(self.email)
             return user
-
-    def checkPassword(self, password: str) -> bool:
-        return self._password.verify(password)

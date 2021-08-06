@@ -19,7 +19,7 @@ def create_user(**kw):
         raise BadRequest("No user was specified")
 
     userService.createUser(user_json)
-    return jsonify({"status": "ok"}), 200
+    return jsonify({}), 200
 
 
 @userFlaskBlueprint.route('/get/<string:userId>/', methods=["GET"])
@@ -40,9 +40,9 @@ def login(**kw):
     password = request.json.get("password", False)
     try:
         user: UserDTO = userService.loginUser(email, password)
-    except IncorrectPassword:
-        raise Unauthorized("Wrong password or email")
-    except UserWasNotFound:
-        raise Unauthorized("Wrong password or email")
+    except IncorrectPassword as e:
+        raise Unauthorized("Wrong password or email") from e
+    except UserWasNotFound as e:
+        raise Unauthorized("Wrong password or email") from e
     jwt_token = create_access_token(identity=user)
     return jsonify({'access_token': jwt_token, 'user': user}), 200

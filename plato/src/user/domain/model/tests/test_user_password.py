@@ -14,8 +14,3 @@ class TestPassword(unittest.TestCase):
     def test_from_string(self):
         password = UserPassword.fromString("password")
         self.assertTrue(sha256_crypt.verify("password", password.value))
-
-    def test_if_can_verify(self):
-        password = UserPassword.fromString("password")
-        self.assertTrue(password.verify("password"))
-        self.assertFalse(password.verify("notPassword"))
