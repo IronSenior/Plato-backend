@@ -1,6 +1,3 @@
-from ....shared.domain.user_id import UserId
-from ...domain.model.brand import Brand
-from ..mapper.brand_mapper import BrandMapper
 from typing import List, Optional
 from ...domain.repository.brands import Brands
 from ....shared.infrastructure.plato_command_bus import PlatoCommandBus
