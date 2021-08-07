@@ -22,6 +22,8 @@ from .src.user.application.query.get_user_by_email_query import GetUserByEmailQu
 from .src.user.application.query.get_user_by_email_handler import GetUserByEmailHandler
 from .src.user.application.query.get_user_query import GetUserQuery
 from .src.user.application.query.get_user_handler import GetUserHandler
+from .src.brand.application.query.get_brand_by_user_id_query import GetBrandByUserIdQuery
+from .src.brand.application.query.get_brand_by_user_id_handler import GetBrandByUserIdHandler
 from flask import Flask
 from .src.shared.infrastructure.json_web_token_conf import jwtManager
 from flask_swagger_ui import get_swaggerui_blueprint
@@ -45,6 +47,7 @@ PlatoCommandBus.subscribe(PublishTweetCommand, PublishTweetHandler())
 
 PlatoQueryBus.subscribe(GetUserByEmailQuery, GetUserByEmailHandler())
 PlatoQueryBus.subscribe(GetUserQuery, GetUserHandler())
+PlatoQueryBus.subscribe(GetBrandByUserIdQuery, GetBrandByUserIdHandler())
 
 app = Flask(__name__)
 app.register_blueprint(userFlaskBlueprint)

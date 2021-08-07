@@ -4,8 +4,11 @@ from ..mapper.brand_mapper import BrandMapper
 from typing import List, Optional
 from ...domain.repository.brands import Brands
 from ....shared.infrastructure.plato_command_bus import PlatoCommandBus
+from ....shared.infrastructure.plato_query_bus import PlatoQueryBus
 from ...application.brand_dto import BrandDTO
 from ...application.command.create_brand_command import CreateBrandCommand
+from ...application.query.get_brand_by_user_id_query import GetBrandByUserIdQuery
+from ...application.query.get_brand_by_user_id_response import GetBrandByUserIdResponse
 from dependency_injector.wiring import inject, Provide
 
 
@@ -25,8 +28,10 @@ class BrandService:
             )
         )
 
-    def getByUserId(self, userId: str) -> Optional[List[Brand]]:
-        userId = UserId.fromString(userId)
-        brands = self.brands.getByUserId(userId)
-        brands_list = list(map(BrandMapper.from_aggregate_to_dto, brands))
-        return dict(zip(list(map(lambda brand: brand["id"], brands_list)), brands_list))
+    def getByUserId(self, userId: str) -> Optional[List]:
+        brandResponse: GetBrandByUserIdResponse = PlatoQueryBus.publish(GetBrandByUserIdQuery(
+            userId=userId
+        ))
+        if not brandResponse:
+            return None
+        return brandResponse.brands
