@@ -24,3 +24,12 @@ class GetUserResponse(QueryResponse):
     @property
     def password(self):
         return self.__password
+
+    @property
+    def userDto(self):
+        return {
+            "userId": self.__userId,
+            "username": self.__username,
+            "email": self.__email,
+            "password": self.__password
+        }
