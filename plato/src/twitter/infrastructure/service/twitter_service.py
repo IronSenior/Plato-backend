@@ -1,13 +1,14 @@
-from ...domain.account.repository.accounts import Accounts
-from ...domain.account.model.account_id import AccountId
 from dependency_injector.wiring import inject, Provide
 from ..twitter_account_dto import TwitterAccountDTO
 from ..tweet_dto import TweetDTO
 from ...application.command.add_account_command import AddAccountCommand
 from ...domain.tweet.repository.tweets import Tweets
+from ...application.query.get_account_query import GetAccountQuery
+from ...application.query.get_account_response import GetAccountResponse
 from ...application.command.publish_tweet_command import PublishTweetCommand
 from ...application.command.shedule_tweet_command import ScheduleTweetCommand
 from ....shared.infrastructure.plato_command_bus import PlatoCommandBus
+from ....shared.infrastructure.plato_query_bus import PlatoQueryBus
 from ..mapper.account_mapper import AccountMapper
 from tweepy import OAuthHandler
 import tweepy
@@ -17,8 +18,7 @@ import os
 class TwitterService:
 
     @inject
-    def __init__(self, accounts: Accounts = Provide["TWITTER_ACCOUNTS"], tweets: Tweets = Provide["TWEETS"]):
-        self.__accounts: Accounts = accounts
+    def __init__(self, tweets: Tweets = Provide["TWEETS"]):
         self.__tweets: Tweets = tweets
         self.__consumerKey = os.environ["TWITTER_CONSUMER_KEY"]
         self.__consumerSecret = os.environ["TWITTER_CONSUMER_SECRET"]
@@ -52,11 +52,12 @@ class TwitterService:
         )
 
     def getAccount(self, accountId: str):
-        accountId = AccountId.fromString(accountId)
-        account = self.__accounts.getById(accountId)
+        account: GetAccountResponse = PlatoQueryBus.publish(
+            GetAccountQuery(accountId=accountId)
+        )
         if not account:
             return None
-        return AccountMapper.from_aggregate_to_dto(account)
+        return AccountMapper.from_response_to_dto(account)
 
     def publishScheduledTweets(self):
         tweets = self.__tweets.getPendingTweets()

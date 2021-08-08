@@ -20,6 +20,8 @@ from .src.twitter.application.command.publish_tweet_handler import PublishTweetH
 from .src.shared.infrastructure.plato_query_bus import PlatoQueryBus
 from .src.user.application.query.get_user_by_email_query import GetUserByEmailQuery
 from .src.user.application.query.get_user_by_email_handler import GetUserByEmailHandler
+from .src.twitter.application.query.get_account_query import GetAccountQuery
+from .src.twitter.application.query.get_account_handler import GetAccountHandler
 from .src.user.application.query.get_user_query import GetUserQuery
 from .src.user.application.query.get_user_handler import GetUserHandler
 from .src.brand.application.query.get_brand_by_user_id_query import GetBrandByUserIdQuery
@@ -48,6 +50,7 @@ PlatoCommandBus.subscribe(PublishTweetCommand, PublishTweetHandler())
 PlatoQueryBus.subscribe(GetUserByEmailQuery, GetUserByEmailHandler())
 PlatoQueryBus.subscribe(GetUserQuery, GetUserHandler())
 PlatoQueryBus.subscribe(GetBrandByUserIdQuery, GetBrandByUserIdHandler())
+PlatoQueryBus.subscribe(GetAccountQuery, GetAccountHandler())
 
 app = Flask(__name__)
 app.register_blueprint(userFlaskBlueprint)
