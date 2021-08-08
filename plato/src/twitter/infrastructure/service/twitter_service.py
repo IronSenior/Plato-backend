@@ -1,8 +1,6 @@
-from dependency_injector.wiring import inject, Provide
 from ..twitter_account_dto import TwitterAccountDTO
 from ..tweet_dto import TweetDTO
 from ...application.command.add_account_command import AddAccountCommand
-from ...domain.tweet.repository.tweets import Tweets
 from ...application.query.get_account_query import GetAccountQuery
 from ...application.query.get_account_response import GetAccountResponse
 from ...application.query.get_pending_tweets_query import GetPendingTweetsQuery
@@ -19,9 +17,7 @@ import os
 
 class TwitterService:
 
-    @inject
-    def __init__(self, tweets: Tweets = Provide["TWEETS"]):
-        self.__tweets: Tweets = tweets
+    def __init__(self):
         self.__consumerKey = os.environ["TWITTER_CONSUMER_KEY"]
         self.__consumerSecret = os.environ["TWITTER_CONSUMER_SECRET"]
 
