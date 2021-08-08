@@ -33,6 +33,7 @@ jobs:
       JWT_SECRET_KEY: e69f9bf6-236a-4a8a-8c70-9d18ba077141
       TWITTER_CONSUMER_KEY: test_consumer_key
       TWITTER_CONSUMER_SECRET: test_consumer_secret
+      ENV: Test
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python 3.9.1

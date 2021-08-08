@@ -60,6 +60,7 @@ ipython = "*"
 flask-crontab = "*"
 flake8-eradicate = "*"
 plato-cqrs = "*"
+sqlalchemy = "*"
 
 [dev-packages]
 

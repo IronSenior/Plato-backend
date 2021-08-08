@@ -32,6 +32,10 @@ from flask_swagger_ui import get_swaggerui_blueprint
 from dotenv import load_dotenv
 
 load_dotenv()
+
+if os.environ["ENV_MODE"] in ["Dev", "Pro"]:
+    from . import event_store
+
 userProvider = UserProviders()
 userProvider.wire(packages=[user])
 
