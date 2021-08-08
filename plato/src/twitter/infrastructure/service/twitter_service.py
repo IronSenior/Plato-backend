@@ -5,6 +5,8 @@ from ...application.command.add_account_command import AddAccountCommand
 from ...domain.tweet.repository.tweets import Tweets
 from ...application.query.get_account_query import GetAccountQuery
 from ...application.query.get_account_response import GetAccountResponse
+from ...application.query.get_pending_tweets_query import GetPendingTweetsQuery
+from ...application.query.get_pending_tweets_response import GetPendingTweetsResponse
 from ...application.command.publish_tweet_command import PublishTweetCommand
 from ...application.command.shedule_tweet_command import ScheduleTweetCommand
 from ....shared.infrastructure.plato_command_bus import PlatoCommandBus
@@ -60,8 +62,10 @@ class TwitterService:
         return AccountMapper.from_response_to_dto(account)
 
     def publishScheduledTweets(self):
-        tweets = self.__tweets.getPendingTweets()
-        for tweet in tweets:
+        tweetsResponse: GetPendingTweetsResponse = PlatoQueryBus.publish(
+            GetPendingTweetsQuery()
+        )
+        for tweet in tweetsResponse.tweets:
             PlatoCommandBus.publish(
                 PublishTweetCommand(str(tweet.id))
             )
