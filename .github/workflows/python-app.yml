@@ -21,4 +21,5 @@ jobs:
           python-version: 3.9.1
       - name: Run Tox
         run: |
+          pip install tox
           tox
