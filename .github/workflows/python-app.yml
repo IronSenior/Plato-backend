@@ -10,45 +10,15 @@ on:
     branches: [ master ]
 
 jobs:
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python 3.9.1
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.9.1
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install flake8 flake8-eradicate
-      - name: Lint with flake8
-        run: |
-          flake8 . --count --show-source --statistics --max-line-length=125 --ignore E711
   test:
     name: Test
     runs-on: ubuntu-latest
-    env:
-      JWT_SECRET_KEY: e69f9bf6-236a-4a8a-8c70-9d18ba077141
-      TWITTER_CONSUMER_KEY: test_consumer_key
-      TWITTER_CONSUMER_SECRET: test_consumer_secret
-      ENV_MODE: Test
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python 3.9.1
         uses: actions/setup-python@v2
         with:
           python-version: 3.9.1
-      - name: Install dependencies
+      - name: Run Tox
         run: |
-          python -m pip install --upgrade pip
-          pip install pipenv
-          pipenv install
-          pipenv install pytest
-      - name: UnitTest with pytest
-        run: |
-          pipenv run pytest -m unit
-      - name: Integration Tests with pytest
-        run: |
-          pipenv run pytest -m integration
+          tox
