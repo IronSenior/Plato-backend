@@ -1,11 +1,9 @@
 import unittest
-import pytest
 import uuid
 from uuid import UUID
 from ..user_id import UserId
 
 
-@pytest.mark.unit
 class TestUserId(unittest.TestCase):
 
     def test_constructor(self):

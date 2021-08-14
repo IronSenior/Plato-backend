@@ -1,5 +1,4 @@
 import unittest
-import pytest
 from unittest.mock import MagicMock, Mock
 from uuid import uuid4
 from ..add_account_handler import AddAccountHandler
@@ -17,7 +16,6 @@ import faker
 fake = faker.Faker()
 
 
-@pytest.mark.unit
 class TestAddAccountHandler(unittest.TestCase):
 
     def setUp(self) -> None:

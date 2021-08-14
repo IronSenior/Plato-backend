@@ -1,5 +1,4 @@
 import unittest
-import pytest
 from unittest.mock import Mock, MagicMock
 from uuid import uuid4
 from ..create_brand_handler import CreateBrandHandler
@@ -15,7 +14,6 @@ import faker
 fake = faker.Faker()
 
 
-@pytest.mark.unit
 class TestCreateBrandHandler(unittest.TestCase):
 
     def setUp(self) -> None:

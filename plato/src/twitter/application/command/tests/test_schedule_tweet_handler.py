@@ -6,7 +6,6 @@ from ....domain.account.model.account_id import AccountId
 from ....domain.tweet.model.tweet_description import TweetDescription
 import unittest
 from uuid import uuid4
-import pytest
 import string
 import random
 from unittest.mock import Mock, MagicMock
@@ -14,7 +13,6 @@ from ..shedule_tweet_command import ScheduleTweetCommand
 from ..shedule_tweet_handler import ScheduleTweetHandler
 
 
-@pytest.mark.unit
 class TestScheduleTweetHandler(unittest.TestCase):
 
     def setUp(self) -> None:

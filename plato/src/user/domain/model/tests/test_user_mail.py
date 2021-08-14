@@ -1,12 +1,10 @@
 import unittest
-import pytest
 from ..user_mail import UserMail
 import faker
 
 fake = faker.Faker()
 
 
-@pytest.mark.unit
 class TestUserMail(unittest.TestCase):
 
     def test_constructor(self):

@@ -1,5 +1,4 @@
 import unittest
-import pytest
 import faker
 import uuid
 import json
@@ -11,7 +10,6 @@ from ..main import app, brandProvider
 fake = faker.Faker()
 
 
-@pytest.mark.integration
 class TestBrandIntegration(unittest.TestCase):
 
     def setUp(self) -> None:

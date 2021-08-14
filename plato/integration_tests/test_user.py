@@ -1,5 +1,4 @@
 import unittest
-import pytest
 import faker
 import json
 import uuid
@@ -13,7 +12,6 @@ from ..src.user.domain.model.user_password import UserPassword
 fake = faker.Faker()
 
 
-@pytest.mark.integration
 class TestUserIntegration(unittest.TestCase):
 
     def setUp(self) -> None:

@@ -1,5 +1,4 @@
 import unittest
-import pytest
 from uuid import uuid4
 import faker
 from unittest.mock import Mock, MagicMock
@@ -16,7 +15,6 @@ from ....domain.exception.user_id_already_registered import UserIdAlreadyRegiste
 fake = faker.Faker()
 
 
-@pytest.mark.unit
 class TestCreateUserCommandHandler(unittest.TestCase):
 
     def setUp(self) -> None:

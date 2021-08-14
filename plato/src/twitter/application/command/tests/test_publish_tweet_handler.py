@@ -1,7 +1,6 @@
 from datetime import datetime
 import unittest
 from uuid import uuid4
-import pytest
 from unittest.mock import MagicMock, Mock
 from ..publish_tweet_handler import PublishTweetHandler
 from ..publish_tweet_handler import PublishTweetCommand
@@ -12,7 +11,6 @@ from ....domain.account.model.account_id import AccountId
 from ....domain.tweet.exceptions.tweet_not_found import TweetNotFound
 
 
-@pytest.mark.unit
 class TestPublishTweetHandler(unittest.TestCase):
 
     def setUp(self) -> None:

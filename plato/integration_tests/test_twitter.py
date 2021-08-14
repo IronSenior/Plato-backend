@@ -1,6 +1,5 @@
 from datetime import datetime
 import unittest
-import pytest
 import faker
 import json
 import uuid
@@ -22,7 +21,6 @@ from ..src.shared.domain.brand_id import BrandId
 fake = faker.Faker()
 
 
-@pytest.mark.integration
 class TestTwitterIntegration(unittest.TestCase):
 
     def setUp(self) -> None:

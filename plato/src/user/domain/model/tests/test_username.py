@@ -1,13 +1,11 @@
 
 import unittest
-import pytest
 from ..username import Username
 import faker
 
 fake = faker.Faker()
 
 
-@pytest.mark.unit
 class TestUserName(unittest.TestCase):
 
     def test_correct_constructor(self):
