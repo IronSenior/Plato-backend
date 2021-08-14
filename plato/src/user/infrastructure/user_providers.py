@@ -13,6 +13,6 @@ class UserProviders(containers.DeclarativeContainer):
     if os.environ["ENV_MODE"] == "Test":
         USERS = providers.Singleton(MemoryUserRepository)
     elif os.environ["ENV_MODE"] == "Dev":
-        USERS = providers.Singleton(SqliteUserRepository)
+        USERS = providers.Factory(SqliteUserRepository)
 
     CHECK_UNIQUE_USER_EMAIL = providers.Factory(CheckUniqueUserEmailFromReadModel)

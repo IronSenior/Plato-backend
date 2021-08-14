@@ -13,7 +13,7 @@ import os
 class SqliteUserRepository(Users):
 
     def __init__(self):
-        self.__engine = db.create_engine(f"sqlite:///{os.environ['SQLITE_DBNAME']}")
+        self.__engine = db.create_engine(os.environ["DB_ENGINE"])
         self.__connection = self.__engine.connect()
         self.__metadata = db.MetaData()
         self.__users = db.Table("users", self.__metadata, autoload=True, autoload_with=self.__engine)

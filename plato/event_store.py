@@ -4,3 +4,4 @@ import os
 # * So tests are runned with memory event store
 
 os.environ["INFRASTRUCTURE_FACTORY"] = "eventsourcing.sqlite:Factory"
+os.environ["SQLITE_DBNAME"] = "event_store.db"

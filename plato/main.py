@@ -36,6 +36,14 @@ load_dotenv()
 if os.environ["ENV_MODE"] in ["Dev", "Pro"]:
     from . import event_store
 
+if os.environ["ENV_MODE"] in ["Test"]:
+    from .DB.generate_sqlite_db import main as regenerate_db
+    regenerate_db()
+    
+from .src.shared.infrastructure.plato_event_bus import PlatoEventBus
+from .src.brand.infrastructure.read_model.on_brand_was_created import onBrandWasCreated
+PlatoEventBus.add_event(onBrandWasCreated, "BRAND_WAS_CREATED")
+
 userProvider = UserProviders()
 userProvider.wire(packages=[user])
 
@@ -55,6 +63,9 @@ PlatoQueryBus.subscribe(GetUserByEmailQuery, GetUserByEmailHandler())
 PlatoQueryBus.subscribe(GetUserQuery, GetUserHandler())
 PlatoQueryBus.subscribe(GetBrandByUserIdQuery, GetBrandByUserIdHandler())
 PlatoQueryBus.subscribe(GetAccountQuery, GetAccountHandler())
+
+
+
 
 app = Flask(__name__)
 app.register_blueprint(userFlaskBlueprint)

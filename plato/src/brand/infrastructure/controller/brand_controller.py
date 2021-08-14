@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_current_user
-from werkzeug.exceptions import Unauthorized
+from werkzeug.exceptions import Unauthorized, NotFound
 from ...application.brand_dto import BrandDTO
 from ..service.brand_service import BrandService
 
@@ -31,4 +31,6 @@ def get_all_by_user(userId: str, **kw):
         raise Unauthorized("Can not get brands from another user")
     brandService: BrandService = BrandService()
     brands = brandService.getByUserId(userId)
+    if not brands:
+        raise NotFound(f"Brands for user {userId} was not found")
     return jsonify(brands), 200
