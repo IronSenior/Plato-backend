@@ -1,3 +1,4 @@
+from datetime import datetime
 from ..twitter_account_dto import TwitterAccountDTO
 from ..tweet_dto import TweetDTO
 from ...application.command.add_account_command import AddAccountCommand
@@ -58,10 +59,13 @@ class TwitterService:
         return AccountMapper.from_response_to_dto(account)
 
     def publishScheduledTweets(self):
+        my_time = datetime.now().timestamp()
+        print(my_time)
         tweetsResponse: GetPendingTweetsResponse = PlatoQueryBus.publish(
-            GetPendingTweetsQuery()
+            GetPendingTweetsQuery(publicationDate=my_time)
         )
-        for tweet in tweetsResponse.tweets:
+        print(tweetsResponse.tweets)
+        for tweetId in tweetsResponse.tweets.keys():
             PlatoCommandBus.publish(
-                PublishTweetCommand(str(tweet.id))
+                PublishTweetCommand(tweetId)
             )

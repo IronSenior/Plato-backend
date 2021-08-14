@@ -51,7 +51,7 @@ class Tweet(Aggregate):
         bus_string = "TWEET_WAS_SCHEDULED"
         accountId: str
         description: str
-        publicationDate: int
+        publicationDate: float
 
         def mutate(self, obj: Optional[Aggregate]) -> Aggregate:
             tweet = super().mutate(obj)

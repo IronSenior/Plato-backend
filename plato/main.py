@@ -1,4 +1,6 @@
 import os
+from .src.twitter.application.query.get_pending_tweets_query import GetPendingTweetsQuery
+from .src.twitter.application.query.get_pending_tweets_handler import GetPendingTweetsHandler
 from .src.user.infrastructure.user_providers import UserProviders
 from .src.brand.infrastructure.brand_providers import BrandProviders
 from .src import user, brand, twitter
@@ -29,12 +31,6 @@ from .src.brand.application.query.get_brand_by_user_id_handler import GetBrandBy
 from flask import Flask
 from .src.shared.infrastructure.json_web_token_conf import jwtManager
 from flask_swagger_ui import get_swaggerui_blueprint
-from dotenv import load_dotenv
-
-load_dotenv()
-
-if os.environ["ENV_MODE"] in ["Dev", "Pro"]:
-    from . import event_store
 
 if os.environ["ENV_MODE"] in ["Test"]:
     from .DB.generate_sqlite_db import main as regenerate_db
@@ -42,12 +38,15 @@ if os.environ["ENV_MODE"] in ["Test"]:
 
 from .src.brand.infrastructure.read_model.on_brand_was_created import onBrandWasCreated
 from .src.twitter.infrastructure.read_model.on_account_was_added import onTwitterAccountWasCreated
+from .src.twitter.infrastructure.read_model.on_tweet_was_scheduled import onTweetWasScheduled
+from .src.twitter.infrastructure.read_model.on_tweet_was_published import onTweetWasPublished
 
 userProvider = UserProviders()
 userProvider.wire(packages=[user])
 
 brandProvider = BrandProviders()
 brandProvider.wire(packages=[brand])
+
 
 twitterProvider = TwitterProviders()
 twitterProvider.wire(packages=[twitter])
@@ -62,6 +61,7 @@ PlatoQueryBus.subscribe(GetUserByEmailQuery, GetUserByEmailHandler())
 PlatoQueryBus.subscribe(GetUserQuery, GetUserHandler())
 PlatoQueryBus.subscribe(GetBrandByUserIdQuery, GetBrandByUserIdHandler())
 PlatoQueryBus.subscribe(GetAccountQuery, GetAccountHandler())
+PlatoQueryBus.subscribe(GetPendingTweetsQuery, GetPendingTweetsHandler())
 
 app = Flask(__name__)
 app.register_blueprint(userFlaskBlueprint)

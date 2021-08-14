@@ -21,7 +21,7 @@ class PublishTweetHandler(CommandHandler):
         tweet = self.__tweets.getById(tweetId)
 
         if type(tweet) != Tweet:
-            raise TweetNotFound(tweetId)
+            raise TweetNotFound(tweetId.value)
 
         self.__tweetPublisher.publishTweet(tweet)
         tweet.publish()

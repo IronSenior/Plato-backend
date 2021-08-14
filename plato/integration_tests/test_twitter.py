@@ -17,6 +17,7 @@ from ..src.twitter.domain.account.model.access_token import AccessToken
 from ..src.twitter.domain.account.model.access_token_secret import AccessTokenSecret
 from ..src.shared.domain.user_id import UserId
 from ..src.shared.domain.brand_id import BrandId
+from ..src.twitter.infrastructure.service.twitter_service import TwitterService
 
 fake = faker.Faker()
 
@@ -26,6 +27,7 @@ class TestTwitterIntegration(unittest.TestCase):
     def setUp(self) -> None:
         self.tweets: Tweets = twitterProvider.TWEETS()
         self.accounts: Accounts = twitterProvider.TWITTER_ACCOUNTS()
+        self.tweetPublisher = twitterProvider.TWEET_PUBLISHER()
         self.app = app.test_client()
         self.user_id = uuid.uuid4()
         self.account_id = uuid.uuid4()
@@ -81,6 +83,26 @@ class TestTwitterIntegration(unittest.TestCase):
         self.assertTrue(type(testing_tweet) == Tweet)
         self.assertEqual(testing_tweet.description, description)
         self.assertEqual(testing_tweet.publicationDate, datetime.fromtimestamp(publicationDate))
+
+    def test_publish_tweet(self):
+        tweetId = str(uuid.uuid4())
+        description = self.get_random_string(120)
+        publicationDate = datetime.now().timestamp()
+
+        response = self.app.post("/twitter/tweet/shedule/", headers=self.access_headers, json={
+            "tweet": {
+                "tweetId": tweetId,
+                "accountId": str(self.account_id),
+                "description": description,
+                "publicationDate": publicationDate
+            }
+        })
+        self.assertEqual(response.status_code, 200)
+
+        twitterService = TwitterService()
+        twitterService.publishScheduledTweets()
+        self.assertEqual(self.tweetPublisher.called, 1)
+        self.assertEqual(str(self.tweetPublisher.called_with[0].id), tweetId)
 
     def get_random_string(self, length):
         # choose from all lowercase letter

@@ -11,7 +11,7 @@ import os
 class TweepyTweetPublisher(TweetPublisher):
 
     @inject
-    def __init__(self, accounts: Accounts = Provide["ACCOUNTS"]):
+    def __init__(self, accounts: Accounts = Provide["TWITTER_ACCOUNTS"]):
         self.__accounts: Accounts = accounts
         self.__outhHandler: OAuthHandler = OAuthHandler(
             os.environ["TWITTER_CONSUMER_KEY"],
