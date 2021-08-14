@@ -1,8 +1,10 @@
+from ....shared.infrastructure.plato_event_bus import PlatoEventBus
 from ...domain.model.brand import Brand
 import os
 import sqlalchemy as db
 
 
+@PlatoEventBus.on("BRAND_WAS_CREATED")
 def onBrandWasCreated(event: Brand.BrandWasCreated):
     engine = db.create_engine(os.environ["DB_ENGINE"])
     connection = engine.connect()

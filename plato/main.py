@@ -40,9 +40,8 @@ if os.environ["ENV_MODE"] in ["Test"]:
     from .DB.generate_sqlite_db import main as regenerate_db
     regenerate_db()
 
-from .src.shared.infrastructure.plato_event_bus import PlatoEventBus
 from .src.brand.infrastructure.read_model.on_brand_was_created import onBrandWasCreated
-PlatoEventBus.add_event(onBrandWasCreated, "BRAND_WAS_CREATED")
+from .src.twitter.infrastructure.read_model.on_account_was_added import onTwitterAccountWasCreated
 
 userProvider = UserProviders()
 userProvider.wire(packages=[user])
