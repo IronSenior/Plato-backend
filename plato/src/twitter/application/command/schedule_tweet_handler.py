@@ -7,7 +7,7 @@ from ...domain.tweet.model.tweet import Tweet
 from ...domain.tweet.model.tweet_description import TweetDescription
 from ...domain.account.model.account_id import AccountId
 from ...domain.tweet.exceptions.tweet_id_already_registered import TweetIdAlreadyRegistered
-from .shedule_tweet_command import ScheduleTweetCommand
+from .schedule_tweet_command import ScheduleTweetCommand
 
 
 class ScheduleTweetHandler(CommandHandler):

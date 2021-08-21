@@ -2,7 +2,7 @@ import unittest
 import faker
 import json
 import uuid
-from ..main import app, userProvider
+from ..main import create_app, userProvider
 from ..src.user.domain.repository.users import Users
 from ..src.user.domain.model.user import User
 from ..src.shared.domain.user_id import UserId
@@ -16,7 +16,7 @@ class TestUserIntegration(unittest.TestCase):
 
     def setUp(self) -> None:
         self.users: Users = userProvider.USERS()
-        self.app = app.test_client()
+        self.app = create_app(test_env=True).test_client()
 
     def test_user_creation(self):
         user_id = str(uuid.uuid4())

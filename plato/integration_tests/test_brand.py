@@ -5,8 +5,7 @@ import json
 from ..src.brand.domain.repository.brands import Brands
 from ..src.brand.domain.model.brand_id import BrandId
 from ..src.brand.domain.model.brand import Brand
-from ..main import app, brandProvider
-
+from ..main import create_app, brandProvider
 fake = faker.Faker()
 
 
@@ -14,7 +13,7 @@ class TestBrandIntegration(unittest.TestCase):
 
     def setUp(self) -> None:
         self.brands: Brands = brandProvider.BRANDS()
-        self.app = app.test_client()
+        self.app = create_app(test_env=True).test_client()
         self.user_id = uuid.uuid4()
         self.access_headers = self.create_and_login_user()
 

@@ -122,7 +122,7 @@
               description: Access is not allowed
             '500':
               description: Error
-      /twitter/tweet/shedule/:
+      /twitter/tweet/schedule/:
         post:
           tags: [Twitter]
           summary: Schedule a Tweet
@@ -141,8 +141,38 @@
               description: Access is not allowed
             '500':
               description: Error
-      /tweet/pusblish/:
+      /tweet/{accountId}/:
         get:
+          tags: [Brand]
+          summary: Get a brand by user id
+          security:
+            - bearerAuth: []
+          parameters:
+            - in: path
+              name: accountId
+              schema:
+                type: string
+              required: true
+              description: UUID of the account owner of the tweets
+            - in: query
+              name: sinceDate
+              schema:
+                type: number
+              description: Date since the tweets were scheduled
+            - in: query
+              name: limitDate
+              schema:
+                type: number
+              description: Date limit to get the tweets
+          responses:
+            '200':    # status code
+              description: The brand was found
+            '404':
+              description: Access is not allowed
+            '500':
+              description: Error
+      /tweet/pusblish/:
+        post:
           tags: [Twitter]
           summary: Publish tweets
           responses:

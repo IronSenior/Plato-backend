@@ -9,8 +9,8 @@ from uuid import uuid4
 import string
 import random
 from unittest.mock import Mock, MagicMock
-from ..shedule_tweet_command import ScheduleTweetCommand
-from ..shedule_tweet_handler import ScheduleTweetHandler
+from ..schedule_tweet_command import ScheduleTweetCommand
+from ..schedule_tweet_handler import ScheduleTweetHandler
 
 
 class TestScheduleTweetHandler(unittest.TestCase):

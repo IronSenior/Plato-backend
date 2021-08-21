@@ -1,7 +1,7 @@
 from plato_cqrs import QueryResponse
 
 
-class GetPendingTweetsResponse(QueryResponse):
+class GetTweetsByAccountResponse(QueryResponse):
 
     def __init__(self, tweets: dict = None):
         self.__tweets: dict = tweets or {}

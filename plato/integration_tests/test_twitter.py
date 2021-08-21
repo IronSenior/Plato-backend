@@ -5,7 +5,7 @@ import json
 import uuid
 import string
 import random
-from ..main import app, twitterProvider
+from ..main import create_app, twitterProvider
 from ..src.twitter.domain.tweet.repository.tweets import Tweets
 from ..src.twitter.domain.tweet.model.tweet import Tweet
 from ..src.twitter.domain.tweet.model.tweet_id import TweetId
@@ -28,7 +28,7 @@ class TestTwitterIntegration(unittest.TestCase):
         self.tweets: Tweets = twitterProvider.TWEETS()
         self.accounts: Accounts = twitterProvider.TWITTER_ACCOUNTS()
         self.tweetPublisher = twitterProvider.TWEET_PUBLISHER()
-        self.app = app.test_client()
+        self.app = create_app(test_env=True).test_client()
         self.user_id = uuid.uuid4()
         self.account_id = uuid.uuid4()
         self.access_headers = self.create_and_login_user()
@@ -70,7 +70,7 @@ class TestTwitterIntegration(unittest.TestCase):
         tweetId = str(uuid.uuid4())
         description = self.get_random_string(120)
         publicationDate = datetime.now().timestamp()
-        response = self.app.post("/twitter/tweet/shedule/", headers=self.access_headers, json={
+        response = self.app.post("/twitter/tweet/schedule/", headers=self.access_headers, json={
             "tweet": {
                 "tweetId": tweetId,
                 "accountId": str(self.account_id),
@@ -88,8 +88,7 @@ class TestTwitterIntegration(unittest.TestCase):
         tweetId = str(uuid.uuid4())
         description = self.get_random_string(120)
         publicationDate = datetime.now().timestamp()
-
-        response = self.app.post("/twitter/tweet/shedule/", headers=self.access_headers, json={
+        response = self.app.post("/twitter/tweet/schedule/", headers=self.access_headers, json={
             "tweet": {
                 "tweetId": tweetId,
                 "accountId": str(self.account_id),
@@ -103,6 +102,23 @@ class TestTwitterIntegration(unittest.TestCase):
         twitterService.publishScheduledTweets()
         self.assertEqual(self.tweetPublisher.called, 1)
         self.assertEqual(str(self.tweetPublisher.called_with[0].id), tweetId)
+
+    def test_get_tweet(self):
+        tweetId = str(uuid.uuid4())
+        description = self.get_random_string(120)
+        publicationDate = datetime.now().timestamp()
+        self.app.post("/twitter/tweet/schedule/", headers=self.access_headers, json={
+            "tweet": {
+                "tweetId": tweetId,
+                "accountId": str(self.account_id),
+                "description": description,
+                "publicationDate": publicationDate
+            }
+        })
+        response = self.app.get(f"/twitter/tweet/{self.account_id}/", headers=self.access_headers)
+        self.assertEqual(response.status_code, 200)
+        data: dict = json.loads(response.data)
+        self.assertTrue(tweetId in data.keys())
 
     def get_random_string(self, length):
         # choose from all lowercase letter

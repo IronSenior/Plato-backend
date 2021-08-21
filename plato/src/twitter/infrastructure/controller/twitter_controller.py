@@ -1,10 +1,12 @@
-from flask_jwt_extended import jwt_required, get_current_user
 from flask import Blueprint, request, jsonify
+from flask_jwt_extended import jwt_required, get_current_user
 from werkzeug.exceptions import Unauthorized, BadRequest
 from ..twitter_account_dto import TwitterAccountDTO
 from ..tweet_dto import TweetDTO
 from ..service.twitter_service import TwitterService
 
+
+TIMESTAMP_3021 = 33166368000
 
 twitterFlaskBlueprint = Blueprint('Twitter', __name__, url_prefix="/twitter")
 
@@ -27,11 +29,11 @@ def add_twitter_account(**kw):
     try:
         twitterService.addTwitterAccount(accountDto)
     except Exception:
-        raise Unauthorized("Imposible to verify twitter account")
+        raise Unauthorized("Impossible to verify twitter account")
     return jsonify(success=True)
 
 
-@twitterFlaskBlueprint.route('/tweet/shedule/', methods=["POST"])
+@twitterFlaskBlueprint.route('/tweet/schedule/', methods=["POST"])
 @jwt_required()
 def schedule_tweet(**kw):
     currentUserId: str = get_current_user()
@@ -51,6 +53,28 @@ def schedule_tweet(**kw):
 
     twitterService.scheduleTweet(tweet=tweetDto)
     return jsonify(success=True)
+
+
+@twitterFlaskBlueprint.route('/tweet/<string:accountId>/', methods=["GET"])
+@jwt_required()
+def get_schedule_tweets(accountId: str = None, **kw):
+    currentUserId: str = get_current_user()
+    if not currentUserId:
+        raise Unauthorized("Only logged users can get Tweets")
+
+    if not accountId:
+        raise BadRequest("No account was specified")
+
+    print(accountId)
+    twitterService: TwitterService = TwitterService()
+    account: TwitterAccountDTO = twitterService.getAccount(accountId)
+    if account["userId"] != currentUserId:
+        raise Unauthorized("Trying to get tweets from other user")
+
+    afterDate = request.args.get("sinceDate") or 0
+    beforeDate = request.args.get("limitDate") or TIMESTAMP_3021
+    tweets: dict = twitterService.getTweetsByAccount(accountId, afterDate, beforeDate)
+    return jsonify(tweets), 200
 
 
 @twitterFlaskBlueprint.route('/tweet/publish/', methods=["GET"])

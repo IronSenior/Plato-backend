@@ -7,9 +7,11 @@ from ...application.query.get_account_response import GetAccountResponse
 from ...application.query.get_pending_tweets_query import GetPendingTweetsQuery
 from ...application.query.get_pending_tweets_response import GetPendingTweetsResponse
 from ...application.command.publish_tweet_command import PublishTweetCommand
-from ...application.command.shedule_tweet_command import ScheduleTweetCommand
+from ...application.command.schedule_tweet_command import ScheduleTweetCommand
 from ....shared.infrastructure.plato_command_bus import PlatoCommandBus
 from ....shared.infrastructure.plato_query_bus import PlatoQueryBus
+from ...application.query.get_tweets_by_account_query import GetTweetsByAccountQuery
+from ...application.query.get_tweets_by_account_response import GetTweetsByAccountResponse
 from ..mapper.account_mapper import AccountMapper
 from tweepy import OAuthHandler
 import tweepy
@@ -58,9 +60,16 @@ class TwitterService:
             return None
         return AccountMapper.from_response_to_dto(account)
 
+    def getTweetsByAccount(self, accountId: str, afterDate: float, beforeDate: float):
+        tweetsResponse: GetTweetsByAccountResponse = PlatoQueryBus.publish(
+            GetTweetsByAccountQuery(accountId, afterDate, beforeDate)
+        )
+        if not tweetsResponse:
+            return None
+        return tweetsResponse.tweets
+
     def publishScheduledTweets(self):
         my_time = datetime.now().timestamp()
-        print(my_time)
         tweetsResponse: GetPendingTweetsResponse = PlatoQueryBus.publish(
             GetPendingTweetsQuery(publicationDate=my_time)
         )
