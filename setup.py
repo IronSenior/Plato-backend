@@ -19,6 +19,7 @@ setup(
     "Flask==2.0.1",
     "tweepy==3.10.0",
     "Flask-JWT-Extended==4.2.3",
+    "pymongo==3.12.0",
     "plato-cqrs",
     "sqlalchemy"
   ],

@@ -1,32 +1,30 @@
+from ..brand_dto import BrandDTO
+from typing import List
 from plato_cqrs import QueryHandler
 from .get_brand_by_user_id_query import GetBrandByUserIdQuery
 from .get_brand_by_user_id_response import GetBrandByUserIdResponse
+from ..service.get_brand_service import GetBrandService
+from ....shared.domain.user_id import UserId
+from dependency_injector.wiring import inject, Provide
 from typing import Optional
-import sqlalchemy as db
-import os
 
 
 class GetBrandByUserIdHandler(QueryHandler):
 
-    def __init__(self):
-        self.__engine = db.create_engine(os.environ["DB_ENGINE"])
-        self.__connection = self.__engine.connect()
-        self.__metadata = db.MetaData()
-        self.__brandProjection = db.Table("brands", self.__metadata, autoload=True, autoload_with=self.__engine)
+    @inject
+    def __init__(self, getBrandService: GetBrandService = Provide["GET_BRAND_SERVICE"]):
+        self.__getBrandService: GetBrandService = getBrandService
 
     def handle(self, query: GetBrandByUserIdQuery) -> Optional[GetBrandByUserIdResponse]:
-        query = db.select([self.__brandProjection]).where(self.__brandProjection.columns.userid == query.userId)
-        resultProxy = self.__connection.execute(query)
-        resultSet = resultProxy.fetchall()
-        if not resultSet:
-            return None
-
+        brands: List[BrandDTO] = self.__getBrandService.getBrandByUser(
+            UserId.fromString(query.userId)
+        )
         getBrandByUserIdResponse = GetBrandByUserIdResponse()
-        for brand in resultSet:
+        for brand in brands:
             getBrandByUserIdResponse.addBrand(
-                brandId=brand[0],
-                userId=brand[1],
-                name=brand[2],
-                image=brand[3]
+                brandId=brand["brandId"],
+                userId=brand["userId"],
+                name=brand["name"],
+                image=brand["image"]
             )
         return getBrandByUserIdResponse

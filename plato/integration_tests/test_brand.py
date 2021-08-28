@@ -101,6 +101,8 @@ class TestBrandIntegration(unittest.TestCase):
         data = json.loads(response.data)
         self.assertEqual(len(data), 1)
         self.assertTrue(str(brand_id) in data.keys())
+        self.assertEqual(data[str(brand_id)]["name"], name)
+        self.assertEqual(data[str(brand_id)]["image"], image)
 
     def test_get_brand_by_user_with_other_user(self):
         response = self.app.get(f"/brand/user/{str(uuid.uuid4())}/", headers=self.access_headers)
