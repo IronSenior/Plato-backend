@@ -1,5 +1,5 @@
 from datetime import datetime
-from ..twitter_account_dto import TwitterAccountDTO
+from ...application.account_dto import AccountDTO
 from ..tweet_dto import TweetDTO
 from ...application.command.add_account_command import AddAccountCommand
 from ...application.query.get_account_query import GetAccountQuery
@@ -24,7 +24,7 @@ class TwitterService:
         self.__consumerKey = os.environ["TWITTER_CONSUMER_KEY"]
         self.__consumerSecret = os.environ["TWITTER_CONSUMER_SECRET"]
 
-    def addTwitterAccount(self, account: TwitterAccountDTO):
+    def addTwitterAccount(self, account: AccountDTO):
         oauthHandler: OAuthHandler = OAuthHandler(self.__consumerKey, self.__consumerSecret)
         oauthHandler.request_token = {'oauth_token': account["oauthToken"],
                                       'oauth_token_secret': account["oauthTokenSecret"]}
@@ -73,7 +73,6 @@ class TwitterService:
         tweetsResponse: GetPendingTweetsResponse = PlatoQueryBus.publish(
             GetPendingTweetsQuery(publicationDate=my_time)
         )
-        print(tweetsResponse.tweets)
         for tweetId in tweetsResponse.tweets.keys():
             PlatoCommandBus.publish(
                 PublishTweetCommand(tweetId)

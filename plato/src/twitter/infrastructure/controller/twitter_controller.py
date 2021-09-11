@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_current_user
 from werkzeug.exceptions import Unauthorized, BadRequest
-from ..twitter_account_dto import TwitterAccountDTO
+from ...application.account_dto import AccountDTO
 from ..tweet_dto import TweetDTO
 from ..service.twitter_service import TwitterService
 
@@ -18,7 +18,7 @@ def add_twitter_account(**kw):
     if not currentUserId:
         raise Unauthorized("Only logged users can add Twitter Accounts")
 
-    accountDto: TwitterAccountDTO = request.json.get("account", False)
+    accountDto: AccountDTO = request.json.get("account", False)
     if not accountDto:
         raise BadRequest("No Twitter account was specified")
 
@@ -45,7 +45,7 @@ def schedule_tweet(**kw):
         raise BadRequest("No Tweet was specified")
 
     twitterService: TwitterService = TwitterService()
-    account: TwitterAccountDTO = twitterService.getAccount(tweetDto["accountId"])
+    account: AccountDTO = twitterService.getAccount(tweetDto["accountId"])
     if not account:
         raise BadRequest("Twitter account not found")
     if account["userId"] != currentUserId:
@@ -67,7 +67,7 @@ def get_schedule_tweets(accountId: str = None, **kw):
 
     print(accountId)
     twitterService: TwitterService = TwitterService()
-    account: TwitterAccountDTO = twitterService.getAccount(accountId)
+    account: AccountDTO = twitterService.getAccount(accountId)
     if account["userId"] != currentUserId:
         raise Unauthorized("Trying to get tweets from other user")
 

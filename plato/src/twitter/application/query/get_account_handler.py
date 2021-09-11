@@ -1,32 +1,27 @@
 from plato_cqrs import QueryHandler
 from .get_account_query import GetAccountQuery
 from .get_account_response import GetAccountResponse
-import sqlalchemy as db
-import os
+from ...domain.account.model.account_id import AccountId
+from ..service.get_account_service import GetTwitterAccountService
+from dependency_injector.wiring import inject, Provide
 
 
 class GetAccountHandler(QueryHandler):
 
-    def __init__(self):
-        self.__engine = db.create_engine(os.environ["DB_ENGINE"])
-        self.__connection = self.__engine.connect()
-        self.__metadata = db.MetaData()
-        self.__accountProjection = db.Table("twitter_accounts", self.__metadata, autoload=True, autoload_with=self.__engine)
+    @inject
+    def __init__(self, getAccountService: GetTwitterAccountService = Provide["GET_ACCOUNT_SERVICE"]):
+        self.__getAccountService: GetTwitterAccountService = getAccountService
 
     def handle(self, query: GetAccountQuery) -> GetAccountResponse:
-        query = db.select([self.__accountProjection]).where(self.__accountProjection.columns.accountid == query.accountId)
-        resultProxy = self.__connection.execute(query)
-        resultSet = resultProxy.fetchall()
-
-        if not resultSet:
-            return None
-        account = resultSet[0]
+        account = self.__getAccountService.getAccountById(
+            AccountId.fromString(query.accountId)
+        )
 
         return GetAccountResponse(
-            accountId=account[0],
-            brandId=account[1],
-            userId=account[2],
-            name=account[3],
-            accessToken=account[4],
-            accessTokenSecret=account[5]
+            accountId=account["accountId"],
+            brandId=account["brandId"],
+            userId=account["userId"],
+            name=account["name"],
+            accessToken=account["accessToken"],
+            accessTokenSecret=account["accessSecret"]
         )
