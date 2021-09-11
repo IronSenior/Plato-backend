@@ -10,8 +10,8 @@ class GetBrandMongoService(GetBrandService):
 
     def __init__(self):
         self.__client = pymongo.MongoClient(os.environ["MONGODB_URL"])
-        self.__db = self.__client["brands"]
+        self.__db = self.__client[os.environ["MONGODB_DBNAME"]]["brands"]
 
     def getBrandByUser(self, userId: UserId) -> List[BrandDTO]:
-        brands = list(self.__db[str(userId.value)].find())
+        brands = list(self.__db.find({"userId": str(userId.value)}))
         return brands

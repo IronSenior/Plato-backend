@@ -7,8 +7,8 @@ from pymongo.collection import Collection
 
 @PlatoEventBus.on("BRAND_WAS_CREATED")
 def onBrandWasCreated(event: Brand.BrandWasCreated):
-    client = pymongo.MongoClient(os.environ["MONGODB_URL"])
-    brandProjection: Collection = client["brands"][event.userId]
+    client = pymongo.MongoClient(os.environ["MONGODB_URL"])[os.environ["MONGODB_DBNAME"]]
+    brandProjection: Collection = client["brands"]
     brandProjection.insert_one({
         "brandId": str(event.originator_id),
         "userId": event.userId,
