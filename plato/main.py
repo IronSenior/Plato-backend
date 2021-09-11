@@ -47,7 +47,7 @@ from .src.brand.infrastructure.controller.brand_controller import brandFlaskBlue
 from .src.twitter.infrastructure.controller.twitter_controller import twitterFlaskBlueprint
 from .src.shared.infrastructure.json_web_token_conf import jwtManager
 from flask_swagger_ui import get_swaggerui_blueprint
-from .DB.generate_sqlite_db import main as regenerateDB
+from .DB.regenerate_mongo_db import main as regenerateDB
 
 userProvider = UserProviders()
 userProvider.wire(packages=[user])
