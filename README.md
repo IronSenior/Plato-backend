@@ -63,6 +63,6 @@ Distributed under the GPL-V3 License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Pepe Márquez - [@your_twitter](https://twitter.com/PepeMarquezOF) - pepemarquezof@gmail.com
+Pepe Márquez - [@pmarquez99](https://twitter.com/pmarquez99) - pepemarquezof@gmail.com
 
 Project Link: [https://github.com/IronSenior/Plato-backend](https://github.com/IronSenior/Plato-backend)
