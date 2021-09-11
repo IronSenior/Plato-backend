@@ -1,38 +1,27 @@
 from plato_cqrs import QueryHandler
 from .get_pending_tweets_query import GetPendingTweetsQuery
 from .get_pending_tweets_response import GetPendingTweetsResponse
-import sqlalchemy as db
-from sqlalchemy.sql.expression import false
-import os
+from dependency_injector.wiring import inject, Provide
+from ..service.get_tweets_service import GetTweetsService
 
 
 class GetPendingTweetsHandler(QueryHandler):
 
-    def __init__(self):
-        self.__engine = db.create_engine(os.environ["DB_ENGINE"])
-        self.__connection = self.__engine.connect()
-        self.__metadata = db.MetaData()
-        self.__tweetsProjection = db.Table("pending_tweets", self.__metadata, autoload=True, autoload_with=self.__engine)
+    @inject
+    def __init__(self, getTweetsService: GetTweetsService = Provide["GET_TWEETS_SERVICE"]):
+        self.__getTweetsService: GetTweetsService = getTweetsService
 
     def handle(self, query: GetPendingTweetsQuery) -> GetPendingTweetsResponse:
-        query = db.select([self.__tweetsProjection]).where(
-            self.__tweetsProjection.columns.published == false(),
-            self.__tweetsProjection.columns.publicationdate <= query.publicationDate
-        )
-        resultProxy = self.__connection.execute(query)
-        resultSet = resultProxy.fetchall()
-
-        if not resultSet:
-            return None
+        tweets = self.__getTweetsService.getPendingTweets()
 
         getPendingTweetsResponse = GetPendingTweetsResponse()
-        for tweet in resultSet:
+        for tweet in tweets:
             getPendingTweetsResponse.appendTweet(
-                tweetId=tweet[0],
-                accountId=tweet[1],
-                description=tweet[2],
-                publicationDate=tweet[3],
-                published=tweet[4]
+                tweetId=tweet["tweetId"],
+                accountId=tweet["accountId"],
+                publicationDate=tweet["publicationDate"],
+                description=tweet["description"],
+                published=tweet["published"]
             )
 
         return getPendingTweetsResponse

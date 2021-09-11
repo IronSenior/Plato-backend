@@ -1,38 +1,31 @@
 from plato_cqrs import QueryHandler
+from ..service.get_tweets_service import GetTweetsService
+from ...domain.account.model.account_id import AccountId
+from dependency_injector.wiring import inject, Provide
 from .get_tweets_by_account_query import GetTweetsByAccountQuery
 from .get_tweets_by_account_response import GetTweetsByAccountResponse
-import sqlalchemy as db
-import os
 
 
 class GetTweetsByAccountHandler(QueryHandler):
 
-    def __init__(self):
-        self.__engine = db.create_engine(os.environ["DB_ENGINE"])
-        self.__connection = self.__engine.connect()
-        self.__metadata = db.MetaData()
-        self.__tweetsProjection = db.Table("pending_tweets", self.__metadata, autoload=True, autoload_with=self.__engine)
+    @inject
+    def __init__(self, getTweetsService: GetTweetsService = Provide["GET_TWEETS_SERVICE"]):
+        self.__getTweetsService: GetTweetsService = getTweetsService
 
     def handle(self, query: GetTweetsByAccountQuery) -> GetTweetsByAccountResponse:
-        query = db.select([self.__tweetsProjection]).where(
-            self.__tweetsProjection.columns.accountid == query.accountId,
-            self.__tweetsProjection.columns.publicationdate < query.beforeDate,
-            self.__tweetsProjection.columns.publicationdate > query.afterDate
+        tweets = self.__getTweetsService.getTweetsByAccount(
+            accountId=AccountId.fromString(query.accountId),
+            afterDate=query.afterDate,
+            beforeDate=query.beforeDate
         )
-        resultProxy = self.__connection.execute(query)
-        resultSet = resultProxy.fetchall()
-
-        if not resultSet:
-            return None
-
         getTweetsByAccountResponse = GetTweetsByAccountResponse()
-        for tweet in resultSet:
+        for tweet in tweets:
             getTweetsByAccountResponse.appendTweet(
-                tweetId=tweet[0],
-                accountId=tweet[1],
-                description=tweet[2],
-                publicationDate=tweet[3],
-                published=tweet[4]
+                tweetId=tweet["tweetId"],
+                accountId=tweet["accountId"],
+                description=tweet["description"],
+                publicationDate=tweet["publicationDate"],
+                published=tweet["published"]
             )
 
         return getTweetsByAccountResponse
