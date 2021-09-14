@@ -17,6 +17,7 @@ setup(
     "flask-swagger-ui==3.36.0",
     "python-dotenv==0.17.0",
     "Flask==2.0.1",
+    "Flask-Cors==3.0.10",
     "tweepy==3.10.0",
     "Flask-JWT-Extended==4.2.3",
     "pymongo==3.12.0",

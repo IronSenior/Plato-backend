@@ -42,6 +42,7 @@ from .src.twitter.infrastructure.read_model.on_tweet_was_published import onTwee
 
 # * Flask Configuration
 from flask import Flask
+from flask_cors import CORS
 from .src.user.infrastructure.controller.user_controller import userFlaskBlueprint
 from .src.brand.infrastructure.controller.brand_controller import brandFlaskBlueprint
 from .src.twitter.infrastructure.controller.twitter_controller import twitterFlaskBlueprint
@@ -81,6 +82,8 @@ def create_app(test_env=False):
     app.register_blueprint(userFlaskBlueprint)
     app.register_blueprint(brandFlaskBlueprint)
     app.register_blueprint(twitterFlaskBlueprint)
+    
+    CORS(app)
 
     app.config["JWT_SECRET_KEY"] = os.environ["JWT_SECRET_KEY"]
     jwtManager.init_app(app)

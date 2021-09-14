@@ -14,10 +14,11 @@ class MongoUserRepository(Users):
 
     def __init__(self):
         self.__db = pymongo.MongoClient(os.environ["MONGODB_URL"])[os.environ["MONGODB_DBNAME"]]
+        self.__users = self.__db["users"]
 
     def save(self, user: User) -> None:
-        self.__db.insert_one({
-            "userId": user.userId,
+        self.__users.insert_one({
+            "userId": str(user.userId),
             "username": user.username,
             "email": user.email,
             "password": user.password
@@ -26,11 +27,15 @@ class MongoUserRepository(Users):
             PlatoEventBus.emit(event.bus_string, event)
 
     def getById(self, userId: UserId) -> Optional[User]:
-        user = self.__db.find_one({"userId": str(userId.value)})
+        user = self.__users.find_one({"userId": str(userId.value)})
+        if not user:
+            return None
         return self.__getUserFromResult(user)
 
     def getByEmail(self, usermail: UserMail) -> Optional[User]:
-        user = self.__db.find_one({"email": usermail.value})
+        user = self.__users.find_one({"email": usermail.value})
+        if not user:
+            return None
         return self.__getUserFromResult(user)
 
     def __getUserFromResult(self, result: tuple):
