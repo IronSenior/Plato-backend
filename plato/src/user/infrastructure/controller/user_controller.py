@@ -36,7 +36,7 @@ def get_user(userId, **kw):
 @userFlaskBlueprint.route('/login/', methods=["POST"])
 def login(**kw):
     userService: UserService = UserService()
-    email = request.json.get("email", False)
+    email = request.json.get("usermail", False)
     password = request.json.get("password", False)
     try:
         user: UserDTO = userService.loginUser(email, password)

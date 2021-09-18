@@ -46,7 +46,7 @@ class TestTwitterIntegration(unittest.TestCase):
             }
         })
         login_response = self.app.post("/user/login/", json={
-            "email": email,
+            "usermail": email,
             "password": password,
         })
         data = json.loads(login_response.data)

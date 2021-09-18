@@ -23,5 +23,5 @@ class MemoryUserRepository(Users):
 
     def getByEmail(self, usermail: UserMail) -> Optional[User]:
         for user in self.__users:
-            if usermail.value == user.email:
+            if usermail.value == user.usermail:
                 return user

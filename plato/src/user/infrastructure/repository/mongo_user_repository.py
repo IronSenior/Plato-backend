@@ -20,7 +20,7 @@ class MongoUserRepository(Users):
         self.__users.insert_one({
             "userId": str(user.userId),
             "username": user.username,
-            "email": user.email,
+            "usermail": user.usermail,
             "password": user.password
         })
         for event in user.collect_events():
@@ -33,7 +33,7 @@ class MongoUserRepository(Users):
         return self.__getUserFromResult(user)
 
     def getByEmail(self, usermail: UserMail) -> Optional[User]:
-        user = self.__users.find_one({"email": usermail.value})
+        user = self.__users.find_one({"usermail": usermail.value})
         if not user:
             return None
         return self.__getUserFromResult(user)
@@ -42,6 +42,6 @@ class MongoUserRepository(Users):
         return User.add(
             userId=UserId.fromString(result["userId"]),
             username=Username.fromString(result["username"]),
-            email=UserMail.fromString(result["email"]),
+            usermail=UserMail.fromString(result["usermail"]),
             password=UserPassword.fromHash(result["password"])
         )

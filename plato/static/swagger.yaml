@@ -207,7 +207,7 @@
         user-login:
           type: object
           properties:
-            email:
+            usermail:
               type: string
             password:
               type: string

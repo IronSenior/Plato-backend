@@ -23,5 +23,5 @@ class GetUserHandler(QueryHandler):
             userId=str(user.userId),
             username=user.username,
             password=user.password,
-            email=user.email
+            usermail=user.usermail
         )

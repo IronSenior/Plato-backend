@@ -8,7 +8,7 @@ class UserMapper:
     def from_aggregate_to_dto(user: User) -> UserDTO:
         return UserDTO(
             userId=str(user.userId),
-            email=user.email,
+            usermail=user.usermail,
             password=user.password,
             username=user.username,
         )

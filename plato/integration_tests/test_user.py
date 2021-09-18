@@ -32,7 +32,7 @@ class TestUserIntegration(unittest.TestCase):
         })
         testing_user = self.users.getById(UserId.fromString(user_id))
         self.assertTrue(type(testing_user) == User)
-        self.assertEqual(testing_user.email, email)
+        self.assertEqual(testing_user.usermail, email)
         self.assertEqual(testing_user.username, username)
 
     def test_correct_user_login(self):
@@ -42,12 +42,12 @@ class TestUserIntegration(unittest.TestCase):
         user = User.add(
             userId=UserId.fromString(str(uuid.uuid4())),
             username=Username.fromString(username),
-            email=UserMail.fromString(email),
+            usermail=UserMail.fromString(email),
             password=UserPassword.fromString(password)
         )
         self.users.save(user)
         login_response = self.app.post("/user/login/", json={
-            "email": email,
+            "usermail": email,
             "password": password
         })
         data = json.loads(login_response.data)
@@ -60,12 +60,12 @@ class TestUserIntegration(unittest.TestCase):
         user = User.add(
             userId=UserId.fromString(str(uuid.uuid4())),
             username=Username.fromString(username),
-            email=UserMail.fromString(email),
+            usermail=UserMail.fromString(email),
             password=UserPassword.fromString(password)
         )
         self.users.save(user)
         login_response = self.app.post("/user/login/", json={
-            "email": email,
+            "usermail": email,
             "password": fake.password()
         })
         self.assertEqual(login_response.status_code, 401)
@@ -77,12 +77,12 @@ class TestUserIntegration(unittest.TestCase):
         user = User.add(
             userId=UserId.fromString(str(uuid.uuid4())),
             username=Username.fromString(username),
-            email=UserMail.fromString(email),
+            usermail=UserMail.fromString(email),
             password=UserPassword.fromString(password)
         )
         self.users.save(user)
         login_response = self.app.post("/user/login/", json={
-            "email": fake.company_email(),
+            "usermail": fake.company_email(),
             "password": password
         })
         self.assertEqual(login_response.status_code, 401)

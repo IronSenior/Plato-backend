@@ -27,11 +27,11 @@ class TestUserMapper(unittest.TestCase):
         user = User.add(
             userId=userId,
             username=username,
-            email=email,
+            usermail=email,
             password=password
         )
         userDto: UserDTO = UserMapper.from_aggregate_to_dto(user)
         self.assertEqual(str(userId.value), userDto["userId"])
         self.assertEqual(username.value, userDto["username"])
-        self.assertEqual(email.value, userDto["email"])
+        self.assertEqual(email.value, userDto["usermail"])
         self.assertEqual(password.value, userDto["password"])

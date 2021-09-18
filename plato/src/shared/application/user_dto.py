@@ -3,6 +3,6 @@ from typing import TypedDict
 
 class UserDTO(TypedDict):
     userId: str
-    email: str
+    usermail: str
     password: str
     username: str

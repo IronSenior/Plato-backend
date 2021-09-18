@@ -33,7 +33,7 @@ class CreateUserCommandHandler(CommandHandler):
         user = User.add(
             userId=userId,
             username=Username.fromString(cmd.username),
-            email=usermail,
+            usermail=usermail,
             password=UserPassword.fromString(cmd.password)
         )
         self.users.save(user)

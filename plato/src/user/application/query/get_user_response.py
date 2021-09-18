@@ -3,10 +3,10 @@ from plato_cqrs import QueryResponse
 
 class GetUserResponse(QueryResponse):
 
-    def __init__(self, userId: str, username: str, email: str, password: str):
+    def __init__(self, userId: str, username: str, usermail: str, password: str):
         self.__userId: str = userId
         self.__username: str = username
-        self.__email: str = email
+        self.__usermail: str = usermail
         self.__password: str = password
 
     @property
@@ -18,8 +18,8 @@ class GetUserResponse(QueryResponse):
         return self.__username
 
     @property
-    def email(self):
-        return self.__email
+    def usermail(self):
+        return self.__usermail
 
     @property
     def password(self):
@@ -30,6 +30,6 @@ class GetUserResponse(QueryResponse):
         return {
             "userId": self.__userId,
             "username": self.__username,
-            "email": self.__email,
+            "usermail": self.__usermail,
             "password": self.__password
         }

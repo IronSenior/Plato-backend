@@ -41,7 +41,7 @@ class TestCreateUserCommandHandler(unittest.TestCase):
         user = User.add(
             userId=UserId.fromString(str(uuid4())),
             username=Username.fromString(fake.first_name()),
-            email=UserMail.fromString(fake.company_email()),
+            usermail=UserMail.fromString(fake.company_email()),
             password=UserPassword.fromString(fake.password())
         )
         self.mockedUserRepository.getById = MagicMock(return_value=user)

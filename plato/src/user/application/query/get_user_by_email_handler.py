@@ -23,6 +23,6 @@ class GetUserByEmailHandler(QueryHandler):
         return GetUserResponse(
             userId=user.userId,
             username=user.username,
-            email=user.email,
+            usermail=user.usermail,
             password=user.password
         )
