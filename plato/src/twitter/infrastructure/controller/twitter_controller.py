@@ -33,6 +33,38 @@ def add_twitter_account(**kw):
     return jsonify(success=True)
 
 
+@twitterFlaskBlueprint.route('/account/token/request', methods=["GET"])
+@jwt_required()
+def request_twitter_token(**kw):
+    currentUserId: str = get_current_user()
+    if not currentUserId:
+        raise Unauthorized("Only logged users can add Twitter Accounts")
+
+    twitterService: TwitterService = TwitterService()
+    try:
+        authUrl = twitterService.requestToken()
+    except Exception:
+        raise Unauthorized("Impossible to verify twitter account")
+    return jsonify({"authUrl": authUrl})
+
+
+@twitterFlaskBlueprint.route('/brand/<string:brandId>/')
+@jwt_required()
+def get_twitter_account_by_brand(brandId: str = None, **kw):
+    currentUserId: str = get_current_user()
+    if not currentUserId:
+        raise Unauthorized("Only logged users can get accounts")
+
+    twitterService: TwitterService = TwitterService()
+    account = twitterService.getAccountByBrand(brandId)
+    if not account:
+        raise BadRequest("Twitter account not found")
+    if account["userId"] != currentUserId:
+        raise Unauthorized("Trying to get an account from a different user")
+
+    return jsonify(account), 200
+
+
 @twitterFlaskBlueprint.route('/tweet/schedule/', methods=["POST"])
 @jwt_required()
 def schedule_tweet(**kw):

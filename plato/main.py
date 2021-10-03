@@ -25,6 +25,8 @@ from .src.user.application.query.get_user_by_email_query import GetUserByEmailQu
 from .src.user.application.query.get_user_by_email_handler import GetUserByEmailHandler
 from .src.twitter.application.query.get_account_query import GetAccountQuery
 from .src.twitter.application.query.get_account_handler import GetAccountHandler
+from .src.twitter.application.query.get_account_by_brand_query import GetAccountByBrandQuery
+from .src.twitter.application.query.get_account_by_brand_handler import GetAccountByBrandHandler
 from .src.user.application.query.get_user_query import GetUserQuery
 from .src.user.application.query.get_user_handler import GetUserHandler
 from .src.brand.application.query.get_brand_by_user_id_query import GetBrandByUserIdQuery
@@ -69,6 +71,7 @@ def create_app(test_env=False):
     PlatoQueryBus.subscribe(GetUserQuery, GetUserHandler())
     PlatoQueryBus.subscribe(GetBrandByUserIdQuery, GetBrandByUserIdHandler())
     PlatoQueryBus.subscribe(GetAccountQuery, GetAccountHandler())
+    PlatoQueryBus.subscribe(GetAccountByBrandQuery, GetAccountByBrandHandler())
     PlatoQueryBus.subscribe(GetPendingTweetsQuery, GetPendingTweetsHandler())
     PlatoQueryBus.subscribe(GetTweetsByAccountQuery, GetTweetsByAccountHandler())
 

@@ -3,6 +3,7 @@ from ...application.account_dto import AccountDTO
 from ..tweet_dto import TweetDTO
 from ...application.command.add_account_command import AddAccountCommand
 from ...application.query.get_account_query import GetAccountQuery
+from ...application.query.get_account_by_brand_query import GetAccountByBrandQuery
 from ...application.query.get_account_response import GetAccountResponse
 from ...application.query.get_pending_tweets_query import GetPendingTweetsQuery
 from ...application.query.get_pending_tweets_response import GetPendingTweetsResponse
@@ -23,6 +24,11 @@ class TwitterService:
     def __init__(self):
         self.__consumerKey = os.environ["TWITTER_CONSUMER_KEY"]
         self.__consumerSecret = os.environ["TWITTER_CONSUMER_SECRET"]
+
+    def requestToken(self):
+        oauthHandler: OAuthHandler = OAuthHandler(self.__consumerKey, self.__consumerSecret)
+        authUrl = oauthHandler.get_authorization_url()
+        return authUrl
 
     def addTwitterAccount(self, account: AccountDTO):
         oauthHandler: OAuthHandler = OAuthHandler(self.__consumerKey, self.__consumerSecret)
@@ -55,6 +61,14 @@ class TwitterService:
     def getAccount(self, accountId: str):
         account: GetAccountResponse = PlatoQueryBus.publish(
             GetAccountQuery(accountId=accountId)
+        )
+        if not account:
+            return None
+        return AccountMapper.from_response_to_dto(account)
+
+    def getAccountByBrand(self, brandId: str):
+        account: GetAccountResponse = PlatoQueryBus.publish(
+            GetAccountByBrandQuery(brandId=brandId)
         )
         if not account:
             return None
