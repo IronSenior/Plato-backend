@@ -11,6 +11,7 @@ class AccountMapper:
             userId=str(account.userId),
             brandId=str(account.brandId),
             name=account.name,
-            oauthToken=account.accessToken,
-            oauthVerifier=account.accessTokenSecret
+            # Token and secret should not be passed to client
+            accessToken="",
+            accessTokenSecret=""
         )

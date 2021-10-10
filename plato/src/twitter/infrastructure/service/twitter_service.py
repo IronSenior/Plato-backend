@@ -1,4 +1,5 @@
 from datetime import datetime
+from .twitter_credential_retriever import TwitterCredentialRetriever
 from ...application.account_dto import AccountDTO
 from ..tweet_dto import TweetDTO
 from ...application.command.add_account_command import AddAccountCommand
@@ -25,15 +26,25 @@ class TwitterService:
         self.__consumerKey = os.environ["TWITTER_CONSUMER_KEY"]
         self.__consumerSecret = os.environ["TWITTER_CONSUMER_SECRET"]
 
-    def requestToken(self):
-        oauthHandler: OAuthHandler = OAuthHandler(self.__consumerKey, self.__consumerSecret)
+    def requestToken(self, callbackUrl: str):
+        oauthHandler: OAuthHandler = OAuthHandler(
+            self.__consumerKey,
+            self.__consumerSecret,
+            callback=callbackUrl
+        )
         authUrl = oauthHandler.get_authorization_url()
+        TwitterCredentialRetriever().saveCredentials(
+            token=oauthHandler.request_token["oauth_token"],
+            secret=oauthHandler.request_token["oauth_token_secret"]
+        )
         return authUrl
 
     def addTwitterAccount(self, account: AccountDTO):
         oauthHandler: OAuthHandler = OAuthHandler(self.__consumerKey, self.__consumerSecret)
-        oauthHandler.request_token = {'oauth_token': account["oauthToken"],
-                                      'oauth_token_secret': account["oauthTokenSecret"]}
+        oauthHandler.request_token = {
+            'oauth_token': account["oauthToken"],
+            'oauth_token_secret': TwitterCredentialRetriever().getSecretByToken(account["oauthToken"])
+        }
 
         oauthHandler.get_access_token(verifier=account["oauthVerifier"])
         apiConnection = tweepy.API(oauthHandler)
