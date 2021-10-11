@@ -98,7 +98,6 @@ def get_schedule_tweets(accountId: str = None, **kw):
     if not accountId:
         raise BadRequest("No account was specified")
 
-    print(accountId)
     twitterService: TwitterService = TwitterService()
     account: AccountDTO = twitterService.getAccount(accountId)
     if account["userId"] != currentUserId:
@@ -110,8 +109,6 @@ def get_schedule_tweets(accountId: str = None, **kw):
     return jsonify(tweets), 200
 
 
-@twitterFlaskBlueprint.route('/tweet/publish/', methods=["GET"])
 def publish_scheduled_tweets():
     twitterService: TwitterService = TwitterService()
     twitterService.publishScheduledTweets()
-    return jsonify(success=True)

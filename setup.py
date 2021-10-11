@@ -21,8 +21,9 @@ setup(
     "tweepy==3.10.0",
     "Flask-JWT-Extended==4.2.3",
     "pymongo==3.12.0",
+    "SQLAlchemy==1.4.25",
     "plato-cqrs",
-    "sqlalchemy"
+    "flask-crontab==0.1.2"
   ],
   classifiers=[
     'Development Status :: 4 - Beta',

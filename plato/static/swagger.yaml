@@ -141,9 +141,9 @@
               description: Access is not allowed
             '500':
               description: Error
-      /tweet/{accountId}/:
+      /twitter/tweet/{accountId}/:
         get:
-          tags: [Brand]
+          tags: [Twitter]
           summary: Get a brand by user id
           security:
             - bearerAuth: []
@@ -169,17 +169,6 @@
               description: The brand was found
             '404':
               description: Access is not allowed
-            '500':
-              description: Error
-      /tweet/pusblish/:
-        post:
-          tags: [Twitter]
-          summary: Publish tweets
-          responses:
-            '200':    # status code
-              description: The user was found
-            '404':
-              description: User was not found
             '500':
               description: Error
 

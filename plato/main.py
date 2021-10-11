@@ -48,7 +48,9 @@ from flask_cors import CORS
 from .src.user.infrastructure.controller.user_controller import userFlaskBlueprint
 from .src.brand.infrastructure.controller.brand_controller import brandFlaskBlueprint
 from .src.twitter.infrastructure.controller.twitter_controller import twitterFlaskBlueprint
+from .src.twitter.infrastructure.controller.twitter_controller import publish_scheduled_tweets
 from .src.shared.infrastructure.json_web_token_conf import jwtManager
+from flask_crontab import Crontab
 from flask_swagger_ui import get_swaggerui_blueprint
 from .DB.regenerate_mongo_db import main as regenerateDB
 
@@ -58,6 +60,8 @@ brandProvider = BrandProviders()
 brandProvider.wire(packages=[brand])
 twitterProvider = TwitterProviders()
 twitterProvider.wire(packages=[twitter])
+
+crontab = Crontab()
 
 
 def create_app(test_env=False):
@@ -80,11 +84,12 @@ def create_app(test_env=False):
     PlatoCommandBus.subscribe(AddAccountCommand, AddAccountHandler())
     PlatoCommandBus.subscribe(ScheduleTweetCommand, ScheduleTweetHandler())
     PlatoCommandBus.subscribe(PublishTweetCommand, PublishTweetHandler())
-    
+
     app = Flask(__name__)
     app.register_blueprint(userFlaskBlueprint)
     app.register_blueprint(brandFlaskBlueprint)
     app.register_blueprint(twitterFlaskBlueprint)
+    crontab.init_app(app)
     
     CORS(app)
 
@@ -103,6 +108,10 @@ def create_app(test_env=False):
 
     app.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix=SWAGGER_URL)
     return app
+
+@crontab.job(minute="*")
+def pusblish_tweet_cron():
+    publish_scheduled_tweets()
     
 if __name__ == "__main__":
     app = create_app()
