@@ -3,8 +3,8 @@ from plato_cqrs import QueryResponse
 
 class GetTweetsByAccountResponse(QueryResponse):
 
-    def __init__(self, tweets: dict = None):
-        self.__tweets: dict = tweets or {}
+    def __init__(self, tweets: list = None):
+        self.__tweets: list = tweets or []
 
     @property
     def tweets(self):
@@ -12,11 +12,10 @@ class GetTweetsByAccountResponse(QueryResponse):
 
     def appendTweet(self, tweetId: str, accountId: str, description: str,
                     publicationDate: float, published: bool):
-        self.__tweets.update({
-            tweetId: {
-                "accountId": accountId,
-                "description": description,
-                "publicationDate": publicationDate,
-                "published": published
-            }
+        self.__tweets.append({
+            "tweetId": tweetId,
+            "accountId": accountId,
+            "description": description,
+            "publicationDate": publicationDate,
+            "published": published
         })
