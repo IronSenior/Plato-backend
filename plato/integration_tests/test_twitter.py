@@ -117,8 +117,8 @@ class TestTwitterIntegration(unittest.TestCase):
         })
         response = self.app.get(f"/twitter/tweet/{self.account_id}/", headers=self.access_headers)
         self.assertEqual(response.status_code, 200)
-        data: dict = json.loads(response.data)
-        self.assertTrue(tweetId in data.keys())
+        data: list = json.loads(response.data)
+        self.assertEqual(data[0]["tweetId"], tweetId)
 
     def get_random_string(self, length):
         # choose from all lowercase letter
