@@ -1,5 +1,6 @@
 from ...application.service.get_tweets_service import GetTweetsService
 from ...domain.account.model.account_id import AccountId
+from ...domain.tweet.model.tweet_id import TweetId
 import datetime
 import pymongo
 import os
@@ -23,5 +24,18 @@ class GetTweetsMongoService(GetTweetsService):
         tweets = self.__db.find({
             "accountId": str(accountId.value),
             "publicationDate": {"$gt": afterDate, "$lt": beforeDate}
+        })
+        return list(tweets)
+
+    def getTweetById(self, tweetId: TweetId):
+        tweet = self.__db.find_one({
+            "tweetId": str(tweetId.value)
+        })
+        return tweet
+
+    def getPublishedTweets(self):
+        tweets = self.__db.find({
+            "published": True,
+            "twitterRef": {"$ne": ""}
         })
         return list(tweets)

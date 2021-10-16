@@ -23,6 +23,6 @@ class PublishTweetHandler(CommandHandler):
         if type(tweet) != Tweet:
             raise TweetNotFound(tweetId.value)
 
-        self.__tweetPublisher.publishTweet(tweet)
-        tweet.publish()
+        twitter_ref = self.__tweetPublisher.publishTweet(tweet)
+        tweet.publish(twitter_ref)
         self.__tweets.save(tweet)

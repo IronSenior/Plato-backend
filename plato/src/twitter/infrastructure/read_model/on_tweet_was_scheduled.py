@@ -12,6 +12,7 @@ def onTweetWasScheduled(event: Tweet.TweetWasScheduled):
         "accountId": event.accountId,
         "description": event.description,
         "publicationDate": event.publicationDate,
-        "published": False
+        "published": False,
+        "twitterRef": "",
     }
     db["tweets"].insert_one(tweetDTO)

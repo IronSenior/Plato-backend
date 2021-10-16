@@ -6,8 +6,11 @@ from ...application.command.add_account_command import AddAccountCommand
 from ...application.query.get_account_query import GetAccountQuery
 from ...application.query.get_account_by_brand_query import GetAccountByBrandQuery
 from ...application.query.get_account_response import GetAccountResponse
+from ...application.command.create_tweet_report_command import CreateTweetReportCommand
 from ...application.query.get_pending_tweets_query import GetPendingTweetsQuery
 from ...application.query.get_pending_tweets_response import GetPendingTweetsResponse
+from ...application.query.get_published_tweets_query import GetPublishedTweetsQuery
+from ...application.query.get_published_tweets_response import GetPublishedTweetsResponse
 from ...application.command.publish_tweet_command import PublishTweetCommand
 from ...application.command.schedule_tweet_command import ScheduleTweetCommand
 from ....shared.infrastructure.plato_command_bus import PlatoCommandBus
@@ -101,4 +104,13 @@ class TwitterService:
         for tweetId in tweetsResponse.tweets.keys():
             PlatoCommandBus.publish(
                 PublishTweetCommand(tweetId)
+            )
+
+    def generateTweetsReports(self):
+        tweetsReponse: GetPublishedTweetsResponse = PlatoQueryBus.publish(
+            GetPublishedTweetsQuery()
+        )
+        for tweetId in tweetsReponse.tweets.keys():
+            PlatoCommandBus.publish(
+                CreateTweetReportCommand(tweetId)
             )

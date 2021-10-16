@@ -9,5 +9,5 @@ def onTweetWasPublished(event: Tweet.TweetWasPublished):
     db = pymongo.MongoClient(os.environ["MONGODB_URL"])[os.environ["MONGODB_DBNAME"]]
     db["tweets"].update_one(
         {"tweetId": str(event.originator_id)},
-        {"$set": {"published": True}}
+        {"$set": {"published": True, "twitterRef": event.twitterRef}}
     )

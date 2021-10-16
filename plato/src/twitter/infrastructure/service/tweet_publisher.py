@@ -4,7 +4,7 @@ from ...domain.tweet.model.tweet import Tweet
 from ...domain.account.model.account_id import AccountId
 from ...application.service.get_account_service import GetTwitterAccountService
 import tweepy
-from tweepy import OAuthHandler
+from tweepy import OAuthHandler, Status
 import os
 
 
@@ -23,4 +23,5 @@ class TweepyTweetPublisher(TweetPublisher):
         self.__outhHandler.set_access_token(account["accessToken"], account["accessSecret"])
         api_connection = tweepy.API(self.__outhHandler)
         api_connection.verify_credentials()
-        api_connection.update_status(status=tweet.description)
+        tweetStatus: Status = api_connection.update_status(status=tweet.description)
+        return tweetStatus._json["id_str"]

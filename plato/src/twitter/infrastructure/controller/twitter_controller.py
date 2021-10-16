@@ -112,3 +112,8 @@ def get_schedule_tweets(accountId: str = None, **kw):
 def publish_scheduled_tweets():
     twitterService: TwitterService = TwitterService()
     twitterService.publishScheduledTweets()
+
+
+def generate_tweets_reports():
+    twitterService: TwitterService = TwitterService()
+    twitterService.generateTweetsReports()
