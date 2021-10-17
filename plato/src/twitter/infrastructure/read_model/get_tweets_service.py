@@ -15,12 +15,12 @@ class GetTweetsMongoService(GetTweetsService):
     def getPendingTweets(self):
         tweets = self.__db.find({
             "published": False,
-            "publicationDate": {"$lt": datetime.datetime.now().timestamp()}
+            "publicationDate": {"$lt": int(datetime.datetime.now().timestamp() * 1000)}
         })
         return list(tweets)
 
     def getTweetsByAccount(self, accountId: AccountId,
-                           afterDate: float, beforeDate: float):
+                           afterDate: int, beforeDate: int):
         tweets = self.__db.find({
             "accountId": str(accountId.value),
             "publicationDate": {"$gt": afterDate, "$lt": beforeDate}

@@ -39,6 +39,10 @@ from .src.twitter.application.query.get_tweets_by_account_query import GetTweets
 from .src.twitter.application.query.get_tweets_by_account_handler import GetTweetsByAccountHandler
 from .src.twitter.application.query.get_published_tweets_handler import GetPublishedTweetsHandler
 from .src.twitter.application.query.get_published_tweets_query import GetPublishedTweetsQuery
+from .src.twitter.application.query.get_tweet_report_by_tweet_query import GetTweetReportsByTweetQuery
+from .src.twitter.application.query.get_tweet_report_by_tweet_handler import GetTweetReportsByTweetHandler
+from .src.twitter.application.query.get_tweet_query import GetTweetQuery
+from .src.twitter.application.query.get_tweet_handler import GetTweetHandler
 
 # * Event Bus configuration
 from .src.brand.infrastructure.read_model.on_brand_was_created import onBrandWasCreated
@@ -84,6 +88,8 @@ def create_app(test_env=False):
     PlatoQueryBus.subscribe(GetPendingTweetsQuery, GetPendingTweetsHandler())
     PlatoQueryBus.subscribe(GetTweetsByAccountQuery, GetTweetsByAccountHandler())
     PlatoQueryBus.subscribe(GetPublishedTweetsQuery, GetPublishedTweetsHandler())
+    PlatoQueryBus.subscribe(GetTweetReportsByTweetQuery, GetTweetReportsByTweetHandler())
+    PlatoQueryBus.subscribe(GetTweetQuery, GetTweetHandler())
 
     PlatoCommandBus.subscribe(CreateUserCommand, CreateUserCommandHandler())
     PlatoCommandBus.subscribe(CreateBrandCommand, CreateBrandHandler())

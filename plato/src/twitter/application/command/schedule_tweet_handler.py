@@ -25,6 +25,6 @@ class ScheduleTweetHandler(CommandHandler):
             tweetId=tweetId,
             accountId=AccountId.fromString(cmd.accountId),
             description=TweetDescription.fromString(cmd.description),
-            publicationDate=datetime.fromtimestamp(cmd.publicationDate)
+            publicationDate=datetime.fromtimestamp(cmd.publicationDate / 1000)
         )
         self.__tweets.save(tweet)

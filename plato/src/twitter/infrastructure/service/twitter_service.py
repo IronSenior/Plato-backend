@@ -17,6 +17,10 @@ from ....shared.infrastructure.plato_command_bus import PlatoCommandBus
 from ....shared.infrastructure.plato_query_bus import PlatoQueryBus
 from ...application.query.get_tweets_by_account_query import GetTweetsByAccountQuery
 from ...application.query.get_tweets_by_account_response import GetTweetsByAccountResponse
+from ...application.query.get_tweet_report_by_tweet_query import GetTweetReportsByTweetQuery
+from ...application.query.get_tweet_report_by_tweet_response import GetTweetReportsByAccountResponse
+from ...application.query.get_tweet_query import GetTweetQuery
+from ...application.query.get_tweet_response import GetTweetResponse
 from ..mapper.account_mapper import AccountMapper
 from tweepy import OAuthHandler
 import tweepy
@@ -88,7 +92,7 @@ class TwitterService:
             return None
         return AccountMapper.from_response_to_dto(account)
 
-    def getTweetsByAccount(self, accountId: str, afterDate: float, beforeDate: float):
+    def getTweetsByAccount(self, accountId: str, afterDate: int, beforeDate: int):
         tweetsResponse: GetTweetsByAccountResponse = PlatoQueryBus.publish(
             GetTweetsByAccountQuery(accountId, afterDate, beforeDate)
         )
@@ -96,8 +100,16 @@ class TwitterService:
             return None
         return tweetsResponse.tweets
 
+    def getTweetById(self, tweetId: str):
+        tweetsResponse: GetTweetResponse = PlatoQueryBus.publish(
+            GetTweetQuery(tweetId)
+        )
+        if not tweetsResponse:
+            return None
+        return tweetsResponse.tweet
+
     def publishScheduledTweets(self):
-        my_time = datetime.now().timestamp()
+        my_time = int(datetime.now().timestamp() * 1000)
         tweetsResponse: GetPendingTweetsResponse = PlatoQueryBus.publish(
             GetPendingTweetsQuery(publicationDate=my_time)
         )
@@ -114,3 +126,11 @@ class TwitterService:
             PlatoCommandBus.publish(
                 CreateTweetReportCommand(tweetId)
             )
+
+    def getTweetReportsByTweet(self, tweetId: str, afterDate: int, beforeDate: int):
+        reportsResponse: GetTweetReportsByAccountResponse = PlatoQueryBus.publish(
+            GetTweetReportsByTweetQuery(tweetId, afterDate, beforeDate)
+        )
+        if not reportsResponse:
+            return None
+        return reportsResponse.reports

@@ -25,7 +25,7 @@
                 schema:
                   $ref: '#/components/schemas/user-received'
           responses:
-            '200':    # status code
+            '200':
               description: The user was created
             '500':
               description: Error
@@ -41,7 +41,7 @@
               required: true
               description: UUID of the user to get
           responses:
-            '200':    # status code
+            '200':
               description: The user was found
             '404':
               description: User was not found
@@ -97,7 +97,7 @@
               required: true
               description: UUID of the user owner of the brands
           responses:
-            '200':    # status code
+            '200':
               description: The brand was found
             '404':
               description: Access is not allowed
@@ -165,16 +165,60 @@
                 type: number
               description: Date limit to get the tweets
           responses:
-            '200':    # status code
+            '200':
               description: The brand was found
             '404':
+              description: Access is not allowed
+            '500':
+              description: Error
+      /twitter/brand/{brandId}/:
+        get:
+          tags: [Twitter]
+          summary: Get a Twitter Account By the Brand Id
+          security:
+            - bearerAuth: []
+          parameters:
+            - in: path
+              name: brandId
+              schema:
+                type: string
+              required: true
+              description: UUID of the brand owner of the account
+          responses:
+            '200':
+              description: The account was found
+            "404":
+              description: The account was not found
+            '400':
+              description: Access is not allowed
+            '500':
+              description: Error
+      /twitter/report/{tweetId}/:
+        get:
+          tags: [Twitter]
+          summary: Get a Tweet Report by the tweet Id
+          security:
+            - bearerAuth: []
+          parameters:
+            - in: path
+              name: tweetId
+              schema:
+                type: string
+              required: true
+              description: UUID of the tweet
+          responses:
+            '200':
+              description: The report was found
+            "404":
+              description: The tweet report was not found
+            '400':
               description: Access is not allowed
             '500':
               description: Error
 
     components:
       securitySchemes:
-        bearerAuth:            # arbitrary name for the security scheme
+        bearerAuth:
           type: http
           scheme: bearer
           bearerFormat: JWT  

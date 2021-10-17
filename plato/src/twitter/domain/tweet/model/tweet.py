@@ -50,20 +50,20 @@ class Tweet(Aggregate):
             id=tweetId.value,
             accountId=str(accountId.value),
             description=description.value,
-            publicationDate=publicationDate.timestamp()
+            publicationDate=int(publicationDate.timestamp() * 1000)
         )
 
     class TweetWasScheduled(AggregateCreated):
         bus_string = "TWEET_WAS_SCHEDULED"
         accountId: str
         description: str
-        publicationDate: float
+        publicationDate: int
 
         def mutate(self, obj: Optional[Aggregate]) -> Aggregate:
             tweet = super().mutate(obj)
             tweet._description = TweetDescription.fromString(self.description)
             tweet._accountId = AccountId.fromString(self.accountId)
-            tweet._publicationDate = datetime.fromtimestamp(self.publicationDate)
+            tweet._publicationDate = datetime.fromtimestamp(self.publicationDate / 1000)
             return tweet
 
     def publish(self, twitterRef: str):

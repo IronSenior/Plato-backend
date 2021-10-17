@@ -5,6 +5,7 @@ from .service.tweet_publisher import TweepyTweetPublisher
 from .repository.tweet_report_repository import TweetReportRepository
 from .service.tweet_status_retriever import TweetStatusTweepyRetriever
 from .service.dummy_tweet_publisher import DummyTweetPublisher
+from .read_model.get_tweet_reports_service import GetTweetReportsMongoService
 from .read_model.get_account_service import GetTwitterAccountMongoService
 from .read_model.get_tweets_service import GetTweetsMongoService
 import os
@@ -15,6 +16,7 @@ class TwitterProviders(containers.DeclarativeContainer):
     TWITTER_ACCOUNTS = providers.Factory(AccountRepository)
     GET_ACCOUNT_SERVICE = providers.Factory(GetTwitterAccountMongoService)
     GET_TWEETS_SERVICE = providers.Factory(GetTweetsMongoService)
+    GET_TWEET_REPORTS_SERVICE = providers.Factory(GetTweetReportsMongoService)
     TWEETS = providers.Factory(TweetRepository)
     TWEET_REPORTS = providers.Factory(TweetReportRepository)
     TWEET_PUBLISHER = providers.Factory(TweepyTweetPublisher)

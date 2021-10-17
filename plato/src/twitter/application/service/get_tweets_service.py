@@ -9,7 +9,7 @@ class GetTweetsService(ABC):
         raise NotImplementedError()
 
     def getTweetsByAccount(self, accountId: AccountId,
-                           afterDate: float, beforeDate: float):
+                           afterDate: int, beforeDate: int):
         raise NotImplementedError()
 
     def getTweetById(self, tweetId: TweetId):

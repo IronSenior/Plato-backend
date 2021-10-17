@@ -28,7 +28,7 @@ class TestScheduleTweetHandler(unittest.TestCase):
                 tweetId=str(uuid4()),
                 accountId=str(uuid4()),
                 description=self.get_random_string(180),
-                publicationDate=int(datetime.now().timestamp())
+                publicationDate=int(datetime.now().timestamp() * 1000)
             )
         )
         self.mockedTweets.save.assert_called_once()
@@ -47,7 +47,7 @@ class TestScheduleTweetHandler(unittest.TestCase):
                     tweetId=str(uuid4()),
                     accountId=str(uuid4()),
                     description=self.get_random_string(180),
-                    publicationDate=int(datetime.now().timestamp())
+                    publicationDate=int(datetime.now().timestamp() * 1000)
                 )
             )
 

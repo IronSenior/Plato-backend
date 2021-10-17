@@ -7,7 +7,7 @@ from datetime import datetime
 
 class TweetReport(Aggregate):
 
-    def __init__(self, tweetId: TweetId, reportDate: int, retweetCount: int,
+    def __init__(self, tweetId: TweetId, reportDate: datetime, retweetCount: int,
                  favCount: int, quoteCount: int, replyCount: int,
                  impressionCount: int, profileClickCount: int, *args, **kwargs):
         super(TweetReport, self).__init__(*args, **kwargs)
@@ -64,7 +64,7 @@ class TweetReport(Aggregate):
             cls.TweetReportWasCreated,
             id=reportId.value,
             tweetId=str(tweetId.value),
-            reportDate=reportDate.timestamp(),
+            reportDate=int(reportDate.timestamp() * 1000),
             retweetCount=retweetCount,
             favCount=favCount,
             quoteCount=quoteCount,
@@ -76,7 +76,7 @@ class TweetReport(Aggregate):
     class TweetReportWasCreated(AggregateCreated):
         bus_string = "TWEET_REPORT_WAS_CREATED"
         tweetId: str
-        reportDate: float
+        reportDate: int
         retweetCount: int
         favCount: int
         quoteCount: int
@@ -87,7 +87,7 @@ class TweetReport(Aggregate):
         def mutate(self, obj: Optional[Aggregate]) -> Aggregate:
             report = super().mutate(obj)
             report._tweetId = self.tweetId
-            report._reportDate = datetime.fromtimestamp(self.reportDate)
+            report._reportDate = datetime.fromtimestamp(self.reportDate / 1000)
             report._retweetCount = self.retweetCount
             report._favCount = self.favCount
             report._quoteCount = self.quoteCount

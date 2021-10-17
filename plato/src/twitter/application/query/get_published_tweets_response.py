@@ -11,7 +11,7 @@ class GetPublishedTweetsResponse(QueryResponse):
         return self.__tweets
 
     def appendTweet(self, tweetId: str, accountId: str, description: str,
-                    publicationDate: float, published: bool):
+                    publicationDate: int, published: bool):
         self.__tweets.update({
             tweetId: {
                 "accountId": accountId,

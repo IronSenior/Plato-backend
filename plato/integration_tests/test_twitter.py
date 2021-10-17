@@ -69,7 +69,7 @@ class TestTwitterIntegration(unittest.TestCase):
     def test_tweet_schedule(self):
         tweetId = str(uuid.uuid4())
         description = self.get_random_string(120)
-        publicationDate = datetime.now().timestamp()
+        publicationDate = int(datetime.now().timestamp() * 1000)
         response = self.app.post("/twitter/tweet/schedule/", headers=self.access_headers, json={
             "tweet": {
                 "tweetId": tweetId,
@@ -82,12 +82,12 @@ class TestTwitterIntegration(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTrue(type(testing_tweet) == Tweet)
         self.assertEqual(testing_tweet.description, description)
-        self.assertEqual(testing_tweet.publicationDate, datetime.fromtimestamp(publicationDate))
+        self.assertEqual(testing_tweet.publicationDate, datetime.fromtimestamp(publicationDate / 1000))
 
     def test_publish_tweet(self):
         tweetId = str(uuid.uuid4())
         description = self.get_random_string(120)
-        publicationDate = datetime.now().timestamp()
+        publicationDate = int(datetime.now().timestamp() * 1000)
         response = self.app.post("/twitter/tweet/schedule/", headers=self.access_headers, json={
             "tweet": {
                 "tweetId": tweetId,
@@ -106,7 +106,7 @@ class TestTwitterIntegration(unittest.TestCase):
     def test_get_tweet(self):
         tweetId = str(uuid.uuid4())
         description = self.get_random_string(120)
-        publicationDate = datetime.now().timestamp()
+        publicationDate = int(datetime.now().timestamp() * 1000)
         self.app.post("/twitter/tweet/schedule/", headers=self.access_headers, json={
             "tweet": {
                 "tweetId": tweetId,

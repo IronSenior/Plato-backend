@@ -1,16 +1,16 @@
 from plato_cqrs import Query
 
 
-class GetTweetsByAccountQuery(Query):
+class GetTweetReportsByTweetQuery(Query):
 
-    def __init__(self, accountId: str, afterDate: int, beforeDate: int):
-        self.__accountId: str = accountId
+    def __init__(self, tweetId: str, afterDate: int, beforeDate: int):
+        self.__tweetId: str = tweetId
         self.__afterDate: int = afterDate
         self.__beforeDate: int = beforeDate
 
     @property
-    def accountId(self) -> str:
-        return self.__accountId
+    def tweetId(self) -> str:
+        return self.__tweetId
 
     @property
     def afterDate(self) -> int:

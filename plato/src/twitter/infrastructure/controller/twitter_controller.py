@@ -6,7 +6,7 @@ from ..tweet_dto import TweetDTO
 from ..service.twitter_service import TwitterService
 
 
-TIMESTAMP_3021 = 33166368000
+TIMESTAMP_3021 = 33166368000000
 
 twitterFlaskBlueprint = Blueprint('Twitter', __name__, url_prefix="/twitter")
 
@@ -107,6 +107,29 @@ def get_schedule_tweets(accountId: str = None, **kw):
     beforeDate = request.args.get("limitDate") or TIMESTAMP_3021
     tweets: dict = twitterService.getTweetsByAccount(accountId, afterDate, beforeDate)
     return jsonify(tweets), 200
+
+
+@twitterFlaskBlueprint.route('/report/<string:tweetId>/', methods=["GET"])
+@jwt_required()
+def get_tweet_reports(tweetId: str = None, **kw):
+    currentUserId: str = get_current_user()
+    if not currentUserId:
+        raise Unauthorized("Only logged users can get Tweets")
+
+    if not tweetId:
+        raise BadRequest("No tweet was specified")
+
+    twitterService: TwitterService = TwitterService()
+    tweet = twitterService.getTweetById(tweetId)
+    account = twitterService.getAccount(tweet["accountId"])
+
+    if account["userId"] != currentUserId:
+        raise Unauthorized("Trying to get tweets from other user")
+
+    afterDate = request.args.get("sinceDate") or 0
+    beforeDate = request.args.get("limitDate") or TIMESTAMP_3021
+    tweetReports: list = twitterService.getTweetReportsByTweet(tweetId, afterDate, beforeDate)
+    return jsonify(tweetReports), 200
 
 
 def publish_scheduled_tweets():
