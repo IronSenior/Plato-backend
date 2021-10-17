@@ -14,6 +14,8 @@ def onTweetReportWasCreated(event: TweetReport.TweetReportWasCreated):
         "retweetCount": event.retweetCount,
         "favoriteCount": event.favCount,
         "quoteCount": event.quoteCount,
-        "replyCount": event.replyCount
+        "replyCount": event.replyCount,
+        "impressionCount": event.impressionCount,
+        "profileClickCount": event.profileClickCount
     }
     db["tweet_reports"].insert_one(tweetReportDTO)

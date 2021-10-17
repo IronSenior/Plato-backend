@@ -8,7 +8,8 @@ from datetime import datetime
 class TweetReport(Aggregate):
 
     def __init__(self, tweetId: TweetId, reportDate: int, retweetCount: int,
-                 favCount: int, quoteCount: int, replyCount: int, *args, **kwargs):
+                 favCount: int, quoteCount: int, replyCount: int,
+                 impressionCount: int, profileClickCount: int, *args, **kwargs):
         super(TweetReport, self).__init__(*args, **kwargs)
         self._tweetId: TweetId = tweetId
         self._reportDate: datetime = reportDate
@@ -16,6 +17,8 @@ class TweetReport(Aggregate):
         self._facCount: int = favCount
         self._quoteCount: int = quoteCount
         self._replyCount: int = replyCount
+        self._impressionCount: int = impressionCount,
+        self._profileClickCount: int = profileClickCount
 
     @property
     def tokenId(self):
@@ -45,9 +48,18 @@ class TweetReport(Aggregate):
     def replyCount(self):
         return self._replyCount
 
+    @property
+    def impressionCount(self):
+        return self._impressionCount
+
+    @property
+    def profileClickCount(self):
+        return self._profileClickCount
+
     @classmethod
     def add(cls, reportId: ReportId, tweetId: TweetId, reportDate: datetime,
-            retweetCount: int, favCount: int, quoteCount: int, replyCount: int):
+            retweetCount: int, favCount: int, quoteCount: int, replyCount: int,
+            impressionCount: int, profileClickCount: int):
         return cls._create(
             cls.TweetReportWasCreated,
             id=reportId.value,
@@ -56,7 +68,9 @@ class TweetReport(Aggregate):
             retweetCount=retweetCount,
             favCount=favCount,
             quoteCount=quoteCount,
-            replyCount=replyCount
+            replyCount=replyCount,
+            impressionCount=impressionCount,
+            profileClickCount=profileClickCount
         )
 
     class TweetReportWasCreated(AggregateCreated):
@@ -67,6 +81,8 @@ class TweetReport(Aggregate):
         favCount: int
         quoteCount: int
         replyCount: int
+        impressionCount: int
+        profileClickCount: int
 
         def mutate(self, obj: Optional[Aggregate]) -> Aggregate:
             report = super().mutate(obj)
@@ -76,4 +92,6 @@ class TweetReport(Aggregate):
             report._favCount = self.favCount
             report._quoteCount = self.quoteCount
             report._replyCount = self.replyCount
+            report._impressionCount = self.impressionCount
+            report._profileClickCount = self.profileClickCount
             return report

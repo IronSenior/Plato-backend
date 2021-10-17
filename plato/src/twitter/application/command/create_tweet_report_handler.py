@@ -42,5 +42,7 @@ class CreateTweetReportHandler(CommandHandler):
             favCount=tweetStatus["favorite_count"],
             quoteCount=tweetStatus["quote_count"],
             replyCount=tweetStatus["reply_count"],
+            impressionCount=tweetStatus["impression_count"],
+            profileClickCount=tweetStatus["profile_click_count"]
         )
         self.__tweetReports.save(report)
