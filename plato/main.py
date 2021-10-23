@@ -20,6 +20,8 @@ from .src.twitter.application.command.publish_tweet_command import PublishTweetC
 from .src.twitter.application.command.publish_tweet_handler import PublishTweetHandler
 from .src.twitter.application.command.create_tweet_report_command import CreateTweetReportCommand
 from .src.twitter.application.command.create_tweet_report_handler import CreateTweetReportHandler
+from .src.twitter.application.command.create_account_report_command import CreateAccountReportCommand
+from .src.twitter.application.command.create_account_report_handler import CreateAccountReportHandler
 
 # * Query Bus Configuration
 from .src.shared.infrastructure.plato_query_bus import PlatoQueryBus
@@ -43,6 +45,8 @@ from .src.twitter.application.query.get_tweet_report_by_tweet_query import GetTw
 from .src.twitter.application.query.get_tweet_report_by_tweet_handler import GetTweetReportsByTweetHandler
 from .src.twitter.application.query.get_tweet_query import GetTweetQuery
 from .src.twitter.application.query.get_tweet_handler import GetTweetHandler
+from .src.twitter.application.query.get_all_accounts_query import GetAllAccountsQuery
+from .src.twitter.application.query.get_all_accounts_handler import GetAllAccountsHandler
 
 # * Event Bus configuration
 from .src.brand.infrastructure.read_model.on_brand_was_created import onBrandWasCreated
@@ -58,6 +62,7 @@ from .src.brand.infrastructure.controller.brand_controller import brandFlaskBlue
 from .src.twitter.infrastructure.controller.twitter_controller import twitterFlaskBlueprint
 from .src.twitter.infrastructure.controller.twitter_controller import publish_scheduled_tweets
 from .src.twitter.infrastructure.controller.twitter_controller import generate_tweets_reports
+from .src.twitter.infrastructure.controller.twitter_controller import generate_account_reports
 from .src.shared.infrastructure.json_web_token_conf import jwtManager
 from flask_crontab import Crontab
 from flask_swagger_ui import get_swaggerui_blueprint
@@ -90,6 +95,7 @@ def create_app(test_env=False):
     PlatoQueryBus.subscribe(GetPublishedTweetsQuery, GetPublishedTweetsHandler())
     PlatoQueryBus.subscribe(GetTweetReportsByTweetQuery, GetTweetReportsByTweetHandler())
     PlatoQueryBus.subscribe(GetTweetQuery, GetTweetHandler())
+    PlatoQueryBus.subscribe(GetAllAccountsQuery, GetAllAccountsHandler())
 
     PlatoCommandBus.subscribe(CreateUserCommand, CreateUserCommandHandler())
     PlatoCommandBus.subscribe(CreateBrandCommand, CreateBrandHandler())
@@ -97,6 +103,7 @@ def create_app(test_env=False):
     PlatoCommandBus.subscribe(ScheduleTweetCommand, ScheduleTweetHandler())
     PlatoCommandBus.subscribe(PublishTweetCommand, PublishTweetHandler())
     PlatoCommandBus.subscribe(CreateTweetReportCommand, CreateTweetReportHandler())
+    PlatoCommandBus.subscribe(CreateAccountReportCommand, CreateAccountReportHandler())
 
     app = Flask(__name__)
     app.register_blueprint(userFlaskBlueprint)
@@ -129,6 +136,10 @@ def pusblish_tweet_cron():
 @crontab.job(minute="*")
 def generate_tweet_reports_cron():
     generate_tweets_reports()
+    
+@crontab.job(minute="*")
+def generate_account_reports_cron():
+    generate_account_reports()
     
 if __name__ == "__main__":
     app = create_app()

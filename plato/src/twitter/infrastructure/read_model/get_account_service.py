@@ -25,3 +25,7 @@ class GetTwitterAccountMongoService(GetTwitterAccountService):
     def getAccountByBrandId(self, brandId: BrandId) -> AccountDTO:
         account = self.__db.find_one({"brandId": str(brandId.value)})
         return account
+
+    def getAllAccounts(self) -> List[AccountDTO]:
+        accounts = list(self.__db.find())
+        return accounts

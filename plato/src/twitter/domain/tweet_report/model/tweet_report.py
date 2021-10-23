@@ -21,7 +21,7 @@ class TweetReport(Aggregate):
         self._profileClickCount: int = profileClickCount
 
     @property
-    def tokenId(self):
+    def reportId(self):
         return self._id
 
     @property

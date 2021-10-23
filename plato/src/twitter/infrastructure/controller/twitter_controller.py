@@ -140,3 +140,8 @@ def publish_scheduled_tweets():
 def generate_tweets_reports():
     twitterService: TwitterService = TwitterService()
     twitterService.generateTweetsReports()
+
+
+def generate_account_reports():
+    twitterService: TwitterService = TwitterService()
+    twitterService.generateAccountReport()

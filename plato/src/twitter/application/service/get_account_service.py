@@ -16,3 +16,6 @@ class GetTwitterAccountService(ABC):
 
     def getAccountByBrandId(self, brandId: BrandId) -> AccountDTO:
         raise NotImplementedError()
+
+    def getAllAccounts(self) -> List[AccountDTO]:
+        raise NotImplementedError()

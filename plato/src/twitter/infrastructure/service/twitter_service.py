@@ -13,6 +13,7 @@ from ...application.query.get_published_tweets_query import GetPublishedTweetsQu
 from ...application.query.get_published_tweets_response import GetPublishedTweetsResponse
 from ...application.command.publish_tweet_command import PublishTweetCommand
 from ...application.command.schedule_tweet_command import ScheduleTweetCommand
+from ...application.command.create_account_report_command import CreateAccountReportCommand
 from ....shared.infrastructure.plato_command_bus import PlatoCommandBus
 from ....shared.infrastructure.plato_query_bus import PlatoQueryBus
 from ...application.query.get_tweets_by_account_query import GetTweetsByAccountQuery
@@ -21,6 +22,8 @@ from ...application.query.get_tweet_report_by_tweet_query import GetTweetReports
 from ...application.query.get_tweet_report_by_tweet_response import GetTweetReportsByAccountResponse
 from ...application.query.get_tweet_query import GetTweetQuery
 from ...application.query.get_tweet_response import GetTweetResponse
+from ...application.query.get_all_accounts_query import GetAllAccountsQuery
+from ...application.query.get_accounts_response import GetAccountsResponse
 from ..mapper.account_mapper import AccountMapper
 from tweepy import OAuthHandler
 import tweepy
@@ -134,3 +137,16 @@ class TwitterService:
         if not reportsResponse:
             return None
         return reportsResponse.reports
+
+    def generateAccountReport(self):
+        accountsResponse: GetAccountsResponse = PlatoQueryBus.publish(
+            GetAllAccountsQuery()
+        )
+        accountsIds = map(
+            lambda account: account["accountId"],
+            accountsResponse.accounts
+        )
+        for accountId in accountsIds:
+            PlatoCommandBus.publish(
+                CreateAccountReportCommand(accountId)
+            )
