@@ -49,7 +49,7 @@ def request_twitter_token(**kw):
     return jsonify({"authUrl": authUrl})
 
 
-@twitterFlaskBlueprint.route('/brand/<string:brandId>/')
+@twitterFlaskBlueprint.route('/brand/<string:brandId>/account/')
 @jwt_required()
 def get_twitter_account_by_brand(brandId: str = None, **kw):
     currentUserId: str = get_current_user()
@@ -109,7 +109,7 @@ def get_schedule_tweets(accountId: str = None, **kw):
     return jsonify(tweets), 200
 
 
-@twitterFlaskBlueprint.route('/report/<string:tweetId>/', methods=["GET"])
+@twitterFlaskBlueprint.route('/tweet/<string:tweetId>/report/', methods=["GET"])
 @jwt_required()
 def get_tweet_reports(tweetId: str = None, **kw):
     currentUserId: str = get_current_user()
@@ -129,6 +129,28 @@ def get_tweet_reports(tweetId: str = None, **kw):
     afterDate = request.args.get("sinceDate") or 0
     beforeDate = request.args.get("limitDate") or TIMESTAMP_3021
     tweetReports: list = twitterService.getTweetReportsByTweet(tweetId, afterDate, beforeDate)
+    return jsonify(tweetReports), 200
+
+
+@twitterFlaskBlueprint.route('/account/<string:accountId>/report/', methods=["GET"])
+@jwt_required()
+def get_account_reports(accountId: str = None, **kw):
+    currentUserId: str = get_current_user()
+    if not currentUserId:
+        raise Unauthorized("Only logged users can get Tweets")
+
+    if not accountId:
+        raise BadRequest("No tweet was specified")
+
+    twitterService: TwitterService = TwitterService()
+    account = twitterService.getAccount(accountId)
+
+    if account["userId"] != currentUserId:
+        raise Unauthorized("Trying to get tweets from other user")
+
+    afterDate = request.args.get("sinceDate") or 0
+    beforeDate = request.args.get("limitDate") or TIMESTAMP_3021
+    tweetReports: list = twitterService.getAccountReportsByAccount(accountId, afterDate, beforeDate)
     return jsonify(tweetReports), 200
 
 

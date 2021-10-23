@@ -1,7 +1,7 @@
 from plato_cqrs import QueryResponse
 
 
-class GetTweetReportsByAccountResponse(QueryResponse):
+class GetTweetReportsByTweetResponse(QueryResponse):
 
     def __init__(self, reports: list = None):
         self.__reports: list = reports or []

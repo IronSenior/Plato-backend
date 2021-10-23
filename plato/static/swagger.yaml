@@ -171,7 +171,7 @@
               description: Access is not allowed
             '500':
               description: Error
-      /twitter/brand/{brandId}/:
+      /twitter/brand/{brandId}/account/:
         get:
           tags: [Twitter]
           summary: Get a Twitter Account By the Brand Id
@@ -193,7 +193,7 @@
               description: Access is not allowed
             '500':
               description: Error
-      /twitter/report/{tweetId}/:
+      /twitter/tweet/{tweetId}/report/:
         get:
           tags: [Twitter]
           summary: Get a Tweet Report by the tweet Id
@@ -211,6 +211,28 @@
               description: The report was found
             "404":
               description: The tweet report was not found
+            '400':
+              description: Access is not allowed
+            '500':
+              description: Error
+      /twitter/account/{accountId}/report/:
+        get:
+          tags: [Twitter]
+          summary: Get a Account Report by the Account Id
+          security:
+            - bearerAuth: []
+          parameters:
+            - in: path
+              name: accountId
+              schema:
+                type: string
+              required: true
+              description: UUID of the account
+          responses:
+            '200':
+              description: The report was found
+            "404":
+              description: The account report was not found
             '400':
               description: Access is not allowed
             '500':

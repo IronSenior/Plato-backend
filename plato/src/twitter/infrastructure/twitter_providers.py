@@ -10,6 +10,7 @@ from .read_model.get_tweet_reports_service import GetTweetReportsMongoService
 from .read_model.get_account_service import GetTwitterAccountMongoService
 from .read_model.get_tweets_service import GetTweetsMongoService
 from .service.account_status_retriever import AccountStatusRetriever
+from .read_model.get_account_reports_service import GetAccountReportsMongoService
 import os
 
 
@@ -19,6 +20,7 @@ class TwitterProviders(containers.DeclarativeContainer):
     GET_ACCOUNT_SERVICE = providers.Factory(GetTwitterAccountMongoService)
     GET_TWEETS_SERVICE = providers.Factory(GetTweetsMongoService)
     GET_TWEET_REPORTS_SERVICE = providers.Factory(GetTweetReportsMongoService)
+    GET_ACCOUNT_REPORTS_SERVICE = providers.Factory(GetAccountReportsMongoService)
     TWEETS = providers.Factory(TweetRepository)
     TWEET_REPORTS = providers.Factory(TweetReportRepository)
     TWEET_PUBLISHER = providers.Factory(TweepyTweetPublisher)

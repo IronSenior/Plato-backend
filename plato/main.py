@@ -47,6 +47,8 @@ from .src.twitter.application.query.get_tweet_query import GetTweetQuery
 from .src.twitter.application.query.get_tweet_handler import GetTweetHandler
 from .src.twitter.application.query.get_all_accounts_query import GetAllAccountsQuery
 from .src.twitter.application.query.get_all_accounts_handler import GetAllAccountsHandler
+from .src.twitter.application.query.get_account_reports_by_account_handler import GetAccountReportsByAccountHandler
+from .src.twitter.application.query.get_account_reports_by_account_query import GetAccountReportsByAccountQuery
 
 # * Event Bus configuration
 from .src.brand.infrastructure.read_model.on_brand_was_created import onBrandWasCreated
@@ -96,6 +98,7 @@ def create_app(test_env=False):
     PlatoQueryBus.subscribe(GetTweetReportsByTweetQuery, GetTweetReportsByTweetHandler())
     PlatoQueryBus.subscribe(GetTweetQuery, GetTweetHandler())
     PlatoQueryBus.subscribe(GetAllAccountsQuery, GetAllAccountsHandler())
+    PlatoQueryBus.subscribe(GetAccountReportsByAccountQuery, GetAccountReportsByAccountHandler())
 
     PlatoCommandBus.subscribe(CreateUserCommand, CreateUserCommandHandler())
     PlatoCommandBus.subscribe(CreateBrandCommand, CreateBrandHandler())

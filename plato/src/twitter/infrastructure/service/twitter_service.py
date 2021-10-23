@@ -19,11 +19,13 @@ from ....shared.infrastructure.plato_query_bus import PlatoQueryBus
 from ...application.query.get_tweets_by_account_query import GetTweetsByAccountQuery
 from ...application.query.get_tweets_by_account_response import GetTweetsByAccountResponse
 from ...application.query.get_tweet_report_by_tweet_query import GetTweetReportsByTweetQuery
-from ...application.query.get_tweet_report_by_tweet_response import GetTweetReportsByAccountResponse
+from ...application.query.get_tweet_report_by_tweet_response import GetTweetReportsByTweetResponse
 from ...application.query.get_tweet_query import GetTweetQuery
 from ...application.query.get_tweet_response import GetTweetResponse
 from ...application.query.get_all_accounts_query import GetAllAccountsQuery
 from ...application.query.get_accounts_response import GetAccountsResponse
+from ...application.query.get_account_reports_by_account_query import GetAccountReportsByAccountQuery
+from ...application.query.get_account_reports_by_account_response import GetAccountReportsByAccountResponse
 from ..mapper.account_mapper import AccountMapper
 from tweepy import OAuthHandler
 import tweepy
@@ -131,7 +133,7 @@ class TwitterService:
             )
 
     def getTweetReportsByTweet(self, tweetId: str, afterDate: int, beforeDate: int):
-        reportsResponse: GetTweetReportsByAccountResponse = PlatoQueryBus.publish(
+        reportsResponse: GetTweetReportsByTweetResponse = PlatoQueryBus.publish(
             GetTweetReportsByTweetQuery(tweetId, afterDate, beforeDate)
         )
         if not reportsResponse:
@@ -150,3 +152,11 @@ class TwitterService:
             PlatoCommandBus.publish(
                 CreateAccountReportCommand(accountId)
             )
+
+    def getAccountReportsByAccount(self, accountId: str, afterDate: int, beforeDate: int):
+        reportsResponse: GetAccountReportsByAccountResponse = PlatoQueryBus.publish(
+            GetAccountReportsByAccountQuery(accountId, afterDate, beforeDate)
+        )
+        if not reportsResponse:
+            return None
+        return reportsResponse.reports
