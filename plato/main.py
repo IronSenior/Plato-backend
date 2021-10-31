@@ -1,3 +1,4 @@
+import datetime
 import os
 
 # * Dependency injection wiring
@@ -22,6 +23,8 @@ from .src.twitter.application.command.create_tweet_report_command import CreateT
 from .src.twitter.application.command.create_tweet_report_handler import CreateTweetReportHandler
 from .src.twitter.application.command.create_account_report_command import CreateAccountReportCommand
 from .src.twitter.application.command.create_account_report_handler import CreateAccountReportHandler
+from .src.twitter.application.command.add_tweet_media_command import AddTweetMediaCommand
+from .src.twitter.application.command.add_tweet_media_handler import AddTweetMediaHandler
 
 # * Query Bus Configuration
 from .src.shared.infrastructure.plato_query_bus import PlatoQueryBus
@@ -107,6 +110,7 @@ def create_app(test_env=False):
     PlatoCommandBus.subscribe(PublishTweetCommand, PublishTweetHandler())
     PlatoCommandBus.subscribe(CreateTweetReportCommand, CreateTweetReportHandler())
     PlatoCommandBus.subscribe(CreateAccountReportCommand, CreateAccountReportHandler())
+    PlatoCommandBus.subscribe(AddTweetMediaCommand, AddTweetMediaHandler())
 
     app = Flask(__name__)
     app.register_blueprint(userFlaskBlueprint)
@@ -117,6 +121,7 @@ def create_app(test_env=False):
     CORS(app)
 
     app.config["JWT_SECRET_KEY"] = os.environ["JWT_SECRET_KEY"]
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(days=14)
     jwtManager.init_app(app)
     
     SWAGGER_URL = ''
@@ -136,11 +141,11 @@ def create_app(test_env=False):
 def pusblish_tweet_cron():
     publish_scheduled_tweets()
     
-@crontab.job(minute="*")
+@crontab.job(minute="*/5")
 def generate_tweet_reports_cron():
     generate_tweets_reports()
     
-@crontab.job(minute="*")
+@crontab.job(minute="0")
 def generate_account_reports_cron():
     generate_account_reports()
     

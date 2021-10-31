@@ -12,6 +12,7 @@ def onTweetWasScheduled(event: Tweet.TweetWasScheduled):
         "accountId": event.accountId,
         "description": event.description,
         "publicationDate": event.publicationDate,
+        "media": [],
         "published": False,
         "twitterRef": "",
     }

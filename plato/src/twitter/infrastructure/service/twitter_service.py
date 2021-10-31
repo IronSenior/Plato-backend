@@ -1,4 +1,6 @@
 from datetime import datetime
+
+from ....shared.infrastructure.media_utils import saveMedia
 from .twitter_credential_retriever import TwitterCredentialRetriever
 from ...application.account_dto import AccountDTO
 from ..tweet_dto import TweetDTO
@@ -14,6 +16,7 @@ from ...application.query.get_published_tweets_response import GetPublishedTweet
 from ...application.command.publish_tweet_command import PublishTweetCommand
 from ...application.command.schedule_tweet_command import ScheduleTweetCommand
 from ...application.command.create_account_report_command import CreateAccountReportCommand
+from ...application.command.add_tweet_media_command import AddTweetMediaCommand
 from ....shared.infrastructure.plato_command_bus import PlatoCommandBus
 from ....shared.infrastructure.plato_query_bus import PlatoQueryBus
 from ...application.query.get_tweets_by_account_query import GetTweetsByAccountQuery
@@ -27,6 +30,7 @@ from ...application.query.get_accounts_response import GetAccountsResponse
 from ...application.query.get_account_reports_by_account_query import GetAccountReportsByAccountQuery
 from ...application.query.get_account_reports_by_account_response import GetAccountReportsByAccountResponse
 from ..mapper.account_mapper import AccountMapper
+from typing import BinaryIO
 from tweepy import OAuthHandler
 import tweepy
 import os
@@ -78,6 +82,15 @@ class TwitterService:
                 accountId=tweet["accountId"],
                 description=tweet["description"],
                 publicationDate=tweet["publicationDate"]
+            )
+        )
+
+    def addMediaToTweet(self, tweetId: str, media: BinaryIO):
+        mediaPath = saveMedia(media)
+        PlatoCommandBus.publish(
+            AddTweetMediaCommand(
+                tweetId=tweetId,
+                media=mediaPath
             )
         )
 

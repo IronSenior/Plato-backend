@@ -141,6 +141,36 @@
               description: Access is not allowed
             '500':
               description: Error
+      /twitter/tweet/{tweetId}/media/:
+        post:
+          tags: [Twitter]
+          summary: Add media to scheduled tweet
+          security:
+            - bearerAuth: []
+          parameters:
+            - in: path
+              name: tweetId
+              schema:
+                type: string
+              required: true
+              description: UUID of the tweet
+          requestBody:
+            required: true
+            content:
+              multipart/form-data:
+                schema:
+                  type: object
+                  properties:
+                    file:
+                      type: string
+                      format: binary
+          responses:
+            '200':
+              description: Tweet media was added
+            '401':
+              description: Access is not allowed
+            '500':
+              description: Error
       /twitter/tweet/{accountId}/:
         get:
           tags: [Twitter]
