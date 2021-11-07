@@ -1,5 +1,6 @@
 import datetime
 import os
+from waitress import serve
 
 # * Dependency injection wiring
 from .src import user, brand, twitter
@@ -149,5 +150,12 @@ def generate_tweet_reports_cron():
 def generate_account_reports_cron():
     generate_account_reports()
     
-if __name__ == "__main__":
+def main():
     app = create_app()
+    if os.environ["FLASK_ENV"] == "development":
+        app.run(host="localhost", port="8080")
+    else:
+        serve(app, port="8080")
+
+if __name__ == '__main__':
+    main()

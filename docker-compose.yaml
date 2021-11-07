@@ -1,0 +1,19 @@
+version: "3.3"
+services:
+  plato:
+    image: plato:1
+    ports:
+      - "8080:8080"
+    environment:
+      FLASK_ENV: development
+      JWT_SECRET_KEY:
+      TWITTER_CONSUMER_KEY:
+      TWITTER_CONSUMER_SECRET:
+      ENV_MODE: Dev
+      MONGODB_URL: mongodb://mongo/plato_db
+      MONGODB_DBNAME: plato_db
+      INFRASTRUCTURE_FACTORY: eventsourcing.sqlite:Factory
+      SQLITE_DBNAME: event_store.db
+      SQLITE_LOCK_TIMEOUT: 10
+  mongo:
+    image: "mongo:3.6"

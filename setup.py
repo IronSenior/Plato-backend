@@ -9,6 +9,11 @@ setup(
   author='Pepe Márquez Doblas',
   author_email='pepemarquezof@gmail.com',
   url='https://github.com/IronSenior/Plato-backend',
+  entry_points={
+      "console_scripts": [
+          "plato = plato.main:main"
+      ]
+  },
   install_requires=[
     "eventsourcing==9.0.1",
     "passlib==1.7.4",
@@ -23,7 +28,9 @@ setup(
     "pymongo==3.12.0",
     "SQLAlchemy==1.4.25",
     "plato-cqrs",
-    "flask-crontab==0.1.2"
+    "flask-crontab==0.1.2",
+    "waitress==2.0.0",
+    "Faker==9.2.0",
   ],
   classifiers=[
     'Development Status :: 4 - Beta',
